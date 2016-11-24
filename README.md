@@ -1,5 +1,5 @@
 # ExoplanetSpectra
-Design project to extract exoplanet transmission spectra from multi-wavelength light curves
+Design project to extract exoplanet transmission spectra from multi-wavelength light curves.
 
 #Classes we plan to use:
  - Noise (with derived classes WhiteNoise, RedNoise) 
