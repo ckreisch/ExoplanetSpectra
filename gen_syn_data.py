@@ -51,24 +51,24 @@ def generate_a_params(level, N):
     """
     """
     m = np.zeros(8) + level*np.random.rand(8)
-    phase = np.arange(N)
-    airmass = np.arange(N)
-    x1 = np.arange(N)
-    x2 = np.arange(N)
-    y1 = np.arange(N) 
-    y2 = np.arange(N)
-    fwhm = np.arange(N)
-    skynoise = np.arange(N)
+    phase = np.arange(N)*-0.01
+    airmass = np.arange(N)*-0.01
+    x1 = np.arange(N)*0.01
+    x2 = np.arange(N)*0.02
+    y1 = np.arange(N)*0.03
+    y2 = np.arange(N)*0.02
+    fwhm = np.arange(N)*-0.1
+    skynoise = np.arange(N)*0.005
     return m, np.array([phase, airmass, x1, x2, y1, y2, fwhm, skynoise])
 
-def generate_data(t_params, a_params, w_level, r_level, N, exptime):
+def generate_data(t_params, a_params, w_level, m, N, exptime):
     """
     """
     t0 = t_params[0]
     t = np.arange(t0 - exptime*N/2., t0 + exptime*N/2., exptime) 
     ferr = white_noise(w_level, N)
     p, model, signal = init_model(t_params, t)
-    f = signal*red_noise(a_params, r_level) + ferr*np.random.randn(N)
+    f = signal*red_noise(a_params, m) + ferr*np.random.randn(N)
     return t, f, ferr
 
 def generate_data_gp(params, N, rng=(-0.025, 0.025)):
@@ -83,20 +83,28 @@ def generate_data_gp(params, N, rng=(-0.025, 0.025)):
     y += yerr * np.random.randn(N)
     return t, y, yerr
 
-def write_output(t, f, ferr, a_params, fname, m, w_level, r_level):
+def write_lc(t, f, ferr, a_params, fname, m, w_level, r_level):
     """
     """
+    print("# time (phase), flux, ferr, fwhm, skynoise")
     for k in range(len(t)):
-        print(t[k], f[k], ferr[k], a_params[0][k], a_params[1][k])
+        print("%f\t%f\t%f\t%f\t%f" % (t[k], f[k], ferr[k], a_params[6][k], 
+                                        a_params[7][k]))
 
+def write_aparams(t, a_params):
+    """
+    """
+    print("# time (phase), phase, airmass, x1, x2, y1, y2")
+    for k in range(len(t)):
+        print("%f\t%f\t%f\t%f\t%f\t%f\t%f" % (t[k],a_params[0][k],a_params[1][k],a_params[2][k],a_params[3][k],a_params[4][k],a_params[6][k]))
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
 
     np.random.seed(1234)
     truth = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1, 0.1, -0.1]
     #t, y, yerr = generate_data_gp(truth, 1000)
-    m, a_params = generate_a_params(8, 500)
+    m, a_params = generate_a_params(0.001, 500)
     t, f, ferr = generate_data(truth, a_params, 0.001, 0.001, 500, 0.0001)
-    write_output(t, f, ferr, a_params, "fname", m, 0.001, 0.001)
-
+    #write_lc(t, f, ferr, a_params, "fname", m, 0.001, 0.001)
+    write_aparams(t, a_params)
 
