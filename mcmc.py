@@ -3,6 +3,8 @@ import corner
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
+import time
+
 
 class MCMC(object):
     def __init__(self, t, val, err, ln_prob_fn, transit_params, noise_params, num_walkers, num_threads):
@@ -11,8 +13,8 @@ class MCMC(object):
         self._val=val
         self._err=err
         self._ln_prob_fn = ln_prob_fn
-        self._transit_params=transit_params
-        self._noise_params=noise_params
+        self._transit_params=transit_params #strings for plotting
+        self._noise_params=noise_params #strings for plotting
         self._all_params=transit_params+noise_params
         self._dim=len(self._all_params)
         self._nwalkers=num_walkers
@@ -21,10 +23,31 @@ class MCMC(object):
 
 
 
-    def run(self, pos0, N):
+    def run(self, pos, burnin_steps, production_run_steps):
         """should run emcee given a log probability function
         result is the MCMC chains which are saved as an object attribute"""
-        self._sampler.run_mcmc(pos0, N, rstate0=np.random.get_state())
+
+        if burnin_steps>0:
+            time0 = time.time()
+            # burnin phase
+            pos, prob, state  = sampler.run_mcmc(pos, burnin_steps)
+            sampler.reset()
+            time1=time.time()
+            print "burnin time: %f" %(time1-time0)
+        elif burnin_steps==0:
+            print "no burnin requested"
+        else:
+            print "Warning: incorrect input for burnin steps!"
+
+        time0 = time.time()
+        # perform MCMC
+        pos, prob, state  = self._sampler.run_mcmc(pos, production_run_steps)
+        time1=time.time()
+        print "production run time: %f"%(time1-time0)
+
+        samples = self._sampler.flatchain
+        # samples.shape
+        return samples
 
 
     def save_chains(self):

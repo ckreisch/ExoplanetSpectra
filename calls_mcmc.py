@@ -69,7 +69,7 @@ if __name__=="__main__":
 
     pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
 
-    mcmc1.run(pos, 500)
+    mcmc1.run(pos, 0, 500)
 
     xl = np.array([0, 10])
     mcmc1.walker_plot(theta_true)
