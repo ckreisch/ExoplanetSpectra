@@ -3,6 +3,7 @@ import mcmc
 import numpy as np
 import matplotlib.pyplot as pl
 import scipy.optimize as op
+from mpi4py import MPI
 
 def get_data():
     # Choose the "true" parameters.
@@ -61,6 +62,10 @@ if __name__=="__main__":
     nwalkers=100
     ndim=3
 
+    # initializing MPI parameters
+    comm = MPI.COMM_WORLD
+    rank = comm.Get_rank()
+
     mcmc1=mcmc.MCMC(x, y, yerr, lnprob, ["m", "b"] , ["lnf"], nwalkers, 1)
 
     # Find the maximum likelihood value.
@@ -70,8 +75,10 @@ if __name__=="__main__":
     pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
 
     mcmc1.run(pos, 0, 500)
-
-    xl = np.array([0, 10])
-    mcmc1.walker_plot(theta_true)
-    mcmc1.triangle_plot(theta_true)
-    mcmc1.light_curve_plot(xl, model_fn, theta_true)
+    print "hello world from process ", rank
+    
+    #
+    # xl = np.array([0, 10])
+    # mcmc1.walker_plot(theta_true)
+    # mcmc1.triangle_plot(theta_true)
+    # mcmc1.light_curve_plot(xl, model_fn, theta_true)
