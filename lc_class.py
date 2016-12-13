@@ -11,16 +11,23 @@ class LightCurve:
                files_num = len(files_list)
                new_obj_num = files_num/wave_bin_size
                wave_number = [None]*files_num
+               new_wave_number = [None]*new_obj_num
 
                for i in range(files_num):
                    file_name = files_list[i].split('.')[0]
                    wave_number[i] = file_name.split('_')[2]
+              wave_number = wave_number.sort()
 
                LC_obj_dic = {}
                
                for i in range(files_num):
                    Path_to_file = '{}/{}'.format(PathToLC, files_list[i])
                    LC_obj_dic[wave_number[i]] = LightCurveData(Path_to_file)
+
+               for i in range(new_obj_num):
+                   for j in range(wave_bin_size):
+                       new_wave_number[i] = new_wave_number[i] + time[i*bin_size + j]/bin_size
+                       new_flux[i] = new_flux[i] + flux[i*bin_size + j]/bin_size
 
                self.files_list = files_list
                self.files_num = files_num
