@@ -1,4 +1,4 @@
-Jenkins build status: [![Build Status](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)
+Jenkins current build status: [![Build Status](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)
 
 # ExoplanetSpectra
 Design project to extract exoplanet transmission spectra from multi-wavelength light curves.
