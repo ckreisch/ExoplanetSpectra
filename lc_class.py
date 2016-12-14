@@ -8,31 +8,43 @@ class LightCurve:
       def __init__(self, PathToLC, wave_bin_size):
 
                files_list = listdir(PathToLC)
+               files_list.sort()
                files_num = len(files_list)
                new_obj_num = files_num/wave_bin_size
                wave_number = [None]*files_num
-               new_wave_number = [None]*new_obj_num
+               new_wave_number = [0.0]*new_obj_num
 
                for i in range(files_num):
                    file_name = files_list[i].split('.')[0]
                    wave_number[i] = file_name.split('_')[2]
-              wave_number = wave_number.sort()
+               wave_number.sort()
 
                LC_obj_dic = {}
-               
+
+               # Instantiate the original lc objects
                for i in range(files_num):
-                   Path_to_file = '{}/{}'.format(PathToLC, files_list[i])
-                   LC_obj_dic[wave_number[i]] = LightCurveData(Path_to_file)
+                   Path_to_file = ['{}/{}'.format(PathToLC, files_list[i])]
+                   LC_dic[wave_number[i]] = LightCurveData(Path_to_file)
+
+               # Instantiate the new lc objects (with new wave_bin_size)
+               for i in range(new_obj_num):
+                   for j in range(wave_bin_size):
+                       Path_to_files[j] = '{}/{}'.format(PathToLC, files_list[i*wave_bin_size + j])
+                   LC_dic[new_wave_number[i]] = LightCurveData(Path_to_files)
+                       
 
                for i in range(new_obj_num):
                    for j in range(wave_bin_size):
-                       new_wave_number[i] = new_wave_number[i] + time[i*bin_size + j]/bin_size
-                       new_flux[i] = new_flux[i] + flux[i*bin_size + j]/bin_size
+                       new_wave_number[i] = new_wave_number[i] + float(wave_number[i*wave_bin_size + j])/wave_bin_size
+               new_wave_number = [str(x) for x in new_wave_number]
+
+               
 
                self.files_list = files_list
                self.files_num = files_num
                self.wave_number = wave_number
-               self.LC_obj_dic = LC_obj_dic
+               self.new_wave_number = new_wave_number 
+               self.LC_dic = LC_dic
 
       def LC_obj_dic(self):
 
@@ -42,37 +54,62 @@ class LightCurve:
 
                return wave_number
 
+      def wave_number(self):
+
+               return new_wave_number
+
 
 
 class LightCurveData:
 
-      def __init__(self, Path_to_file):
-               lc_file = open(Path_to_file)
-               line = lc_file.readlines()
-               len_file = len(line)
-                  
-               time = np.zeros(len_file-1)
-               flux = np.zeros(len_file-1)
-               ferr = np.zeros(len_file-1)
+      def __init__(self, Path_to_files):
 
+               file_num = len(Path_to_files)
+
+               #just sample the first file just to have info that are in common for all files
+               f = open(Path_to_files[0])
+               line = f.readlines()
+               len_file = len(line)
                param_num = len(line[1].split())-3
                param_name = line[0].split()[5:]
                param_list = np.zeros((param_num, len_file-1))
-
+               time = np.zeros(len_file-1)
+               param_num = len(line[1].split())-3
+               param_name = line[0].split()[5:]
                for i in range(1,len_file):
                    time[i-1] = line[i].split()[0]
-                   flux[i-1] = line[i].split()[1]
-                   ferr[i-1] = line[i].split()[2]
+
+               flux = np.zeros((file_num,len_file-1))
+               ferr = np.zeros((file_num,len_file-1))
+               param_list = np.zeros((file_num, param_num, len_file))
+               
+
+               for i in range(file_num):
+                   lc_file = open(Path_to_files[i])
+                   for j in range(1,len_file):
+                       flux[i][j-1] = line[j].split()[1]
+                       ferr[i][j-1] = line[j].split()[2]
+                       for k in range(param_num):
+                           param_list[i][k][i-1] = line[j].split()[3 + k]
+
+               tot_flux = np.zeros(len_file-1)
+               for i in range(len_file-1):
+                   for j in range(file_num):
+                       tot_flux[i] = tot_flux[i] + flux[j][i]
+
+               av_param_list = np.zeros((param_num, len_file-1))
+               for i in range(len_file-1):
                    for j in range(param_num):
-                       param_list[j][i-1] = line[i].split()[3 + j]
+                       for k in range(file_num):
+                          av_param_list[j][i] = av_param_list[j][i] + param_list[k][j][i]/file_num
 
                self.len_file = len_file
-               self.time = time
-               self.flux = flux
-               self.ferr = ferr
+               self.time = time[0]
+               self.flux = tot_flux
+              # self.ferr = ferr
                self.param_num = param_num
                self.param_name = param_name
-               self.param_list = param_list
+               self.param_list = av_param_list
 
       def len_file(self):
 
