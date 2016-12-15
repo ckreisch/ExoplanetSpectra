@@ -19,26 +19,25 @@ class LightCurve:
                    wave_number[i] = file_name.split('_')[2]
                wave_number.sort()
 
-               LC_obj_dic = {}
-
-               # Instantiate the original lc objects
-               for i in range(files_num):
-                   Path_to_file = ['{}/{}'.format(PathToLC, files_list[i])]
-                   LC_dic[wave_number[i]] = LightCurveData(Path_to_file)
-
-               # Instantiate the new lc objects (with new wave_bin_size)
-               for i in range(new_obj_num):
-                   for j in range(wave_bin_size):
-                       Path_to_files[j] = '{}/{}'.format(PathToLC, files_list[i*wave_bin_size + j])
-                   LC_dic[new_wave_number[i]] = LightCurveData(Path_to_files)
-                       
-
                for i in range(new_obj_num):
                    for j in range(wave_bin_size):
                        new_wave_number[i] = new_wave_number[i] + float(wave_number[i*wave_bin_size + j])/wave_bin_size
                new_wave_number = [str(x) for x in new_wave_number]
+               new_wave_number.sort()
 
-               
+               LC_dic = {}
+
+               # Instantiate the original lc objects
+              # for i in range(files_num):
+               #    Path_to_file = ['{}/{}'.format(PathToLC, files_list[i])]
+               #    LC_dic[wave_number[i]] = LightCurveData(Path_to_file)
+
+               # Instantiate the new lc objects (with new wave_bin_size)
+               Path_to_files = [None]*wave_bin_size
+               for i in range(new_obj_num):
+                   for j in range(wave_bin_size):
+                       Path_to_files[j] = '{}/{}'.format(PathToLC, files_list[i*wave_bin_size + j])
+                   LC_dic[new_wave_number[i]] = LightCurveData(Path_to_files)            
 
                self.files_list = files_list
                self.files_num = files_num
@@ -46,9 +45,9 @@ class LightCurve:
                self.new_wave_number = new_wave_number 
                self.LC_dic = LC_dic
 
-      def LC_obj_dic(self):
+      def LC_dic(self):
 
-               return LC_obj_dic
+               return LC_dic
 
       def wave_number(self):
 
@@ -86,16 +85,19 @@ class LightCurveData:
 
                for i in range(file_num):
                    lc_file = open(Path_to_files[i])
+                   line = lc_file.readlines()
                    for j in range(1,len_file):
                        flux[i][j-1] = line[j].split()[1]
                        ferr[i][j-1] = line[j].split()[2]
                        for k in range(param_num):
-                           param_list[i][k][i-1] = line[j].split()[3 + k]
+                           param_list[i][k][j-1] = line[j].split()[3 + k]
 
                tot_flux = np.zeros(len_file-1)
+               tot_ferr = np.zeros(len_file-1)
                for i in range(len_file-1):
                    for j in range(file_num):
                        tot_flux[i] = tot_flux[i] + flux[j][i]
+                       tot_ferr[i] = tot_ferr[i] + ferr[j][i]
 
                av_param_list = np.zeros((param_num, len_file-1))
                for i in range(len_file-1):
@@ -104,9 +106,9 @@ class LightCurveData:
                           av_param_list[j][i] = av_param_list[j][i] + param_list[k][j][i]/file_num
 
                self.len_file = len_file
-               self.time = time[0]
+               self.time = time
                self.flux = tot_flux
-              # self.ferr = ferr
+               self.ferr = tot_ferr
                self.param_num = param_num
                self.param_name = param_name
                self.param_list = av_param_list
