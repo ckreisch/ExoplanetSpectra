@@ -27,11 +27,6 @@ class LightCurve:
 
                LC_dic = {}
 
-               # Instantiate the original lc objects
-              # for i in range(files_num):
-               #    Path_to_file = ['{}/{}'.format(PathToLC, files_list[i])]
-               #    LC_dic[wave_number[i]] = LightCurveData(Path_to_file)
-
                # Instantiate the new lc objects (with new wave_bin_size)
                Path_to_files = [None]*wave_bin_size
                for i in range(new_obj_num):
