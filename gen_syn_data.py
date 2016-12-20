@@ -64,14 +64,14 @@ def generate_a_params(level, N):
     returns: 8 x N array of auxiliary parameter values over time
     """
     slopes = np.zeros(8) + level*np.random.randn(8)
-    phase = np.linspace(0,0.25,N)
-    airmass = np.linspace(1.2,0.5,N)
-    x1 = np.arange(N)*(1.0/N)
-    x2 = np.arange(N)*(1.0/N)
-    y1 = np.arange(N)*(1.0/N)
-    y2 = np.arange(N)*(1.0/N)
-    fwhm = np.random.rand(N)*2.25
-    skynoise = fwhm*10.0
+    phase = np.linspace(0.,0.25, N)    # linear
+    airmass = -0.001*np.arange(-0.1*N/4., 0.3*N/4.,0.1)**2. + 1.6   # quadratic
+    x1 = np.concatenate((-1.*np.arange(N/2.)[::-1]**(1./3.),np.arange(N/2.)**(1./3.)))*0.05 + 10.0           
+    x2 = np.concatenate((-1.*np.arange(N/2.)[::-1]**(1./3.),np.arange(N/2.)**(1./3.)))*0.001 + 10.0
+    y1 = np.concatenate((-1.*np.arange(N/2.)[::-1]**(1./3.),np.arange(N/2.)**(1./3.)))*0.005 + 10.0
+    y2 = np.concatenate((-1.*np.arange(N/2.)[::-1]**(1./3.),np.arange(N/2.)**(1./3.)))*0.002 + 10.0
+    fwhm = np.random.rand(N)*2.25     # random 
+    skynoise = fwhm*10.0  + np.random.randn(N)*0.001            # random scaled to fwhm
     return slopes, np.array([phase, airmass, x1, x2, y1, y2, fwhm, skynoise])
 
 def generate_data_gp(params, N, rng=(-0.025, 0.025)):
@@ -181,9 +181,9 @@ if __name__ == "__main__":
 
     # generate data:
     fileroot = "testing"
-    w_level, r_level = 0.001, 0.001
+    w_level, r_level = 0.0, 0.001
     gen_obs_set(fileroot, truth, radii, ldark, wl, 
-                w_scale, r_scale, w_level, r_level, 500, 0.005)
+                w_scale, r_scale, w_level, r_level, 500, 0.0005)
 
     # tests/checks:
     # no nans, all files saved with right # of rows and columns
