@@ -56,7 +56,9 @@ def red_noise(a_params, slopes):
                coefficients/slopes
     returns: red noise curve to be MULTIPLIED
     """
-    return np.sum((a_params.T*slopes).T, axis=0)
+    red_superposition = np.sum((a_params.T*slopes).T, axis=0) + 1.
+    norm = np.median(red_superposition)
+    return red_superposition/norm
 
 def generate_a_params(level, N):
     """
@@ -64,14 +66,20 @@ def generate_a_params(level, N):
     returns: 8 x N array of auxiliary parameter values over time
     """
     slopes = np.zeros(8) + level*np.random.randn(8)
-    phase = np.linspace(0.,0.25, N)    # linear
-    airmass = -0.001*np.arange(-0.1*N/4., 0.3*N/4.,0.1)**2. + 1.6   # quadratic
-    x1 = np.concatenate((-1.*np.arange(N/2.)[::-1]**(1./3.),np.arange(N/2.)**(1./3.)))*0.05 + 10.0           
-    x2 = np.concatenate((-1.*np.arange(N/2.)[::-1]**(1./3.),np.arange(N/2.)**(1./3.)))*0.001 + 10.0
-    y1 = np.concatenate((-1.*np.arange(N/2.)[::-1]**(1./3.),np.arange(N/2.)**(1./3.)))*0.005 + 10.0
-    y2 = np.concatenate((-1.*np.arange(N/2.)[::-1]**(1./3.),np.arange(N/2.)**(1./3.)))*0.002 + 10.0
-    fwhm = np.random.rand(N)*2.25     # random 
-    skynoise = fwhm*10.0  + np.random.randn(N)*0.001            # random scaled to fwhm
+
+    phase = np.linspace(0.,0.25, N) 
+    airmass = -0.001*np.arange(-0.1*N/4., 0.3*N/4.,0.1)**2. + 1.6 
+    x1 = np.concatenate((-1.*np.arange(0., N/2.,1.)[::-1]**(1./3.),
+                         np.arange(1., N/2.+1,1.)**(1./3.)))*0.05 + 10.0           
+    x2 = np.concatenate((-1.*np.arange(0., N/2.,1.)[::-1]**(1./3.),
+                         np.arange(1., N/2.+1,1.)**(1./3.)))*0.001 + 10.0
+    y1 = np.concatenate((-1.*np.arange(0., N/2.,1.)[::-1]**(1./3.),
+                         np.arange(1., N/2.+1,1.)**(1./3.)))*0.005 + 10.0
+    y2 = np.concatenate((-1.*np.arange(0., N/2.,1.)[::-1]**(1./3.),
+                         np.arange(1., N/2.+1,1.)**(1./3.)))*0.002 + 10.0
+
+    fwhm = np.sin(np.arange(N)/(15.0*np.pi))*2.25     # make this a sine wave instead
+    skynoise = fwhm + np.random.randn(N)*0.00001            
     return slopes, np.array([phase, airmass, x1, x2, y1, y2, fwhm, skynoise])
 
 def generate_data_gp(params, N, rng=(-0.025, 0.025)):
@@ -168,12 +176,12 @@ if __name__ == "__main__":
     truth = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1, 0.1, -0.1]
     # t, y, yerr = generate_data_gp(truth, 1000)
     # 10 wl channels (probably read this from a file, so have a record)
-    wl = [0.1,2.0]        # central wavelength
-    radii = [0.5,0.1]     # effective radius of the planet
-    ldark = [[0.5, 0.1, 0.1, -0.1],[0.5, 0.1, 0.1, -0.1]]     # limb darkening coefficients for the star
-    starspec = [0.2,0.3]  # flux level coming from star (to scale white noise)
-    fwhm = [0.3,0.4]      # fwhm of psf for that wavelength (to scale red noise)
-    skyspec = [0.5,0.6]   # sky flux level (to scale red noise)
+    wl = [500.,250.,100.]        # central wavelength
+    radii = [0.2,0.15,0.1]     # effective radius of the planet
+    ldark = [[0.5, 0.1, 0.1, -0.1],[0.5, 0.1, 0.1, -0.1],[0.5, 0.1, 0.1, -0.1]]     # limb darkening coefficients for the star
+    starspec = [0.9,0.8,0.85]  # flux level coming from star (to scale white noise)
+    fwhm = [0.8,0.9,0.85]      # fwhm of psf for that wavelength (to scale red noise)
+    skyspec = [0.7,0.7,0.7]   # sky flux level (to scale red noise)
 
     # convert to starspec, fwhm, skyspec  to w_scale, r_scale
     w_scale = [1./starspec[k] for k in range(len(starspec))]
@@ -181,9 +189,18 @@ if __name__ == "__main__":
 
     # generate data:
     fileroot = "testing"
-    w_level, r_level = 0.0, 0.001
+    w_level, r_level = 0.0001, 0.01
     gen_obs_set(fileroot, truth, radii, ldark, wl, 
-                w_scale, r_scale, w_level, r_level, 500, 0.0005)
+                w_scale, r_scale, w_level, r_level, 350, 0.0004)
+
+    check1 = np.loadtxt('testing.0.2.dat',unpack=True)
+    check2 = np.loadtxt('testing.0.15.dat',unpack=True)
+    check3 = np.loadtxt('testing.0.1.dat',unpack=True)
+    import matplotlib.pyplot as plt
+    plt.plot(check1[0],check1[1],'r.')
+    plt.plot(check2[0],check2[1]+0.05,'g.')
+    plt.plot(check3[0],check3[1]+0.1,'b.')
+    plt.show()
 
     # tests/checks:
     # no nans, all files saved with right # of rows and columns
@@ -196,4 +213,4 @@ if __name__ == "__main__":
 
 
 
-#fileroot, t_params, radii, limb_darkening, wl, w_scale, r_scale, w_level, r_level, N, exptime = fileroot, truth, radii, ldark, wl, w_scale, r_scale, w_level, r_level, 500, 0.005
+#fileroot, t_params, radii, limb_darkening, wl, w_scale, r_scale, w_level, r_level, N, exptime = fileroot, truth, radii, ldark, wl, w_scale, r_scale, w_level, r_level, 500, 0.0005
