@@ -32,13 +32,17 @@ class LightCurve:
                for i in range(new_obj_num):
                    for j in range(wave_bin_size):
                        Path_to_files[j] = '{}/{}'.format(PathToLC, files_list[i*wave_bin_size + j])
-                   LC_dic[new_wave_number[i]] = LightCurveData(Path_to_files)            
+                   LC_dic[new_wave_number[i]] = LightCurveData(Path_to_files)
 
                self.files_list = files_list
                self.files_num = files_num
                self.wave_number = wave_number
-               self.new_wave_number = new_wave_number 
+               self.new_wave_number = new_wave_number
                self.LC_dic = LC_dic
+               self.obj_mcmc = None
+               self.obj_chain = None
+               self.obj_mcmcGP = None
+               self.obj_chainGP = None
 
       def LC_dic(self):
 
@@ -76,7 +80,7 @@ class LightCurveData:
                flux = np.zeros((file_num,len_file-1))
                ferr = np.zeros((file_num,len_file-1))
                param_list = np.zeros((file_num, param_num, len_file))
-               
+
 
                for i in range(file_num):
                    lc_file = open(Path_to_files[i])
@@ -113,7 +117,7 @@ class LightCurveData:
                return self.len_file
 
       def time(self):
-               
+
                return self.time
 
       def flux(self):
@@ -147,9 +151,9 @@ class LightCurveData:
                    for j in range(bin_size):
                        new_time[i] = new_time[i] + time[i*bin_size + j]/bin_size
                        new_flux[i] = new_flux[i] + flux[i*bin_size + j]/bin_size
-              
+
                return new_time, new_flux
-          
+
 
       def plot_flux_time(self, bin_size):
 
@@ -164,8 +168,8 @@ class LightCurveData:
                  new_time = self.new_time_bin(bin_size)[0]
                  new_flux = self.new_time_bin(bin_size)[1]
                  plt.plot(new_time, new_flux)
-                 plt.show()                
-                 
+                 plt.show()
+
 
       def plot_flux_param(self, param_index):
 

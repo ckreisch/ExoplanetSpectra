@@ -97,11 +97,12 @@ if __name__ == "__main__":
     wave_bin_size = 1
     # -------------------------------------------------------------------------
     LC = lc_class.LightCurve(lc_path, wave_bin_size)
-    LC_dic = LC.LC_obj_dic # dictionary of light curve for each wavelength
+    LC_dic = LC.LC_dic # dictionary of light curve for each wavelength
 
     #this part should have MPI so different LCs go on different nodes
     for wavelength_id in LC_dic:
-        print "LC for wavelength "++""
+        #below print statement needs to be edited. Correct object attribute??? Units??
+        print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
         x = LC_dic[wavelength_id].time # extract the times
         y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
         yerr = LC_dic[wavelength_id].ferr # extract the flux error
@@ -110,27 +111,27 @@ if __name__ == "__main__":
         transit_pars, model_object, flux0 = init_model(transit_parameters, x)
 
         # run mcmc beginning at users initial guess without GP
-        mcmc1=mcmc.MCMC(x, y, yerr, lnprob_base, ["rp","u1","u2","u3","u4"],
+        LC_dic[wavelength_id].obj_mcmc = mcmc.MCMC(x, y, yerr, lnprob_base, ["rp","u1","u2","u3","u4"],
                        [], nwalkers, 1)
         pos = [p0[2:] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
-        chain1 = mcmc1.run(pos, nburnin, nsteps)
+        LC_dic[wavelength_id].obj_chain = LC_dic[wavelength_id].obj_mcmc.run(pos, nburnin, nsteps)
 
         # run mcmc beginning at users initial guess with Matern Kernel GP for now
-        mcmc2=mcmc.MCMC(x, y, yerr, lnprob_gp, ["a","tau","rp","u1","u2","u3","u4"],
+        LC_dic[wavelength_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, lnprob_gp, ["a","tau","rp","u1","u2","u3","u4"],
                        [], nwalkers, 1)
         pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
-        chain2 = mcmc2.run(pos, nburnin, nsteps)
+        LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
 
         # check out results... plotting is not ready for general use yet :(
         plt.figure(1)
         for k in range(ndim):
             plt.subplot(ndim,1,k+1)
-            plt.plot(range((nsteps - nburnin)*nwalkers), chain1[:,k])
+            plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chain[:,k])
 
         plt.figure(2)
         for k in range(ndim+2):
             plt.subplot(ndim+2,1,k+1)
-            plt.plot(range((nsteps - nburnin)*nwalkers), chain2[:,k])
+            plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chainGP[:,k])
 
-        corner.corner(chain1, labels=["rp","u1","u2","u3","u4"], truths=p0[2:])
-        corner.corner(chain2, labels=["a","tau","rp","u1","u2","u3","u4"], truths=p0)
+        corner.corner(LC_dic[wavelength_id].obj_chain, labels=["rp","u1","u2","u3","u4"], truths=p0[2:])
+        corner.corner(LC_dic[wavelength_id].obj_chainGP, labels=["a","tau","rp","u1","u2","u3","u4"], truths=p0)
