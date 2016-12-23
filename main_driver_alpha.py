@@ -1,4 +1,4 @@
-import numpy as np 
+import numpy as np
 import matplotlib.pyplot as plt
 
 import george
@@ -14,34 +14,34 @@ import lc_class
 def init_model(params, t, limb_dark="nonlinear"):
     """
     arguments: list of transit parameters, times
-    returns: batman transit parameter object, batman transit model object, 
+    returns: batman transit parameter object, batman transit model object,
              initial light curve
     """
-    t0,per,rp,a,inc,ecc,w,u0,u1,u2,u3 = params    
-    p = batman.TransitParams()  #object to store transit parameters 
-    p.t0 = t0                   #time of inferior conjunction 
-    p.per = per                 #orbital period 
-    p.rp = rp                   #planet radius (in units of stellar radii) 
-    p.a = a                     #semi-major axis (in units of stellar radii) 
-    p.inc = inc                 #orbital inclination (in degrees) 
-    p.ecc = ecc                 #eccentricity 
-    p.w = w                     #longitude of periastron (in degrees) 
-    p.limb_dark = limb_dark     #limb darkening model 
-    p.u = [u0, u1, u2, u3]      #limb darkening coefficients 
-    m = batman.TransitModel(p, t)  #initializes model 
-    flux = m.light_curve(p)        #calculates light curve  
+    t0,per,rp,a,inc,ecc,w,u0,u1,u2,u3 = params
+    p = batman.TransitParams()  #object to store transit parameters
+    p.t0 = t0                   #time of inferior conjunction
+    p.per = per                 #orbital period
+    p.rp = rp                   #planet radius (in units of stellar radii)
+    p.a = a                     #semi-major axis (in units of stellar radii)
+    p.inc = inc                 #orbital inclination (in degrees)
+    p.ecc = ecc                 #eccentricity
+    p.w = w                     #longitude of periastron (in degrees)
+    p.limb_dark = limb_dark     #limb darkening model
+    p.u = [u0, u1, u2, u3]      #limb darkening coefficients
+    m = batman.TransitModel(p, t)  #initializes model
+    flux = m.light_curve(p)        #calculates light curve
     return p, m, flux
 
 def model(params, t):
     rp, u0, u1, u2, u3 = params       # the wavelength dependent params
-    transit_pars.rp = rp            # planet radius (in units of stellar radii) 
-    transit_pars.u = [u0, u1, u2, u3] #limb darkening coefficients  
-    flux = model_object.light_curve(transit_pars)  #calculates light curve  
+    transit_pars.rp = rp            # planet radius (in units of stellar radii)
+    transit_pars.u = [u0, u1, u2, u3] #limb darkening coefficients
+    flux = model_object.light_curve(transit_pars)  #calculates light curve
     return flux
 
 def lnlike_base(p, t, y, yerr):
     inv_sigma2 = 1.0/(yerr**2 + model(p,t)**2)
-    return -0.5*(np.sum((y-model(p,t))**2*inv_sigma2 - np.log(inv_sigma2)))	
+    return -0.5*(np.sum((y-model(p,t))**2*inv_sigma2 - np.log(inv_sigma2)))
 
 def lnprior_base(p):
     rp, u0, u1, u2, u3 = p
@@ -85,7 +85,7 @@ def lnprob_gp(p, t, y, yerr):
 
 if __name__ == "__main__":
     # replacing user parameter file for now -----------------------------------
-    transit_parameters = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1, 0.1, 
+    transit_parameters = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1, 0.1,
                          -0.1]
     p0 = [0.1, 0.1, 0.1, 0.5, 0.1, 0.1, -0.1]
     priors = [(0,1),(-0.5,0.5),(-0.5,0.5),(-0.5,0.5),(-0.5,0.5)]
@@ -94,40 +94,44 @@ if __name__ == "__main__":
     nburnin = 100
     nsteps =  1000
     ndim = 5
+    wave_bin_size = 1
     # -------------------------------------------------------------------------
-    LC = lc_class.LightCurve(lc_path, 1) 
-    LC_dic = LC.LC_obj_dic # dictionary of light curve for each wavelength
+    LC = lc_class.LightCurve(lc_path, wave_bin_size)
+    LC_dic = LC.LC_dic # dictionary of light curve for each wavelength
 
-    x = LC_dic['1'].time # extract the times
-    y = LC_dic['1'].flux / 8.0 # extract the flux & semi-normalize it
-    yerr = LC_dic['1'].ferr # extract the flux error
+    #this part should have MPI so different LCs go on different nodes
+    for wavelength_id in LC_dic:
+        #below print statement needs to be edited. Correct object attribute??? Units??
+        print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
+        x = LC_dic[wavelength_id].time # extract the times
+        y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
+        yerr = LC_dic[wavelength_id].ferr # extract the flux error
 
-    #initialize batman model
-    transit_pars, model_object, flux0 = init_model(transit_parameters, x)
+        #initialize batman model
+        transit_pars, model_object, flux0 = init_model(transit_parameters, x)
 
-    # run mcmc beginning at users initial guess without GP
-    mcmc1=mcmc.MCMC(x, y, yerr, lnprob_base, ["rp","u1","u2","u3","u4"],
-                   [], nwalkers, 1)
-    pos = [p0[2:] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
-    chain1 = mcmc1.run(pos, nburnin, nsteps)
+        # run mcmc beginning at users initial guess without GP
+        LC_dic[wavelength_id].obj_mcmc = mcmc.MCMC(x, y, yerr, lnprob_base, ["rp","u1","u2","u3","u4"],
+                       [], nwalkers, 1)
+        pos = [p0[2:] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
+        LC_dic[wavelength_id].obj_chain = LC_dic[wavelength_id].obj_mcmc.run(pos, nburnin, nsteps)
 
-    # run mcmc beginning at users initial guess with Matern Kernel GP for now
-    mcmc2=mcmc.MCMC(x, y, yerr, lnprob_gp, ["a","tau","rp","u1","u2","u3","u4"], 
-                   [], nwalkers, 1)
-    pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
-    chain2 = mcmc2.run(pos, nburnin, nsteps)
+        # run mcmc beginning at users initial guess with Matern Kernel GP for now
+        LC_dic[wavelength_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, lnprob_gp, ["a","tau","rp","u1","u2","u3","u4"],
+                       [], nwalkers, 1)
+        pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
+        LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
 
-    # check out results... plotting is not ready for general use yet :(
-    plt.figure(1)
-    for k in range(ndim):
-        plt.subplot(ndim,1,k+1)
-        plt.plot(range((nsteps - nburnin)*nwalkers), chain1[:,k])
+        # check out results... plotting is not ready for general use yet :(
+        plt.figure(1)
+        for k in range(ndim):
+            plt.subplot(ndim,1,k+1)
+            plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chain[:,k])
 
-    plt.figure(2)
-    for k in range(ndim+2):
-        plt.subplot(ndim+2,1,k+1)
-        plt.plot(range((nsteps - nburnin)*nwalkers), chain2[:,k])
+        plt.figure(2)
+        for k in range(ndim+2):
+            plt.subplot(ndim+2,1,k+1)
+            plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chainGP[:,k])
 
-    corner.corner(chain1, labels=["rp","u1","u2","u3","u4"], truths=p0[2:])
-    corner.corner(chain2, labels=["a","tau","rp","u1","u2","u3","u4"], truths=p0)
-
+        corner.corner(LC_dic[wavelength_id].obj_chain, labels=["rp","u1","u2","u3","u4"], truths=p0[2:])
+        corner.corner(LC_dic[wavelength_id].obj_chainGP, labels=["a","tau","rp","u1","u2","u3","u4"], truths=p0)
