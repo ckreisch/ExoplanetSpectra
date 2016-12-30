@@ -9,7 +9,11 @@ import corner
 import mcmc
 import lc_class
 
-from mpi4py import MPI
+try:
+    from mpi4py import MPI
+except ImportError:
+    raise ImportError('Warning: mpi4py package is not installed on this machine!')
+
 
 # import gp_model # waiting for this piece from Polina still
 
