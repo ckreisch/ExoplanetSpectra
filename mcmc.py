@@ -30,8 +30,8 @@ class MCMC(object):
         if burnin_steps>0:
             time0 = time.time()
             # burnin phase
-            pos, prob, state  = sampler.run_mcmc(pos, burnin_steps)
-            sampler.reset()
+            pos, prob, state  = self._sampler.run_mcmc(pos, burnin_steps)
+            self._sampler.reset()
             time1=time.time()
             print "burnin time: %f" %(time1-time0)
         elif burnin_steps==0:

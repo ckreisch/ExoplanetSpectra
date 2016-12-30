@@ -91,8 +91,8 @@ if __name__ == "__main__":
     priors = [(0,1),(-0.5,0.5),(-0.5,0.5),(-0.5,0.5),(-0.5,0.5)]
     lc_path = 'light_curve'
     nwalkers = 32
-    nburnin = 100
-    nsteps =  1000
+    nburnin = 10
+    nsteps =  100
     ndim = 5
     wave_bin_size = 1
     # -------------------------------------------------------------------------
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     #this part should have MPI so different LCs go on different nodes
     for wavelength_id in LC_dic:
         #below print statement needs to be edited. Correct object attribute??? Units??
-        print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
+        # print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
         x = LC_dic[wavelength_id].time # extract the times
         y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
         yerr = LC_dic[wavelength_id].ferr # extract the flux error
@@ -123,15 +123,15 @@ if __name__ == "__main__":
         LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
 
         # check out results... plotting is not ready for general use yet :(
-        plt.figure(1)
-        for k in range(ndim):
-            plt.subplot(ndim,1,k+1)
-            plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chain[:,k])
+        # plt.figure(1)
+        # for k in range(ndim):
+        #     plt.subplot(ndim,1,k+1)
+        #     plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chain[:,k])
 
-        plt.figure(2)
-        for k in range(ndim+2):
-            plt.subplot(ndim+2,1,k+1)
-            plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chainGP[:,k])
+        # plt.figure(2)
+        # for k in range(ndim+2):
+        #     plt.subplot(ndim+2,1,k+1)
+        #     plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chainGP[:,k])
 
         corner.corner(LC_dic[wavelength_id].obj_chain, labels=["rp","u1","u2","u3","u4"], truths=p0[2:])
         corner.corner(LC_dic[wavelength_id].obj_chainGP, labels=["a","tau","rp","u1","u2","u3","u4"], truths=p0)
