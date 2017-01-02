@@ -8,7 +8,9 @@ import corner
 
 import mcmc
 import lc_class
-import read_input
+from read_input import read_input
+
+import deliverables
 
 # Read in MPI flag from user input file ---------------------------------
 try:
@@ -119,6 +121,7 @@ if __name__ == "__main__":
     ndim = input_param_dic['ndim'][0]
     wave_bin_size = input_param_dic['wave_bin_size'][0]
     nthreads = input_param_dic['nthreads'][0]
+    visualization = input_param_dic['visualization']
     # -------------------------------------------------------------------------
 
     '''
@@ -192,6 +195,8 @@ if __name__ == "__main__":
                            [], nwalkers, nthreads)
             pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
             LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
+
+    deliverables.latex_table(LC_dic,visualization)
 
     # check out results... plotting is not ready for general use yet :(
     # plt.figure(1)
