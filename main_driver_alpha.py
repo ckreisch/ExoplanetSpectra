@@ -8,13 +8,23 @@ import corner
 
 import mcmc
 import lc_class
+import read_input
 
-try:
-    from mpi4py import MPI
-    mpi_flag = True
-except ImportError as e:
-    mpi_flag = False
-    pass
+# Read in MPI flag from user input file ---------------------------------
+input_file = read_input('input_file') #currently assumes file in same directory
+input_param_dic = input_file.param_dic
+mpi_flag = input_param_dic['mpi_flag']
+# -------------------------------------------------------------------------
+
+#CK edited
+if mpi_flag:
+    try:
+        from mpi4py import MPI
+        #mpi_flag = True
+    except ImportError:
+        print "MPI not installed, but MPI flag set to True. Setting flag to False and continuing."
+        mpi_flag = False
+        pass
 
 # import gp_model # waiting for this piece from Polina still
 
@@ -93,6 +103,20 @@ def lnprob_gp(p, t, y, yerr):
 
 if __name__ == "__main__":
 
+    # Read in parameters from user input file ---------------------------------
+    transit_parameters = input_param_dic['transit_parameters']
+    p0 = input_param_dic['p0']
+    priors = input_param_dic['priors']
+    lc_path = input_param_dic['lc_path'][0]
+    nwalkers = input_param_dic['nwalkers'][0]
+    nburnin = input_param_dic['nburnin'][0]
+    nsteps = input_param_dic['nsteps'][0]
+    ndim = input_param_dic['ndim'][0]
+    wave_bin_size = input_param_dic['wave_bin_size'][0]
+    nthreads = input_param_dic['nthreads'][0]
+    # -------------------------------------------------------------------------
+
+    '''
     # replacing user parameter file for now -----------------------------------
     transit_parameters = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1, 0.1,
                          -0.1]
@@ -105,11 +129,12 @@ if __name__ == "__main__":
     ndim = 5
     wave_bin_size = 1
     # -------------------------------------------------------------------------
+    '''
     LC = lc_class.LightCurve(lc_path, wave_bin_size)
     LC_dic = LC.LC_dic # dictionary of light curve for each wavelength
 
     #this part should have MPI so different LCs go on different nodes
-    if mpi_flag == True:
+    if mpi_flag:
         # initialize MPI
         comm = MPI.COMM_WORLD
         rank = comm.Get_rank()
@@ -129,13 +154,13 @@ if __name__ == "__main__":
 
                 # run mcmc beginning at users initial guess without GP
                 LC_dic[wavelength_id].obj_mcmc = mcmc.MCMC(x, y, yerr, lnprob_base, ["rp","u1","u2","u3","u4"],
-                               [], nwalkers, 1)
+                               [], nwalkers, nthreads)
                 pos = [p0[2:] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
                 LC_dic[wavelength_id].obj_chain = LC_dic[wavelength_id].obj_mcmc.run(pos, nburnin, nsteps)
 
                 # run mcmc beginning at users initial guess with Matern Kernel GP for now
                 LC_dic[wavelength_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, lnprob_gp, ["a","tau","rp","u1","u2","u3","u4"],
-                               [], nwalkers, 1)
+                               [], nwalkers, nthreads)
                 pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
                 LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
     else:
@@ -153,13 +178,13 @@ if __name__ == "__main__":
 
             # run mcmc beginning at users initial guess without GP
             LC_dic[wavelength_id].obj_mcmc = mcmc.MCMC(x, y, yerr, lnprob_base, ["rp","u1","u2","u3","u4"],
-                           [], nwalkers, 1)
+                           [], nwalkers, nthreads)
             pos = [p0[2:] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
             LC_dic[wavelength_id].obj_chain = LC_dic[wavelength_id].obj_mcmc.run(pos, nburnin, nsteps)
 
             # run mcmc beginning at users initial guess with Matern Kernel GP for now
             LC_dic[wavelength_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, lnprob_gp, ["a","tau","rp","u1","u2","u3","u4"],
-                           [], nwalkers, 1)
+                           [], nwalkers, nthreads)
             pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
             LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
 
