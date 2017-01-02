@@ -8,6 +8,14 @@ import corner
 
 import mcmc
 import lc_class
+
+try:
+    from mpi4py import MPI
+    mpi_flag = True
+except ImportError as e:
+    mpi_flag = False
+    pass
+
 # import gp_model # waiting for this piece from Polina still
 
 # following definiitions are replacing gp_model for now -----------------------
@@ -84,6 +92,7 @@ def lnprob_gp(p, t, y, yerr):
     return lp + lnlike_gp(p, t, y, yerr)
 
 if __name__ == "__main__":
+
     # replacing user parameter file for now -----------------------------------
     transit_parameters = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1, 0.1,
                          -0.1]
@@ -91,8 +100,8 @@ if __name__ == "__main__":
     priors = [(0,1),(-0.5,0.5),(-0.5,0.5),(-0.5,0.5),(-0.5,0.5)]
     lc_path = 'light_curve'
     nwalkers = 32
-    nburnin = 100
-    nsteps =  1000
+    nburnin = 10
+    nsteps =  10
     ndim = 5
     wave_bin_size = 1
     # -------------------------------------------------------------------------
@@ -100,38 +109,70 @@ if __name__ == "__main__":
     LC_dic = LC.LC_dic # dictionary of light curve for each wavelength
 
     #this part should have MPI so different LCs go on different nodes
-    for wavelength_id in LC_dic:
-        #below print statement needs to be edited. Correct object attribute??? Units??
-        print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
-        x = LC_dic[wavelength_id].time # extract the times
-        y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
-        yerr = LC_dic[wavelength_id].ferr # extract the flux error
+    if mpi_flag == True:
+        # initialize MPI
+        comm = MPI.COMM_WORLD
+        rank = comm.Get_rank()
+        if comm.Get_size() > len(LC_dic) and rank == 0:
+            print "number of processors assigned is more than enough."
+        for wavelength_id in LC_dic:
+            if (float (wavelength_id) - 1) % comm.Get_size() == rank:
+                print "now processor number:", rank, "is processing wavelength_id:", wavelength_id
+                #below print statement needs to be edited. Correct object attribute??? Units??
+                # print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
+                x = LC_dic[wavelength_id].time # extract the times
+                y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
+                yerr = LC_dic[wavelength_id].ferr # extract the flux error
 
-        #initialize batman model
-        transit_pars, model_object, flux0 = init_model(transit_parameters, x)
+                #initialize batman model
+                transit_pars, model_object, flux0 = init_model(transit_parameters, x)
 
-        # run mcmc beginning at users initial guess without GP
-        LC_dic[wavelength_id].obj_mcmc = mcmc.MCMC(x, y, yerr, lnprob_base, ["rp","u1","u2","u3","u4"],
-                       [], nwalkers, 1)
-        pos = [p0[2:] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
-        LC_dic[wavelength_id].obj_chain = LC_dic[wavelength_id].obj_mcmc.run(pos, nburnin, nsteps)
+                # run mcmc beginning at users initial guess without GP
+                LC_dic[wavelength_id].obj_mcmc = mcmc.MCMC(x, y, yerr, lnprob_base, ["rp","u1","u2","u3","u4"],
+                               [], nwalkers, 1)
+                pos = [p0[2:] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
+                LC_dic[wavelength_id].obj_chain = LC_dic[wavelength_id].obj_mcmc.run(pos, nburnin, nsteps)
 
-        # run mcmc beginning at users initial guess with Matern Kernel GP for now
-        LC_dic[wavelength_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, lnprob_gp, ["a","tau","rp","u1","u2","u3","u4"],
-                       [], nwalkers, 1)
-        pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
-        LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
+                # run mcmc beginning at users initial guess with Matern Kernel GP for now
+                LC_dic[wavelength_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, lnprob_gp, ["a","tau","rp","u1","u2","u3","u4"],
+                               [], nwalkers, 1)
+                pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
+                LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
+    else:
+        print "no MPI. Will use single core to process all lightcurves."
+        for wavelength_id in LC_dic:
+            print "now processing wavelength_id:", wavelength_id
+            #below print statement needs to be edited. Correct object attribute??? Units??
+            # print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
+            x = LC_dic[wavelength_id].time # extract the times
+            y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
+            yerr = LC_dic[wavelength_id].ferr # extract the flux error
 
-        # check out results... plotting is not ready for general use yet :(
-        plt.figure(1)
-        for k in range(ndim):
-            plt.subplot(ndim,1,k+1)
-            plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chain[:,k])
+            #initialize batman model
+            transit_pars, model_object, flux0 = init_model(transit_parameters, x)
 
-        plt.figure(2)
-        for k in range(ndim+2):
-            plt.subplot(ndim+2,1,k+1)
-            plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chainGP[:,k])
+            # run mcmc beginning at users initial guess without GP
+            LC_dic[wavelength_id].obj_mcmc = mcmc.MCMC(x, y, yerr, lnprob_base, ["rp","u1","u2","u3","u4"],
+                           [], nwalkers, 1)
+            pos = [p0[2:] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
+            LC_dic[wavelength_id].obj_chain = LC_dic[wavelength_id].obj_mcmc.run(pos, nburnin, nsteps)
 
-        corner.corner(LC_dic[wavelength_id].obj_chain, labels=["rp","u1","u2","u3","u4"], truths=p0[2:])
-        corner.corner(LC_dic[wavelength_id].obj_chainGP, labels=["a","tau","rp","u1","u2","u3","u4"], truths=p0)
+            # run mcmc beginning at users initial guess with Matern Kernel GP for now
+            LC_dic[wavelength_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, lnprob_gp, ["a","tau","rp","u1","u2","u3","u4"],
+                           [], nwalkers, 1)
+            pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
+            LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
+
+    # check out results... plotting is not ready for general use yet :(
+    # plt.figure(1)
+    # for k in range(ndim):
+    #     plt.subplot(ndim,1,k+1)
+    #     plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chain[:,k])
+    #
+    # plt.figure(2)
+    # for k in range(ndim+2):
+    #     plt.subplot(ndim+2,1,k+1)
+    #     plt.plot(range((nsteps - nburnin)*nwalkers), LC_dic[wavelength_id].obj_chainGP[:,k])
+    #
+    # corner.corner(LC_dic[wavelength_id].obj_chain, labels=["rp","u1","u2","u3","u4"], truths=p0[2:])
+    # corner.corner(LC_dic[wavelength_id].obj_chainGP, labels=["a","tau","rp","u1","u2","u3","u4"], truths=p0)
