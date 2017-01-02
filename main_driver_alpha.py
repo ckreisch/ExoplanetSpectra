@@ -11,7 +11,12 @@ import lc_class
 import read_input
 
 # Read in MPI flag from user input file ---------------------------------
-input_file = read_input('input_file') #currently assumes file in same directory
+try:
+    input_file = read_input('input_file')
+except IOError:
+    print "Input file is not in the same directory as driver program."+\
+            " Move to same directory or change path."
+    raise
 input_param_dic = input_file.param_dic
 mpi_flag = input_param_dic['mpi_flag']
 # -------------------------------------------------------------------------
