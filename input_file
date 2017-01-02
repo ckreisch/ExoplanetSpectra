@@ -1,0 +1,11 @@
+# This is an input file
+# When the parameter is a list just write the elements separated by a space
+transit_parameters = 0.0 1.0 0.1 15.0 87.0 0.0 90.0 0.5 0.1 0.1 -0.1
+p0 = 0.1 0.1 0.1 0.5 0.1 0.1 -0.1
+priors = (0,1) (-0.5,0.5) (-0.5,0.5) (-0.5,0.5) (-0.5,0.5)
+lc_path = light_curve
+nwalkers = 32
+nburnin = 100
+nsteps =  1000
+ndim = 5
+wave_bin_size = 1
