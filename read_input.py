@@ -46,6 +46,7 @@ class read_input:
                      param_elt[j] = read(param_input[j])
                  except ValueError:
                      print "Did not input value for "+params_name[i]+" correctly. Input is "+str(param_input[j])
+                     raise
 
 
         param_dic[params_name[i]] = param_elt
