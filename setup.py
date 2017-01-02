@@ -48,14 +48,12 @@ setup(
     #tests_require = ['nose'],
     #packages=find_packages(exclude = ['contrib','docs','tests*']), #TO SET LATER
     #scripts=['bin/points.py','bin/alignment.py'],
-    install_requires=[
-                    'numpy',
+    install_requires=['numpy',
                     'scipy',
                     'matplotlib',
                     'os',
                     'math',
                     'time',
-                    'read_input',
                     're',
                     'ast',
                     'itertools',
@@ -67,8 +65,7 @@ setup(
                     'emcee',
                     'george',
                     'batman',
-                    'corner'
-                    ]
+                    'corner']
     #move some of above into extras_requires ?
 
 
