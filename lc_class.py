@@ -11,19 +11,19 @@ class LightCurve:
                files_list.sort()
                files_num = len(files_list)
                new_obj_num = files_num/wave_bin_size
-               wave_number = [None]*files_num
-               new_wave_number = [0.0]*new_obj_num
+               wave_length = [None]*files_num
+               new_wave_length = [0.0]*new_obj_num
 
                for i in range(files_num):
                    file_name = files_list[i].split('.')[0]
-                   wave_number[i] = file_name.split('_')[2]
-               wave_number.sort()
+                   wave_length[i] = file_name.split('_')[2]
+               wave_length.sort()
 
                for i in range(new_obj_num):
                    for j in range(wave_bin_size):
-                       new_wave_number[i] = new_wave_number[i] + float(wave_number[i*wave_bin_size + j])/wave_bin_size
-               new_wave_number = [str(x) for x in new_wave_number]
-               new_wave_number.sort()
+                       new_wave_length[i] = new_wave_length[i] + float(wave_length[i*wave_bin_size + j])/wave_bin_size
+               new_wave_length = [str(x) for x in new_wave_length]
+               new_wave_length.sort()
 
                LC_dic = {}
 
@@ -32,25 +32,25 @@ class LightCurve:
                for i in range(new_obj_num):
                    for j in range(wave_bin_size):
                        Path_to_files[j] = '{}/{}'.format(PathToLC, files_list[i*wave_bin_size + j])
-                   LC_dic[new_wave_number[i]] = LightCurveData(Path_to_files)            
+                   LC_dic[new_wave_length[i]] = LightCurveData(Path_to_files)            
 
                self.files_list = files_list
                self.files_num = files_num
-               self.wave_number = wave_number
-               self.new_wave_number = new_wave_number 
+               self.wave_length = wave_length
+               self.new_wave_length = new_wave_length 
                self.LC_dic = LC_dic
 
       def LC_dic(self):
 
                return LC_dic
 
-      def wave_number(self):
+      def wave_length(self):
 
-               return wave_number
+               return wave_length
 
-      def wave_number(self):
+      def new_wave_length(self):
 
-               return new_wave_number
+               return new_wave_length
 
 
 
