@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import math as m
 from os import listdir
 
+
 class LightCurve:
 
     def __init__(self, PathToLC, wave_bin_size):
