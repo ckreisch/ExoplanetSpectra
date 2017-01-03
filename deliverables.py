@@ -16,10 +16,11 @@ def latex_table(self,LC_dic,visualization):
         f.write(r"\begin{deluxetable*}{"+col_string+"}\n"\
                 +r"\tablewidth{0pc}"+"\n")
         f.write(r"\tablecaption{Light Curve Constraints \label{tab:LC}}"+"\n")
-        f.write(r"\tablehead{ "+colhead_string+" }\n")
+        f.write(r"\tablehead{ "+colhead_string+" } \n")
         f.write(r"\startdata"+"\n")
-          Data Set & $\alpha^K_0$ & Best-fit & Mean & $95\%$ CL Lower Bound & Best-fit & Mean & $95\%$ CL Upper Bound \\
-          \hline \\[-1.5ex]
+        f.write(r"\hline \\[-1.5ex]"+"\n")
+        for wavelength_id in LC_dic:
+            LC_dic[wavelength_id].obj_chain
           Planck+BKP & $1.0$ & & $-0.65$ & $-1$ &  & $0.48$ & $0.96$ \\
                & $0.1$ & & $-0.50$ & $-0.98$ & & $0.33$ & $0.74$ \\
           +mpk+RSD & $1.0$ & & $-0.66$ &  $-1$ & & $0.41$ & $0.80$ \\
