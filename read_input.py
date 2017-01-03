@@ -33,7 +33,7 @@ class read_input:
         if len_param_input==0:
             raise ValueError('Failure to set value for '+params_name[i])
         param_elt = [None]*len_param_input
-        if params_name[i] == 'lc_path' or params_name[i] == 'mpi_flag' or params_name[i] == 'visualization':
+        if params_name[i] == 'lc_path' or params_name[i] == 'mpi_flag' or params_name[i] == 'visualization' or params_name[i] == 'confidence':
              param_elt = param_input
         else:
              for j in range(len_param_input):
