@@ -134,7 +134,7 @@ def write_aparams(t, a_params, m, w_level, r_level, fname):
     return 0
 
 def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,   
-                w_scale, r_scale, w_level, r_level, N, exptime):
+                w_scale, r_scale, w_level, r_level, N=300, phase_range=(-0.025,0.025)):
     """
     arguments: transit parameter list, radii for each wavelength,
                list of limb darkening coefficients for each wavelength
@@ -143,6 +143,7 @@ def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,
     """
     # initialize model
     t0 = t_params[0]
+    exptime = (phase_range[1]-phase_range[0])/N
     t = np.arange(t0 - exptime*N/2., t0 + exptime*N/2., exptime) 
     p, model, signal_0 = init_model(t_params, t)
 
@@ -165,7 +166,7 @@ def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,
         # put  it all together
         f = signal*red_noise(wl_a_params, slopes) + ferr*np.random.randn(N)
         # write to a file
-        write_lc(t, f, ferr, wl_a_params, fileroot+"."+str(radii[k])+".dat",
+        write_lc(t, f, ferr, wl_a_params, fileroot+"."+str(wl[k])+".dat",
                  slopes*r_scale[k], w_level, r_level)
 
 
@@ -174,16 +175,15 @@ if __name__ == "__main__":
 
     np.random.seed(1234)
     truth = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1, 0.1, -0.1]
-    # t, y, yerr = generate_data_gp(truth, 1000)
-    # 10 wl channels (probably read this from a file, so have a record)
-    wl = [500.,250.,100.]        # central wavelength
+    # ~10 wl channels (probably read this from a file, so have a record)
+    wl = [500,250,100]        # central wavelength
     radii = [0.2,0.15,0.1]     # effective radius of the planet
     ldark = [[0.5, 0.1, 0.1, -0.1],[0.5, 0.1, 0.1, -0.1],[0.5, 0.1, 0.1, -0.1]]     # limb darkening coefficients for the star
     starspec = [0.9,0.8,0.85]  # flux level coming from star (to scale white noise)
     fwhm = [0.8,0.9,0.85]      # fwhm of psf for that wavelength (to scale red noise)
     skyspec = [0.7,0.7,0.7]   # sky flux level (to scale red noise)
 
-    # convert to starspec, fwhm, skyspec  to w_scale, r_scale
+    # convert starspec, fwhm, skyspec  to w_scale, r_scale
     w_scale = [1./starspec[k] for k in range(len(starspec))]
     r_scale = [np.sqrt(fwhm[k]**2.+skyspec[k]**2.) for k in range(len(fwhm))]
 
@@ -191,11 +191,11 @@ if __name__ == "__main__":
     fileroot = "testing"
     w_level, r_level = 0.0001, 0.01
     gen_obs_set(fileroot, truth, radii, ldark, wl, 
-                w_scale, r_scale, w_level, r_level, 350, 0.0004)
+                w_scale, r_scale, w_level, r_level)
 
-    check1 = np.loadtxt('testing.0.2.dat',unpack=True)
-    check2 = np.loadtxt('testing.0.15.dat',unpack=True)
-    check3 = np.loadtxt('testing.0.1.dat',unpack=True)
+    check1 = np.loadtxt('testing.500.dat',unpack=True)
+    check2 = np.loadtxt('testing.250.dat',unpack=True)
+    check3 = np.loadtxt('testing.100.dat',unpack=True)
     import matplotlib.pyplot as plt
     plt.plot(check1[0],check1[1],'r.')
     plt.plot(check2[0],check2[1]+0.05,'g.')
