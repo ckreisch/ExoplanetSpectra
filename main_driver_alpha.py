@@ -122,6 +122,7 @@ if __name__ == "__main__":
     wave_bin_size = input_param_dic['wave_bin_size'][0]
     nthreads = input_param_dic['nthreads'][0]
     visualization = input_param_dic['visualization']
+    confidence = input_param_dic['confidence']
     # -------------------------------------------------------------------------
 
     '''
@@ -196,7 +197,7 @@ if __name__ == "__main__":
             pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
             LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
 
-    deliverables.latex_table(LC_dic,visualization)
+    deliverables.latex_table(LC_dic,visualization,confidence)
 
     # check out results... plotting is not ready for general use yet :(
     # plt.figure(1)
