@@ -24,13 +24,13 @@ mpi_flag = input_param_dic['mpi_flag']
 # -------------------------------------------------------------------------
 
 #CK edited
-if mpi_flag:
+if mpi_flag == ['True']:    # KY comment: now the variable type of mpi_flag is list. Consider revising?
     try:
         from mpi4py import MPI
         #mpi_flag = True
     except ImportError:
         print "MPI not installed, but MPI flag set to True. Setting flag to False and continuing."
-        mpi_flag = False
+        mpi_flag = ['False']
         pass
 
 # import gp_model # waiting for this piece from Polina still
@@ -124,6 +124,8 @@ if __name__ == "__main__":
     visualization = input_param_dic['visualization']
     confidence = input_param_dic['confidence']
     # -------------------------------------------------------------------------
+    print "mpi flag:", mpi_flag
+    print "num of threads:", nthreads
 
     '''
     # replacing user parameter file for now -----------------------------------
@@ -143,7 +145,7 @@ if __name__ == "__main__":
     LC_dic = LC.LC_dic # dictionary of light curve for each wavelength
 
     #this part should have MPI so different LCs go on different nodes
-    if mpi_flag:
+    if mpi_flag == ['True']:
         # initialize MPI
         comm = MPI.COMM_WORLD
         rank = comm.Get_rank()
@@ -197,7 +199,7 @@ if __name__ == "__main__":
             pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
             LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
 
-    deliverables.latex_table(LC_dic,visualization,confidence)
+    # deliverables.latex_table(LC_dic,visualization,confidence)
 
     # check out results... plotting is not ready for general use yet :(
     # plt.figure(1)
