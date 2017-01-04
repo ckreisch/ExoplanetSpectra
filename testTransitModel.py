@@ -2,62 +2,53 @@ import unittest
 import numpy as np
 import george
 from george import kernels
-from obj_GP import TransitModel
+from TransitModel import TransitModel
 
 
 class TestFunctions(unittest.TestCase):
 
     def setUp(self):
         # create testing params into the dictionary
-        #rp0 = 0.8
-        #u0 = [0.5, 0.1, 0.1, -0.1]
-        # self.params = {'rp0': 0.8, 'u0': [0.5, 0.1, 0.1, -0.1],
-        #                 't0': 1., 'per': 2., 'a': 35., 'inc': 100., 'ecc': 2.,
-        #                'w': 50., 'limb_dark': 'nonlinear', 't': np.linspace(0,2,1),
-        #                'rp_prior_d': -0.5,  'rp_prior_u':3., 'u_prior_d': -2, 'u_prior_u': 2,
-        #                'sig2': 0}
 
+        self.params = {'t0': 1, 'a': 15.0, 'ndim': 5, 'p0': [0.1, 0.1, 0.1, 0.5, 0.1, 0.1, -0.1], 'u3': -0.1,
+                       'ecc': 0.0, 'mpi_flag': ['True'], 'nburnin': 100, 'nthreads': 4,
+                       'priors': [(0, 1), (-0.5, 0.5), (-0.5, 0.5), (-0.5, 0.5), (-0.5, 0.5)],
+                       'u1': 0.1, 'u0': 0.5, 'per': 1.0, 'u2': 0.1, 'lc_path': ['light_curve'],
+                       't0': 0.0, 'w': 90.0, 'rp': 0.1, 'nwalkers': 32, 'nsteps': 1000,
+                       'wave_bin_size': 1, 'inc': 87.0,
+                       "kernel_a": 2., "kernel_gamma": 2., "kernel_variance": 2.,
+                       "rp_prior_lower": -1., "rp_prior_upper": 1., "u_prior_lower": -1.,   "u_prior_upper": 1.,
+                       "kernel_a_prior_lower": -5., "kernel_a_prior_upper": 5.,
+                       "kernel_gamma_prior_lower": 0., "kernel_gamma_prior_upper": 10.,
+                       "kernel_variance_prior_lower": 0., "kernel_variance_prior_upper": 5.}
 
-        # self.params = {'u0': [0.5, 0.1, 0.1, -0.1],
-        #                 't0': 1., 'per': 2., 'a': 35., 'inc': 100., 'ecc': 2.,
-        #                'w': 50., 'limb_dark': 'nonlinear', 't': np.linspace(0,2,1),
-        #                'rp_prior_d': -0.5,  'rp_prior_u':3., 'u_prior_d': -2, 'u_prior_u': 2,
-        #                'sig2': 0}
-
-        self.params = {"a": 100., 'rp_prior_u':3., 'u_prior_d': -2, 'u_prior_u': 2,
-                       'sig2': 0, "limb_dark":'cubic'}
-
-        self.params = {'a': [15.0], 'ndim': [5], 'p0': [0.1, 0.1, 0.1, 0.5, 0.1, 0.1, -0.1], 'u3': [-0.1], 'ecc': [0.0], 'mpi_flag': ['True'], 'nburnin': [100], 'nthreads': [4], 'priors': [(0, 1), (-0.5, 0.5), (-0.5, 0.5), (-0.5, 0.5), (-0.5, 0.5)], 'u1': [0.1], 'u0': [0.5], 'per': [1.0], 'u2': [0.1], 'lc_path': ['light_curve'], 't0': [0.0], 'w': [90.0], 'rp': [0.1], 'nwalkers': [32], 'nsteps': [1000], 'wave_bin_size': [1], 'inc': [87.0]}
+        self.params['t'], self.params['y'], self.params['yerr'] = self.generateDataHelper(N=20)
 
         self.test_transit = TransitModel(**self.params)
-        print("Printing the missing value")
-        print(self.test_transit.params.a)
-        print(self.test_transit.rp_prior_u)
-        #print(self.test_transit.paramsBatman.rp0)
 
-        #print(self.test_transit.__dict__.keys())
+        #print( self.test_transit.lnprob_gp() )
 
-    # def modelHelper(self,params, t):
-    #     amp, loc, sig2 = params
-    #     return amp * np.exp(-0.5 * (t - loc) ** 2 / sig2)
+    def modelHelper(self,params, t):
+        amp, loc, sig2 = params
+        return amp * np.exp(-0.5 * (t - loc) ** 2 / sig2)
 
-    # def generateDataHelper(self, N, rng=(-5, 5)):
-    #     """
-    #     Generates an artificial dataset with predefined parameters
-    #
-    #     :param N: number of the datapoints
-    #     :param rng: over what timerange to generate the data
-    #     :return: t, y, yerr - time, observations and the errors in the observations
-    #      """
-    #     true_params = [-1.0, 0.1, 0.4]
-    #     gp = george.GP(0.1 * kernels.ExpSquaredKernel(3.3))
-    #     t = rng[0] + np.diff(rng) * np.sort(np.random.rand(N))
-    #     y = gp.sample(t)
-    #     y += self.modelHelper(true_params, t)
-    #     yerr = 0.05 + 0.05 * np.random.rand(N)
-    #     y += yerr * np.random.randn(N)
-    #
-    #     return t, y, yerr
+    def generateDataHelper(self, N, rng=(-5, 5)):
+        """
+        Generates an artificial dataset with predefined parameters
+
+        :param N: number of the datapoints
+        :param rng: over what timerange to generate the data
+        :return: t, y, yerr - time, observations and the errors in the observations
+         """
+        true_params = [-1.0, 0.1, 0.4]
+        gp = george.GP(0.1 * kernels.ExpSquaredKernel(3.3))
+        t = rng[0] + np.diff(rng) * np.sort(np.random.rand(N))
+        y = gp.sample(t)
+        y += self.modelHelper(true_params, t)
+        yerr = 0.05 + 0.05 * np.random.rand(N)
+        y += yerr * np.random.randn(N)
+
+        return t, y, yerr
     #
     # def testCustomInit(self):
     #     """ Testing the customized init of the model"""
