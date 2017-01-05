@@ -1,4 +1,3 @@
-
 import numpy as np
 import george
 import batman
@@ -8,7 +7,7 @@ class TransitModel(object):
 
     def __init__(self, **kwargs):
 
-        self.batman_default_params = {"t0": 0, "rp": -1000., "u": [-100., -100., -100., -100.],
+        self.batman_default_params = {"t0": 0, "rp": -10., "u": [-1., -1., -1., -1.],
                                       "per": 1., "a": 15., "inc": 87., "ecc": 0.,
                                       "w": 90., "limb_dark": 'nonlinear'}
 
@@ -16,16 +15,18 @@ class TransitModel(object):
                                        "u_prior_lower": -1.,   "u_prior_upper": 1.}
 
         self.kernel_default_params = {"kernel_a": 1.,
-                                      "kernel_gamma": 5.,
+                                      "kernel_gamma": [1., 1., 1., 1.],
                                       "kernel_variance": 1.}
 
         self.kernel_default_priors = {"kernel_a_prior_lower": -5.,       "kernel_a_prior_upper": 5.,
                                       "kernel_gamma_prior_lower": 0.,    "kernel_gamma_prior_upper": 10.,
                                       "kernel_variance_prior_lower": 0., "kernel_variance_prior_upper": 5., }
 
-        self.data_defaults = {"t": np.linspace(0,0,1),
+        self.data_defaults = {"t": np.linspace(0, 0, 1),
                               "y": None,
-                              "yerr": None}
+                              "yerr1": None}
+        self.n_errors = 0
+        self.err_names = ["yerr1"]
 
         self.params = batman.TransitParams()
 
@@ -34,14 +35,21 @@ class TransitModel(object):
         for (param, default) in self.batman_default_params.items():
             setattr(self.params, param, kwargs.get(param, default))
 
-        # update the limb darkening parameters
-        self.read_limb_dark_params(**kwargs)
-
         # setting the attributes of the class other then light curve parameters
         self.set_values(self.transit_default_priors, **kwargs)
         self.set_values(self.kernel_default_params, **kwargs)
         self.set_values(self.kernel_default_priors, **kwargs)
         self.set_values(self.data_defaults, **kwargs)
+
+        # update the limb darkening parameters
+        self.read_limb_dark_params(**kwargs)
+
+        # collecting the data about errors that was passed
+        self.read_errors_data(**kwargs)
+
+        if len(self.kernel_gamma) != (self.n_errors + 1):
+            raise ValueError('For the kernel gamma hyper parameters expected ', self.n_errors + 1,
+                             ' values. Instead got ', len(self.kernel_gamma), ' .')
 
         if self.params.rp == self.batman_default_params["rp"]:
             raise ValueError(" The value for the rp parameter of the transit model was not passed.")
@@ -53,6 +61,7 @@ class TransitModel(object):
             raise ValueError(" The prior for kernel variance cannot be negative.")
 
         self.batman_model = batman.TransitModel(self.params, self.t)
+
 
     def set_values(self, dict_of_values, **kwargs):
         """Sets the attributes. If value is not provided the default value is set"""
@@ -81,7 +90,30 @@ class TransitModel(object):
 
         setattr(self.params, 'u', set_u)
 
-    def update_data(self, time=None, obs=None, errors=None):
+    def read_errors_data(self, **kwargs):
+        """ Collects the data about errors that was passed """
+        err_names = []
+        for keyword in kwargs:
+            if keyword.startswith("yerr"):
+                err_names.append(keyword)
+
+        if len(err_names) == 0:
+            # nothing to initialize/update
+            return
+
+        else:
+            for er_name in err_names:
+                setattr(self, er_name, kwargs.get(er_name, None))
+
+                if er_name not in self.err_names:
+                    self.err_names.append(er_name)
+
+        self.n_errors = 0;
+        for name in self.err_names:
+            if getattr(self, name) is not None:
+                self.n_errors+=1
+
+    def update_data(self, time=None, obs=None, **kwargs):
         """ Updates the data for the given parameters """
 
         if time is not None:
@@ -90,8 +122,7 @@ class TransitModel(object):
         if obs is not None:
             setattr(self, 'y', obs)
 
-        if errors is not None:
-            setattr(self, 'yerr', errors)
+        self.read_errors_data(**kwargs)
 
         self.updateTransitMode()
 
@@ -103,14 +134,15 @@ class TransitModel(object):
         """
         u_prev = self.params.u
 
-        if len(u_new) != len(u_prev):
-            raise ValueError("The length of new limb darkening parameter is wrong. Should be ",
-                             len(u_prev), " instead got ", len(u_new),". The current mode is ", self.params.limb_dark)
-        elif rp_new is None:
+        if rp_new is None:
             raise ValueError("The None was passed as rp parameter.")
 
         elif u_new is None:
             raise ValueError("The None was passed as u parameter.")
+
+        elif len(u_new) != len(u_prev):
+            raise ValueError('The length of new limb darkening parameter is wrong. Should be ',
+                             len(u_prev), ' instead got ', len(u_new),'. The current mode is ', self.params.limb_dark)
 
         else:
             self.params.rp = rp_new
@@ -124,10 +156,16 @@ class TransitModel(object):
         :param gamma_new: new value of the kernel_gamma
         """
 
-        if a_new is not None:
+        if a_new is None:
             raise ValueError("The None was passed as kernel_a parameter.")
         elif gamma_new is None:
             raise ValueError("The None was passed as kernel_gamma parameter.")
+        elif type(gamma_new) != list:
+            raise TypeError("For the gamma parameters list is expected. Instead got ", type(gamma_new))
+        elif len(gamma_new) != (self.n_errors + 1):
+            raise ValueError("The length of eta is wrong. List of size", (self.n_errors + 1),
+                             "is expected.")
+
         elif variance_new is None:
              raise ValueError("The None was passed as kernel_variance parameter.")
         else:
@@ -148,21 +186,39 @@ class TransitModel(object):
         """ Mean function for the kernel estimation"""
         return self.model()
 
+    def kernelfnc(self, x1, x2, p):
+        """ Computes the kernel function for the arbitrary sources of errors in the observations"""
+        ksi, sig, eta = self.kernel_a, self.kernel_variance, self.kernel_gamma
+
+        # get the positions of the current observations
+        n = list(self.t).index(x1); m = list(self.t).index(x2)
+
+        # time component, always present
+        s = eta[0]*((x1[0]-x2[0])**2)
+
+        for i in range(self.n_errors):
+            next_error = getattr(self, "yerr" + str(i+1));
+            if next_error is not None:
+                s += eta[(i+1)]*((next_error[n]-next_error[m])**2)
+
+        val = ksi * np.exp(-s) + (x1 == x2) * sig
+
+        return val
+
     def lnlike_gp(self):
         """ Computes the log likelihood from gaussian process """
 
-        if (self.t is None) | (self.y is None) | (self.yerr is None):
-            raise ValueError("Data is not ptoperly initialized.")
-            return
+        if (self.t is None) | (self.y is None):
+            raise ValueError("Data is not properly initialized. Reveived Nones.")
+
+        elif len(self.t) == 1:
+            raise ValueError("Time data is not properly initialized. Expected array of size greater then 1.")
+
         else:
-            t, yerr, y = self.t, self.yerr, self.y
-
-            gamma = self.kernel_gamma * 2
-            kernel = self.kernel_a * kernels.ExpSquaredKernel(gamma) + kernels.WhiteKernel(self.kernel_variance)
-
+            t, y = self.t, self.y
+            kernel = kernels.PythonKernel(self.kernelfnc)
             gp = george.GP(kernel, mean=self.meanfnc)
-
-            gp.compute(t, yerr)
+            gp.compute(t)
 
             return gp.lnlikelihood(y - self.model())
 
@@ -173,7 +229,6 @@ class TransitModel(object):
             return -np.inf
 
         for el in self.params.u:
-
             if not self.u_prior_lower < el < self.u_prior_upper:
                 return -np.inf
 
@@ -185,8 +240,9 @@ class TransitModel(object):
         if not self.kernel_a_prior_lower < self.kernel_a < self.kernel_a_prior_upper:
             return -np.inf
 
-        if not self.kernel_gamma_prior_lower < self.kernel_gamma < self.kernel_gamma_prior_upper:
-            return -np.inf
+        for el in self.kernel_gamma:
+            if not self.kernel_gamma_prior_lower < el < self.kernel_gamma_prior_upper:
+                return -np.inf
 
         if not self.kernel_variance_prior_lower < self.kernel_variance < self.kernel_variance_prior_upper:
             return -np.inf
@@ -205,4 +261,10 @@ class TransitModel(object):
 
         return self.lnprob
 
+    def updateTransit(self, rp_new, u_new, kernel_a, kernel_gamma, kernel_sig2, **kwargs):
+        """ Enables the interaction of the TransitModel with MCMC fitter """
 
+        self.update_transit_params(rp_new=rp_new, u_new=u_new)
+        self.update_kernel_params(a_new=kernel_a, gamma_new=kernel_gamma, variance_new=kernel_sig2)
+
+        return self.lnprob_gp()
