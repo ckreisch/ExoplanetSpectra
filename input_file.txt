@@ -17,7 +17,8 @@ limb_dark = nonlinear
 
 # Kernel initial hyper parameters
 kernel_a = 1
-kernel_gamma = 1
+# kernel_gamma = 0.1
+kernel_gamma = [0.1, 0.2, 0.3, 0.4] # make sure that the length of the list == to the number of data arrays (1 time + 3 errors)=4
 kernel_variance = 1
 
 # priors
@@ -28,7 +29,8 @@ u_prior_lower = -0.5
 u_prior_upper = 0.5
 kernel_a_prior_lower = -1
 kernel_a_prior_upper = 1
-kernel_gamma_prior_lower = 0 # cannot be lower then 0
+# kernel_gamma_prior_lower = 0 # cannot be lower then 0
+kernel_gamma_prior_lower = -1 # in fact it can be lower then 0 now
 kernel_gamma_prior_upper = 10
 kernel_variance_prior_lower = 0  # cannot be lower then 0
 kernel_variance_prior_upper = 10
