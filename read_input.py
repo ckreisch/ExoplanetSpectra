@@ -1,6 +1,15 @@
 from ast import literal_eval as read
 import re
 import numpy as np
+from lc_class import LightCurve
+
+class NoInput(Exception):
+    """Raise when no input is found for a parameter"""
+    pass
+
+class WrongInput(Exception):
+    """Raise when the input for a parameters is not set correctly (mainly when the type is not as expected"""
+    pass
 
 class read_input:
 
@@ -31,7 +40,7 @@ class read_input:
         param_input = param_input.split()
         len_param_input = len(param_input)
         if len_param_input==0:
-            raise ValueError('Failure to set value for '+params_name[i])
+            raise NoInput('Failure to set value for '+params_name[i])
         param_elt = [None]*len_param_input
         if params_name[i] == 'lc_path' or params_name[i] == 'mpi_flag' or params_name[i] == 'visualization' or params_name[i] == 'confidence' or params_name[i] == 'limb_dark':
              param_elt = param_input
@@ -44,7 +53,7 @@ class read_input:
                 #     print "Did not input value for "+params_name[i]+" correctly. Input is "+str(param_input[j])
                  try:
                      param_elt[j] = read(param_input[j])
-                 except ValueError:
+                 except WrongInput:
                      print "Did not input value for "+params_name[i]+" correctly. Input is "+str(param_input[j])
                      raise
 
@@ -57,7 +66,16 @@ class read_input:
                                         ,param_dic['w'][0],param_dic['u0'][0],\
                                         param_dic['u1'][0],param_dic['u2'][0],\
                                         param_dic['u3'][0]]
+
+    light_curve = param_dic['lc_path']
+    LC_dic = LightCurve(light_curve[0], 2).LC_dic
+
+    global_dic = LC_dic
+    global_dic.update(param_dic)
+
+
     self.param_dic = param_dic
+    self.global_dic = global_dic
 
   def param_dic(self):
 
