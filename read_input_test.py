@@ -3,7 +3,7 @@ from read_input import read_input #
 #from ast import literal_eval as read
 
 try:
-    input_file = read_input('../input_file')
+    input_file = read_input('input_file.ini')
 except IOError:
     print "Input file is not in the same directory as driver program."+\
             " Move to same directory or change path."
