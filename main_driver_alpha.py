@@ -162,6 +162,13 @@ if __name__ == "__main__":
         # initialize MPI
         comm = MPI.COMM_WORLD
         rank = comm.Get_rank()
+        name = MPI.Get_processor_name()
+        print("I am a worker with rank %d on %s." % (rank, name))
+        # if rank == 0:
+        #     print "size:", comm.Get_size()
+        #     print "topology:", comm.Get_topology()
+        #     print "group:", comm.Get_group()
+        #     print "parent:", comm.Get_parent()
         if comm.Get_size() > len(LC_dic) and rank == 0:
             print "number of processors assigned is more than enough."
         for wavelength_id in LC_dic:
