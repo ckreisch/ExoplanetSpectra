@@ -163,19 +163,13 @@ if __name__ == "__main__":
         comm = MPI.COMM_WORLD
         rank = comm.Get_rank()
         name = MPI.Get_processor_name()
-        print("I am a worker with rank %d on %s." % (rank, name))
-        # if rank == 0:
-        #     print "size:", comm.Get_size()
-        #     print "topology:", comm.Get_topology()
-        #     print "group:", comm.Get_group()
-        #     print "parent:", comm.Get_parent()
+        # print("I am a worker with rank %d on %s." % (rank, name))
+
         if comm.Get_size() > len(LC_dic) and rank == 0:
             print "number of processors assigned is more than enough."
         for wavelength_id in LC_dic:
             if (float (wavelength_id) - 1) % comm.Get_size() == rank:
-                print "now processor number:", rank, "is processing wavelength_id:", wavelength_id
-                #below print statement needs to be edited. Correct object attribute??? Units??
-                # print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
+                print "now processor with rank number:", rank, "on", name, "is processing wavelength_id:", wavelength_id
                 x = LC_dic[wavelength_id].time # extract the times
                 y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
                 yerr = LC_dic[wavelength_id].ferr # extract the flux error
@@ -198,8 +192,6 @@ if __name__ == "__main__":
         print "no MPI. Will use single core to process all lightcurves."
         for wavelength_id in LC_dic:
             print "now processing wavelength_id:", wavelength_id
-            #below print statement needs to be edited. Correct object attribute??? Units??
-            # print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
             x = LC_dic[wavelength_id].time # extract the times
             y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
             yerr = LC_dic[wavelength_id].ferr # extract the flux error
