@@ -1,8 +1,10 @@
+Jenkins current build status: [![Build Status](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)
+
 # ExoplanetSpectra
 Design project to extract exoplanet transmission spectra from multi-wavelength light curves.
 
 #Classes we plan to use:
- - Noise (with derived classes WhiteNoise, RedNoise) 
+ - Noise (with derived classes WhiteNoise, RedNoise)
  - LightCurve (reading in and using/plotting light curve datafile)
  - Model (use batman to get model curves for transit model parameters)
  - Decorrelator (remove correlated noise) - maybe derived classes for atmosphere and instrument
@@ -33,7 +35,7 @@ Design project to extract exoplanet transmission spectra from multi-wavelength l
 4. Visualize output
     - effective size vs wavelength (due to atmospheric effects being wavelength dependent)
 
-#Functionality to add later once everything is working: 
+#Functionality to add later once everything is working:
 Binning:
     - allow user to specify binning in wavelength and time to reduce error bars on fitted parameters
     - do once we have everything else working
@@ -73,4 +75,3 @@ I'm imagining the project will entail a few parts:
 4) give user different options for modeling noise (this will be most work perhaps, there are 2 or 3 different ways I have seen people treat noise that seem worth including)
 
 5) make nice plots: characterize the MCMC runs, light curve data overlaid with best fit light curve, transmission spectrum with errors
-
