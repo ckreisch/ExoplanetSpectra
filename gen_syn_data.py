@@ -9,14 +9,15 @@ import corner
 import batman
 import george
 from   george import kernels
+import os
 # -----------------------------------------------------------------------------
-def init_model(params, t, limb_dark="nonlinear"):
+def init_model(params, t, limb_dark="quadratic"):
     """
     arguments: list of transit parameters, times
     returns: batman transit parameter object, batman transit model object, 
              initial light curve
     """
-    t0,per,rp,a,inc,ecc,w,u0,u1,u2,u3 = params    
+    t0,per,rp,a,inc,ecc,w,u0,u1 = params    
     p = batman.TransitParams()  #object to store transit parameters 
     p.t0 = t0                   #time of inferior conjunction 
     p.per = per                 #orbital period 
@@ -26,7 +27,7 @@ def init_model(params, t, limb_dark="nonlinear"):
     p.ecc = ecc                 #eccentricity 
     p.w = w                     #longitude of periastron (in degrees) 
     p.limb_dark = limb_dark     #limb darkening model 
-    p.u = [u0, u1, u2, u3]      #limb darkening coefficients 
+    p.u = [u0, u1]      #limb darkening coefficients 
     m = batman.TransitModel(p, t)  #initializes model 
     flux = m.light_curve(p)        #calculates white light curve  
     return p, m, flux
@@ -37,9 +38,9 @@ def wl_channel_flux(wl_params, m, p):
                batman transit model object, batman tansit parameter object
     returns: light curve for that wavelength
     """
-    rp,u0,u1,u2,u3 = wl_params    
+    rp,u0,u1 = wl_params    
     p.rp = rp                    #planet radius (in units of stellar radii) 
-    p.u = [u0, u1, u2, u3]       #limb darkening coefficients  
+    p.u = [u0, u1]       #limb darkening coefficients  
     flux = m.light_curve(p)      #calculates light curve  
     return flux
 
@@ -63,73 +64,39 @@ def red_noise(a_params, slopes):
 def generate_a_params(level, N):
     """
     arguments: level of red noise, length of light curve
-    returns: 8 x N array of auxiliary parameter values over time
+    returns: len 4 array of slopes to use in linear correlation
+             and a 4 x N array of auxiliary parameter value measures 
     """
-    slopes = np.zeros(8) + level*np.random.randn(8)
+    slopes = np.zeros(4) + level*np.random.randn(4)
+    # approximate change in  airmass over course of observation with a quadratic
+    airmass = -0.001*np.arange(-0.1*N/4., 0.3*N/4.,0.1)**2. + 1.6  
+    # approximate change in position on detector over course of observation
+    # with cube root 
+    pos = np.concatenate((-1.*np.arange(0., N/2.,1.)[::-1]**(1./3.),  
+                         np.arange(1., N/2.+1,1.)**(1./3.)))*0.05 + 10.0      
 
-    phase = np.linspace(0.,0.25, N) 
-    airmass = -0.001*np.arange(-0.1*N/4., 0.3*N/4.,0.1)**2. + 1.6 
-    x1 = np.concatenate((-1.*np.arange(0., N/2.,1.)[::-1]**(1./3.),
-                         np.arange(1., N/2.+1,1.)**(1./3.)))*0.05 + 10.0           
-    x2 = np.concatenate((-1.*np.arange(0., N/2.,1.)[::-1]**(1./3.),
-                         np.arange(1., N/2.+1,1.)**(1./3.)))*0.001 + 10.0
-    y1 = np.concatenate((-1.*np.arange(0., N/2.,1.)[::-1]**(1./3.),
-                         np.arange(1., N/2.+1,1.)**(1./3.)))*0.005 + 10.0
-    y2 = np.concatenate((-1.*np.arange(0., N/2.,1.)[::-1]**(1./3.),
-                         np.arange(1., N/2.+1,1.)**(1./3.)))*0.002 + 10.0
+    # approximate full-width-half-maximum size of psf with sine wave        
+    fwhm = np.sin(np.arange(N)/(25.0*np.pi))*2.25  
 
-    fwhm = np.sin(np.arange(N)/(15.0*np.pi))*2.25     # make this a sine wave instead
-    skynoise = fwhm + np.random.randn(N)*0.00001            
-    return slopes, np.array([phase, airmass, x1, x2, y1, y2, fwhm, skynoise])
+    # random skynoise levels but also related to fhwm
+    skynoise = fwhm + np.random.randn(N)*0.00001    
 
-def generate_data_gp(params, N, rng=(-0.025, 0.025)):
-    """
-    arguments:
-    returns:
-    """
-    gp = george.GP(0.1 * kernels.ExpSquaredKernel(3.3))
-    #to-do: fix to regular cadence instead...
-    t = rng[0] + np.diff(rng) * np.sort(np.random.rand(N)) 
-    y = gp.sample(t)
-    y += model(params, t)
-    yerr = 0.001 + 0.001 * np.random.rand(N)
-    y += yerr * np.random.randn(N)
-    return t, y, yerr
 
-def write_lc(t, f, ferr, a_params, fname, m, w_level, r_level):
+    return slopes, np.array([airmass, pos, skynoise, fwhm])
+
+def write_lc(t, f, ferr, a_params, fname, m, w_level, r_level, wl_params):
     """
     arguments: times, flux, flux error, auxliary parameter array
                correlation coefficients, white noise level, red noise level
     returns: 0 if successfully saved a light curve to fname 
     """
     ofile = open(fname,"w")
-    ofile.write("# time (phase), flux, ferr, fwhm, skynoise\n")
+    ofile.write("# time (phase), flux, ferr, fwhm, skynoise, position, airmass\n")
     # add header with more info
-    ofile.write("# fwhm corr. coeff.: %f, skynoise corr. coeff.: %f, white level: %f,"
-          "red level: %f\n" % (m[6],m[7],w_level,r_level))
+    ofile.write("# white scalel: %f, red scale: %f, fwhm corr. coeff.: %f, skynoise corr. coeff.: %f, position corr. coeff.: %f, airmass corr. coeff.: %f\n" % (w_level,r_level,m[3],m[2],m[1],m[0]))
+    ofile.write("# transit parameters: rp = %f, u0 = %f, u1 = %f\n" % (wl_params[0],wl_params[1],wl_params[2]))
     for k in range(len(t)):
-        ofile.write("%f\t%f\t%f\t%f\t%f\n" % (t[k], f[k], ferr[k], a_params[6][k], 
-                                        a_params[7][k]))
-    ofile.close()
-    return 0
-
-def write_aparams(t, a_params, m, w_level, r_level, fname):
-    """
-    arguments: times, auxiliary parameters, correlation coefficients,
-               white noise level, red noise level
-    returns: 0 if saved to fname successfully
-    """
-    ofile = open(fname,"w")
-    ofile.write("# time (phase), phase, airmass, x1, x2, y1, y2\n")
-    # add header with more info
-    ofile.write("phase corr. coeff.: %f, airmass corr. coeff.: %f, x1 corr. coeff.: %f,"
-          "x2 corr. coeff.: %f, y1 corr. coeff.: %f, y2 corr. coeff.: %f,"
-          "white level: %f, red level: %f\n"
-          %(m[0],m[1],m[2],m[3],m[4],m[5],w_level,r_level))
-    for k in range(len(t)):
-        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\t%f\n" % (t[k],a_params[0][k],
-              a_params[1][k], a_params[2][k], a_params[3][k], 
-              a_params[4][k], a_params[6][k]))
+        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\t%f\n" % (t[k], f[k], ferr[k], a_params[3][k], a_params[2][k], a_params[1][k], a_params[0][k]))
     ofile.close()
     return 0
 
@@ -139,7 +106,7 @@ def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,
     arguments: transit parameter list, radii for each wavelength,
                list of limb darkening coefficients for each wavelength
                scales of white noise, scales of red noise
-    returns:
+    returns: 0 if successful, saves data generated into text files
     """
     # initialize model
     t0 = t_params[0]
@@ -147,60 +114,96 @@ def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,
     t = np.arange(t0 - exptime*N/2., t0 + exptime*N/2., exptime) 
     p, model, signal_0 = init_model(t_params, t)
 
-    # write_aparams 
+    # generate auxiliary parameters
     slopes, a_params = generate_a_params(r_level, N)
-    write_aparams(t, a_params, slopes, w_level, r_level, 
-                  fileroot+".aparams.dat")
 
     # for each radii: 
     for k in range(len(radii)):   
         # pure transit signal
-        wl_params = [radii[k], limb_darkening[k][0], limb_darkening[k][1],
-                     limb_darkening[k][2], limb_darkening[k][3]]
+        wl_params = [radii[k], limb_darkening[k][0], limb_darkening[k][1]]
         signal = wl_channel_flux(wl_params, model, p)
         # white noise to be added
         ferr = white_noise(w_level, N)*w_scale[k]    
         # scale the fwhm and sky noise correlated rednoise for that wl
-        fwhm, skynoise = r_scale[k]*a_params[6], r_scale[k]*a_params[7]
-        wl_a_params = np.concatenate((a_params[:6],np.array([fwhm,skynoise])))
+        fwhm, skynoise = r_scale[k]*a_params[3], r_scale[k]*a_params[2]
+        wl_a_params = np.concatenate((a_params[:2],np.array([fwhm,skynoise])))
         # put  it all together
         f = signal*red_noise(wl_a_params, slopes) + ferr*np.random.randn(N)
         # write to a file
-        write_lc(t, f, ferr, wl_a_params, fileroot+"."+str(wl[k])+".dat",
-                 slopes*r_scale[k], w_level, r_level)
+        fname = fileroot+"_lc_"+str(wl[k])+".txt"
+        write_lc(t, f, ferr, wl_a_params, fname ,
+                 slopes*r_scale[k], w_level, r_level, wl_params)
 
 
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
 
     np.random.seed(1234)
-    truth = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1, 0.1, -0.1]
-    # ~10 wl channels (probably read this from a file, so have a record)
-    wl = [500,250,100]        # central wavelength
-    radii = [0.2,0.15,0.1]     # effective radius of the planet
-    ldark = [[0.5, 0.1, 0.1, -0.1],[0.5, 0.1, 0.1, -0.1],[0.5, 0.1, 0.1, -0.1]]     # limb darkening coefficients for the star
-    starspec = [0.9,0.8,0.85]  # flux level coming from star (to scale white noise)
-    fwhm = [0.8,0.9,0.85]      # fwhm of psf for that wavelength (to scale red noise)
-    skyspec = [0.7,0.7,0.7]   # sky flux level (to scale red noise)
+    # transit parameters in order: t0,per,rp,a,inc,ecc,w,u0,u1
+    # see def init_model() for physical meanings
+    truth = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1]
+    # central wavelengths in microns for each channel
+    wl = [500, 650, 800, 950, 1100]  
+    # fractional radius of planet       
+    radii = [0.05, 0.08, 0.1, 0.12, 0.15]   
+    # limb darkening coefficients for the star
+    ldark = [[0.45, 0.1],[0.55, 0.1],[0.45, 0.11],[0.35,0.16],[0.5,0.1]]    
+    # flux level coming from star normalized to channel with maximum flux (to scale white noise)
+    starspec = [1.0, 1.0, 1.0, 1.0, 1.0]  
+    # fwhm of psf for that wavelength normalized to channel with maximum psf size (to scale red noise)
+    fwhm = [np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.)]      
+    # sky flux level normalized to maximum sky flux level (to scale red noise)
+    skyspec = [np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.)]   
 
     # convert starspec, fwhm, skyspec  to w_scale, r_scale
-    w_scale = [1./starspec[k] for k in range(len(starspec))]
+    w_scale = [1./starspec[k] for k in range(len(starspec))] # brighter channels will have lower white noise levels
     r_scale = [np.sqrt(fwhm[k]**2.+skyspec[k]**2.) for k in range(len(fwhm))]
 
-    # generate data:
-    fileroot = "testing"
-    w_level, r_level = 0.0001, 0.01
-    gen_obs_set(fileroot, truth, radii, ldark, wl, 
-                w_scale, r_scale, w_level, r_level)
+    # generate suite of data, 
+    # 3 red levels and 3 white levels saved in their own directories
+    rootname = "lc"
+    descriptors = ["none","low","some"]
+    w_levels = [0, 0.0001, 0.0005]
+    r_levels = [0, 0.00008, 0.0002]
 
-    check1 = np.loadtxt('testing.500.dat',unpack=True)
-    check2 = np.loadtxt('testing.250.dat',unpack=True)
-    check3 = np.loadtxt('testing.100.dat',unpack=True)
-    import matplotlib.pyplot as plt
-    plt.plot(check1[0],check1[1],'r.')
-    plt.plot(check2[0],check2[1]+0.05,'g.')
-    plt.plot(check3[0],check3[1]+0.1,'b.')
-    plt.show()
+    for i in range(3):
+        w_level = w_levels[1]
+        for j in range(3):
+            r_level = r_levels[j]
+            dname = rootname + '_white_' + descriptors[i] + '_red_' + descriptors[j]
+            os.system('mkdir '+ dname)
+            fileroot = dname+"/"+rootname
+            gen_obs_set(fileroot, truth, radii, ldark, wl, 
+                         w_scale, r_scale, w_level, r_level)  
+
+    # # generate one set of data:
+    # fileroot = "testing"
+    # w_level, r_level = 0.0001, 0.00008
+    # gen_obs_set(fileroot, truth, radii, ldark, wl, 
+    #             w_scale, r_scale, w_level, r_level)
+
+    # check1 = np.loadtxt('testing_lc_500.txt',unpack=True)
+    # check3 = np.loadtxt('testing_lc_650.txt',unpack=True)
+    # check2 = np.loadtxt('testing_lc_800.txt',unpack=True)
+    # check4 = np.loadtxt('testing_lc_950.txt',unpack=True)
+    # check5 = np.loadtxt('testing_lc_1100.txt',unpack=True)
+
+    # import matplotlib.pyplot as plt
+    # plt.figure(1)
+    # plt.plot(check1[0],check1[1],'r.')
+    # plt.figure(2)
+    # plt.plot(check2[0],check2[1]+0.05,'g.')
+    # plt.figure(3)
+    # plt.plot(check3[0],check3[1]+0.1,'b.')
+    # plt.figure(4)
+    # plt.plot(check3[0],check4[1]+0.1,'k.')
+    # plt.figure(5)
+    # plt.plot(check3[0],check5[1]+0.1,'c.')
+    # plt.show()
+
+
+          
+
 
     # tests/checks:
     # no nans, all files saved with right # of rows and columns
