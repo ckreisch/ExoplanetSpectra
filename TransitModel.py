@@ -3,6 +3,17 @@ import george
 import batman
 from george import kernels
 
+import copy_reg
+import types
+
+def _pickle_method(m):
+    if m.im_self is None:
+        return getattr, (m.im_class, m.im_func.func_name)
+    else:
+        return getattr, (m.im_self, m.im_func.func_name)
+
+copy_reg.pickle(types.MethodType, _pickle_method)    
+
 class TransitModel(object):
 
     def __init__(self, **kwargs):
@@ -31,8 +42,8 @@ class TransitModel(object):
         self.params = batman.TransitParams()
 
         # uncomment for the Python 2 and comment the line after next
-        #for (param, default) in batman_default_params.iteritems():
-        for (param, default) in self.batman_default_params.items():
+        for (param, default) in self.batman_default_params.iteritems():
+        #for (param, default) in self.batman_default_params.items():
             setattr(self.params, param, kwargs.get(param, default))
 
         # setting the attributes of the class other then light curve parameters
@@ -67,8 +78,8 @@ class TransitModel(object):
         """Sets the attributes. If value is not provided the default value is set"""
 
         # uncomment for the Python 2 and comment the line after next
-        # for (param, default) in dict_of_values.iteritems():
-        for (param, default) in dict_of_values.items():
+        for (param, default) in dict_of_values.iteritems():
+        #for (param, default) in dict_of_values.items():
             setattr(self, param, kwargs.get(param, default))
 
     def read_limb_dark_params(self, **kwargs):
@@ -261,8 +272,19 @@ class TransitModel(object):
 
         return self.lnprob
 
-    def updateTransit(self, rp_new, u_new, kernel_a, kernel_gamma, kernel_sig2, **kwargs):
+    def lnprob_mcmc(self, p, t, y, yerr, **kwargs):
         """ Enables the interaction of the TransitModel with MCMC fitter """
+        #TO-DO: add if statements for the other batman limb darkening options
+        
+        if self.params.limb_dark == 'quadratic':
+            rp_new, u0, u1, kernel_a, kernel_sig2 = p[:4]
+            u_new = [u0, u1]
+            kernel_gamma = p[4:].tolist()
+
+        if self.params.limb_dark == 'nonlinear':
+            rp_new, u0, u1, u2, u3, kernel_a, kernel_sig2 = p[:7]
+            u_new = [u0, u1, u2, u3]
+            kernel_gamma = p[7:].tolist()
 
         self.update_transit_params(rp_new=rp_new, u_new=u_new)
         self.update_kernel_params(a_new=kernel_a, gamma_new=kernel_gamma, variance_new=kernel_sig2)
