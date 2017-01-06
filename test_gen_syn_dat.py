@@ -161,7 +161,6 @@ class TestFunctions(unittest.TestCase):
     def testGen_obs_et(self):
         """Test routine B"""
 
-        
 
         pass
 
