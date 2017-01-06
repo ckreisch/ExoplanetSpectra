@@ -1,5 +1,6 @@
 # Deliverables module to parse MCMC data into latex code
 #import mcmc
+<<<<<<< HEAD
 import numpy as np
 
 #table of both trans and gp/noise params for now. Code visualization later.
@@ -7,6 +8,14 @@ def latex_table(LC_dic,visualization,confidence,filename):
         quantile = (100.-confidence)/2.
         try:
             f = open("latex_tables_"+filename+".txt", "a")
+=======
+
+#table of both trans and noise params for now. Code visualization later.
+def latex_table(self,LC_dic,visualization,confidence):
+        quantile = (100.-confidence)/2.
+        try:
+            f = open("latex_tables_"+str(wavelength_id)+".txt", "a")
+>>>>>>> ec809fbfe20d1f18945faf8f0604fe8d7390e694
         except IOError:
             print "Cannot open file to write tables to."
             raise
@@ -22,7 +31,11 @@ def latex_table(LC_dic,visualization,confidence,filename):
         f.write(r"\tablehead{ "+colhead_string+" } \n")
         f.write(r"\startdata"+"\n")
         f.write(r"\hline \\[-1.5ex]"+"\n")
+<<<<<<< HEAD
         for wavelength_id in LC_dic.keys():
+=======
+        for wavelength_id in LC_dic:
+>>>>>>> ec809fbfe20d1f18945faf8f0604fe8d7390e694
             # Compute the quantiles.
             median_array = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]),
                              zip(*np.percentile(LC_dic[wavelength_id].obj_chain, [quantile, 50, 100.-quantile],
