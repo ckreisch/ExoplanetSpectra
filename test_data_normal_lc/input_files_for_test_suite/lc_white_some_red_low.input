@@ -1,0 +1,66 @@
+# SAMPLE USER INPUT PARAMETER FILE FOR EXOSPEC
+
+# -----------------------------------------------------------------------------
+# META DATA
+lc_path = lc_white_some_red_low
+wave_bin_size = 1
+n_errors = 4  # number of auxiliary parameters you have in addition to the usual error on flux measure... the read in process will adjust to include usual yerr
+ndim = 11       # the sum of transit parameters being fit, 3 GP hyper parameters, and an additional scale factor for each auxiliary measure + yerr 
+
+# -----------------------------------------------------------------------------
+# MCMC instructions
+nwalkers = 32
+nburnin = 100
+nsteps =  1000
+
+# -----------------------------------------------------------------------------
+# PARALLELIZATION FLAGS
+mpi_flag = True #if use MPI
+nthreads = 4 #set to num threads to use for each node
+
+# -----------------------------------------------------------------------------
+# POST-PROCESSING FLAGS (for interpretting MCMC results)
+visualization = True #if want to see table output (and incorporate plots with this)
+confidence = 95 #CL for table
+
+# -----------------------------------------------------------------------------
+# FIXED TRANSIT PARAMETERS (known by user from other methods)
+t0 = 0.0
+per = 1.0
+a = 15.0
+inc = 87.0
+ecc = 0.0
+w = 90.0
+limb_dark = quadratic
+
+# -----------------------------------------------------------------------------
+# TRANSIT PARAMETERS TO BE FIT
+rp = 0.1
+u0 = 0.5
+u1 = 0.1
+
+# -----------------------------------------------------------------------------
+# INITIAL GUESSES FOR MODEL
+# order: rp, u1, u2, eta, ksi, g1, g2, g3, g4, g5, g6
+p0 = 0.1 0.5 0.1 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
+transit_par_names = rp u1 u2 
+gp_hyper_par_names = a sig2 g1 g2 g3 g4 g5 g6
+
+# -----------------------------------------------------------------------------
+# INITIAL GUESSES FOR KERNEL HYPER_PARAMETERS
+kernel_a = 1
+kernel_gamma = 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 # make sure that the length of the list == 2 + number of auxiliary measures
+kernel_variance = 1
+
+# -----------------------------------------------------------------------------
+# PRIORS 
+rp_prior_lower = 0
+rp_prior_upper = 1
+u_prior_lower = -0.5
+u_prior_upper = 0.5
+kernel_a_prior_lower = 0
+kernel_a_prior_upper = 1
+kernel_gamma_prior_lower = 0 # in fact it can be lower then 0 now
+kernel_gamma_prior_upper = 10
+kernel_variance_prior_lower = 0  # cannot be lower then 0
+kernel_variance_prior_upper = 10
