@@ -151,9 +151,9 @@ if __name__ == "__main__":
     # flux level coming from star normalized to channel with maximum flux (to scale white noise)
     starspec = [1.0, 1.0, 1.0, 1.0, 1.0]  
     # fwhm of psf for that wavelength normalized to channel with maximum psf size (to scale red noise)
-    fwhm = [np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.)]      
+    fwhm = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.)]      
     # sky flux level normalized to maximum sky flux level (to scale red noise)
-    skyspec = [np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.)]   
+    skyspec = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.)]   
 
     # convert starspec, fwhm, skyspec  to w_scale, r_scale
     w_scale = [1./starspec[k] for k in range(len(starspec))] # brighter channels will have lower white noise levels
