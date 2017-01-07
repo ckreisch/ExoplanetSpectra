@@ -161,7 +161,6 @@ class TestFunctions(unittest.TestCase):
     def testGen_obs_et(self):
         """Test routine B"""
 
-
         pass
 
     def testCheck_linear_corr_slope(self):

@@ -125,3 +125,5 @@ if __name__ == "__main__":
         corner.corner(LC_dic[wl_id].obj_chainGP, 
             labels=["rp","u1","u2","a","sig2","g1","g2","g3","g4","g5", "g6"], 
             truths=input_param_dic["p0"])
+        
+    #deliverables.latex_table("test", LC_dic, visualization, np.float(confidence))
