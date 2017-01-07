@@ -1,4 +1,5 @@
 # SAMPLE USER INPUT PARAMETER FILE FOR EXOSPEC
+# FOR directory lc_white_none_red_none
 
 # -----------------------------------------------------------------------------
 # META DATA
@@ -41,8 +42,10 @@ u1 = 0.1
 
 # -----------------------------------------------------------------------------
 # INITIAL GUESSES FOR MODEL
-# order: rp, u1, u2, eta, ksi, g1, g2, g3, g4, g5 g6
+# order: rp, u1, u2, eta, ksi, g1, g2, g3, g4, g5, g6
 p0 = 0.1 0.5 0.1 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
+transit_par_names = rp u1 u2 
+gp_hyper_par_names = a sig2 g1 g2 g3 g4 g5 g6
 
 # -----------------------------------------------------------------------------
 # INITIAL GUESSES FOR KERNEL HYPER_PARAMETERS
