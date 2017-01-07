@@ -163,11 +163,11 @@ if __name__ == "__main__":
     # 3 red levels and 3 white levels saved in their own directories
     rootname = "lc"
     descriptors = ["none","low","some"]
-    w_levels = [0, 0.0001, 0.0005]
-    r_levels = [0, 0.00008, 0.0002]
+    w_levels = [0.0, 0.0001, 0.0005]
+    r_levels = [0.0, 0.00008, 0.0002]
 
     for i in range(3):
-        w_level = w_levels[1]
+        w_level = w_levels[i]
         for j in range(3):
             r_level = r_levels[j]
             dname = rootname + '_white_' + descriptors[i] + '_red_' + descriptors[j]
@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
     # # generate one set of data:
     # fileroot = "testing"
-    # w_level, r_level = 0.0001, 0.00008
+    # w_level, r_level = 0.0, 0.0
     # gen_obs_set(fileroot, truth, radii, ldark, wl, 
     #             w_scale, r_scale, w_level, r_level)
 
