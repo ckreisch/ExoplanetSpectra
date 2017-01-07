@@ -24,7 +24,7 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
 
     p0 = input_param_dic['p0']    
     x = LC_dic[wl_id].time # extract the times
-    y = LC_dic[wl_id].flux / 8.0 # extract & semi-normalize flux  
+    y = LC_dic[wl_id].flux # extract flux  
     yerr = LC_dic[wl_id].ferr # extract the flux error
 
     # add correct wavelength's t, y, yerr to the parameter dictionary
@@ -42,8 +42,8 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
 
     #initialize model
     model = TransitModel.TransitModel(**input_param_dic)
-    transit_par_names = ["rp","u1","u2","u3","u4"]
-    gp_hyper_par_names = ["a","sig2","g1","g2","g3","g4"]
+    transit_par_names = ["rp","u1","u2"]
+    gp_hyper_par_names = ["a","sig2","g1","g2","g3","g4","g5", "g6"]
 
     # run mcmc beginning at users initial guess 
     LC_dic[wl_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, model.lnprob_mcmc, 
@@ -52,15 +52,20 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     pos = np.array([p0 + 1e-4*np.random.randn(ndim) for i in range(nwalkers)])
     LC_dic[wl_id].obj_chainGP = LC_dic[wl_id].obj_mcmcGP.run(pos, nburnin, nsteps)
 
+    values = np.median(LC_dic[wl_id].obj_chainGP, axis=0)
+    errors = np.std(LC_dic[wl_id].obj_chainGP, axis=0)  
+
+    print values, errors  # TO_DO: print this out more nicely 
+
 # Read in MPI flag from user input file ---------------------------------------
 try:
-    input_file = read_input('input_file.txt')
+    input_file = read_input('test_suite_input_file.txt')
 except IOError:
     print "Input file is not in the same directory as driver program."+\
             " Move to same directory or change path."
     raise
 input_param_dic = input_file.param_dic
-#remove following for loop once we correct read_input.py
+# TO_DO: remove following for loop once we correct read_input.py ??
 for key in input_param_dic.keys():
     if len(input_param_dic[key]) == 1:
         input_param_dic[key]=input_param_dic[key][0]
@@ -91,7 +96,7 @@ if __name__ == "__main__":
     LC = lc_class.LightCurve(lc_path, wave_bin_size)
     LC_dic = LC.LC_dic # dictionary of light curve for each wavelength
 
-    # MPI sending different wavelength LCs to different nodes
+    # MPI sending different wavelength LCs to different nodes -----------------
     if mpi_flag:
         # initialize MPI
         comm = MPI.COMM_WORLD
@@ -102,20 +107,23 @@ if __name__ == "__main__":
         for wl_id in LC_dic.keys():
             if (float (wl_id) - 1) % comm.Get_size() == rank:
                 #below print statement needs to be edited. Units??
-                print "now processor number: %i is processing wavelength_id: %f" 
-                         % (rank, wl_id)
+                print "now processor number: %i is processing channel centered on: %s microns" % (rank, wl_id)
                 run_mcmc_single_wl(input_param_dic, LC_dic, wl_id)
 
     else:
         print "no MPI. Will use single core to process all lightcurves."
-        for wl_id in LC_dic:
+        for wl_id in LC_dic.keys():
 
-            #below print statement needs to be edited. Correct object attribute??? Units??
-            print "now processing wavelength_id:", wl_id
+            #below print statement needs to be edited. Correct object attribute??? Units are microns
+            print "now processing channel centered on: %s microns" % wl_id
             run_mcmc_single_wl(input_param_dic, LC_dic, wl_id)
 
-<<<<<<< HEAD
-    deliverables.latex_table(LC_dic, visualization, np.float(confidence),"test")
-=======
-    deliverables.latex_table(LC_dic, visualization, confidence)
->>>>>>> ec809fbfe20d1f18945faf8f0604fe8d7390e694
+    #TO-DO: debug deliverables
+    #deliverables.latex_table("test_data", LC_dic, visualization, confidence)
+    # TO_DO: add heather's nice visualization and remove the loop below
+    for wl_id in LC_dic.keys():
+        corner.corner(LC_dic[wl_id].obj_chainGP, 
+            labels=["rp","u1","u2","a","sig2","g1","g2","g3","g4","g5", "g6"], 
+            truths=input_param_dic["p0"])
+        
+    #deliverables.latex_table("test", LC_dic, visualization, np.float(confidence))
