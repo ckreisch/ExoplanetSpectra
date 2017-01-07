@@ -114,4 +114,8 @@ if __name__ == "__main__":
             print "now processing wavelength_id:", wl_id
             run_mcmc_single_wl(input_param_dic, LC_dic, wl_id)
 
+<<<<<<< HEAD
+    deliverables.latex_table(LC_dic, visualization, np.float(confidence),"test")
+=======
     deliverables.latex_table(LC_dic, visualization, confidence)
+>>>>>>> ec809fbfe20d1f18945faf8f0604fe8d7390e694
