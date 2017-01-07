@@ -173,8 +173,10 @@ if __name__ == "__main__":
             dname = rootname + '_white_' + descriptors[i] + '_red_' + descriptors[j]
             os.system('mkdir '+ dname)
             fileroot = dname+"/"+rootname
-            gen_obs_set(fileroot, truth, radii, ldark, wl, 
-                         w_scale, r_scale, w_level, r_level)  
+            gen_obs_set(fileroot, truth, radii, ldark, wl,
+                        w_scale, r_scale, w_level, r_level, N=40)  
+
+
 
     # # generate one set of data:
     # fileroot = "testing"

@@ -272,14 +272,39 @@ class TransitModel(object):
 
         return self.lnprob
 
-    def lnprob_mcmc(self, p, t, y, yerr, **kwargs):
+    def sample_conditional(self, p, t, y, yerr):
+        """ for a given set of parameters get predicted y values at t, and 
+            separate this into the transit signal component and the noise 
+            component """
+        if self.params.limb_dark == 'quadratic':
+            rp_new, u0, u1, kernel_a, kernel_sig2 = p[:5]
+            u_new = [u0, u1]
+            kernel_gamma = p[5:].tolist()
+
+        if self.params.limb_dark == 'nonlinear':
+            rp_new, u0, u1, u2, u3, kernel_a, kernel_sig2 = p[:7]
+            u_new = [u0, u1, u2, u3]
+            kernel_gamma = p[7:].tolist()
+
+        self.update_transit_params(rp_new=rp_new, u_new=u_new)
+        self.update_kernel_params(a_new=kernel_a, gamma_new=kernel_gamma, variance_new=kernel_sig2)
+
+        kernel = kernels.PythonKernel(self.kernelfnc)
+        gp = george.GP(kernel, mean=self.meanfnc)
+        gp.compute(t, yerr)
+
+        sample = gp.sample_conditional(y - self.model(),t)  +  self.model()
+
+        return sample
+
+    def lnprob_mcmc(self, p, x, y, yerr, **kwargs):
         """ Enables the interaction of the TransitModel with MCMC fitter """
         #TO-DO: add if statements for the other batman limb darkening options
         
         if self.params.limb_dark == 'quadratic':
-            rp_new, u0, u1, kernel_a, kernel_sig2 = p[:4]
+            rp_new, u0, u1, kernel_a, kernel_sig2 = p[:5]
             u_new = [u0, u1]
-            kernel_gamma = p[4:].tolist()
+            kernel_gamma = p[5:].tolist()
 
         if self.params.limb_dark == 'nonlinear':
             rp_new, u0, u1, u2, u3, kernel_a, kernel_sig2 = p[:7]
