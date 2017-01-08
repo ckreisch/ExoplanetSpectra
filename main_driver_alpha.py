@@ -8,11 +8,13 @@ import corner
 
 import mcmc
 import lc_class
-import read_input
+from read_input import read_input
+
+import deliverables
 
 # Read in MPI flag from user input file ---------------------------------
 try:
-    input_file = read_input('input_file')
+    input_file = read_input('input_file.ini')
 except IOError:
     print "Input file is not in the same directory as driver program."+\
             " Move to same directory or change path."
@@ -111,14 +113,29 @@ if __name__ == "__main__":
     # Read in parameters from user input file ---------------------------------
     transit_parameters = input_param_dic['transit_parameters']
     p0 = input_param_dic['p0']
-    priors = input_param_dic['priors']
-    lc_path = input_param_dic['lc_path'][0]
+    limb_dark = input_param_dic['limb_dark']
+    kernel_a = input_param_dic['kernel_a'][0]
+    kernel_gamma = input_param_dic['kernel_gamma'][0]
+    kernel_variance = input_param_dic['kernel_variance'][0]
+    rp_prior_lower = input_param_dic['rp_prior_lower'][0]
+    rp_prior_upper = input_param_dic['rp_prior_upper'][0]
+    u_prior_lower = input_param_dic['u_prior_lower'][0]
+    u_prior_upper = input_param_dic['u_prior_upper'][0]
+    kernel_a_prior_lower = input_param_dic['kernel_a_prior_lower'][0]
+    kernel_a_prior_upper = input_param_dic['kernel_a_prior_upper'][0]
+    kernel_gamma_prior_lower = input_param_dic['kernel_gamma_prior_lower'][0]
+    kernel_gamma_prior_upper = input_param_dic['kernel_gamma_prior_upper'][0]
+    kernel_variance_prior_lower = input_param_dic['kernel_variance_prior_lower'][0]
+    kernel_variance_prior_upper = input_param_dic['kernel_variance_prior_upper'][0]
+    lc_path = input_param_dic['lc_path']
     nwalkers = input_param_dic['nwalkers'][0]
     nburnin = input_param_dic['nburnin'][0]
     nsteps = input_param_dic['nsteps'][0]
     ndim = input_param_dic['ndim'][0]
     wave_bin_size = input_param_dic['wave_bin_size'][0]
     nthreads = input_param_dic['nthreads'][0]
+    visualization = input_param_dic['visualization']
+    confidence = input_param_dic['confidence']
     # -------------------------------------------------------------------------
 
     '''
@@ -192,6 +209,8 @@ if __name__ == "__main__":
                            [], nwalkers, nthreads)
             pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
             LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
+
+    deliverables.latex_table(LC_dic,visualization,confidence)
 
     # check out results... plotting is not ready for general use yet :(
     # plt.figure(1)

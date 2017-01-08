@@ -2,6 +2,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math as m
 from os import listdir
+from ast import literal_eval as read
+
+# The following are some definition of user-defined exception class
+
+class EmptyFolder(Exception):
+    """Raise when the light curve folder is empty"""
+    pass
+
+class IncorrectNameFormat(Exception):
+    """Raise when the light curve file name is not under the expected format sample_lc_<wavelength>.txt"""
+    pass
+
+class EmptyFile(Exception):
+    """Raise when the light curve file is empty"""
+    pass
+
+class DifferentFileSizes(Exception):
+    """Raise when one the light curve file does not have the same size with light curve file for the lowest wavelength (this file serves as reference)"""
+    pass
+
+class DifferentParamNum(Exception):
+    """Raise when one the light curve file does not have the same number of parameters with light curve file for the lowest wavelength (this file serves as reference)"""
+    pass
 
 class LightCurve:
 
@@ -10,6 +33,9 @@ class LightCurve:
         files_list = listdir(PathToLC)
         files_list.sort()
         files_num = len(files_list)
+        if files_num == 0:
+            raise EmptyFolder('No light curve files in indicated folder')
+
         new_obj_num = files_num/wave_bin_size
         wave_length = [None]*files_num
         new_wave_length = [0.0]*new_obj_num
@@ -17,11 +43,14 @@ class LightCurve:
         for i in range(files_num):
             file_name = files_list[i].split('.')[0]
             wave_length[i] = file_name.split('_')[2]
+            if wave_length[i].isdigit() == False:
+                raise IncorrectNameFormat('Light curve file name %s does not have the correct format' % file_name)
         wave_length.sort()
 
+        # The code is not able yet to handle situation where files_num is not proportional to wave_bin_size
         for i in range(new_obj_num):
             for j in range(wave_bin_size):
-                new_wave_length[i] = new_wave_length[i]
+                new_wave_length[i] = new_wave_length[i]\
                                      + float(wave_length[i*wave_bin_size + j])/wave_bin_size
         new_wave_length = [str(x) for x in new_wave_length]
         new_wave_length.sort()
@@ -68,8 +97,23 @@ class LightCurveData:
         f = open(Path_to_files[0])
         line = f.readlines()
         len_file = len(line)
+
+        if len_file == 0:
+            raise EmptyFile('Light curve file %s is empty' % Path_to_files[0])
+
+        # Remove all the comments
+        for i in range(len_file-1, -1, -1):
+            if ('#' in line[i]) == True:
+                del line[i]
+
+        len_file = len(line)
+
+        if len_file == 0:
+            raise EmptyFile('Light curve file %s only contains comments' % Path_to_files[0])
+
+       
         param_num = len(line[1].split())-3
-        param_name = line[0].split()[5:]
+        param_name = line[0].split()[4:]
         param_list = np.zeros((param_num, len_file-1))
         time = np.zeros(len_file-1)
         param_num = len(line[1].split())-3
@@ -84,12 +128,31 @@ class LightCurveData:
 
         for i in range(file_num):
             lc_file = open(Path_to_files[i])
-            line = lc_file.readlines()
+            line_i = lc_file.readlines()
+            len_i = len(line_i)
+
+            if len_i == 0:
+                raise EmptyFile('Light curve file %s is empty' % Path_to_files[i])
+
+            # Remove all the comments
+            for i in range(len_i-1, -1, -1):
+                if ('#' in line_i[i]) == True:
+                    del line_i[i]
+
+            len_i = len(line_i)
+            if len_i == 0:
+                raise EmptyFile('Light curve file %s only contains comments' % Path_to_files[i])
+
+            param_num_i = len(line_i[1].split())-3
+            if len_i != len_file:
+                raise DifferentFileSizes('File %s does not have the same size as file %s' % (Path_to_files[i], Path_to_files[0]))
+            if param_num_i != param_num:
+                raise DifferentParamNum('File %s does not have the same number of parameter as file %s' % (Path_to_files[i], Path_to_files[0]))
             for j in range(1, len_file):
-                flux[i][j-1] = line[j].split()[1]
-                ferr[i][j-1] = line[j].split()[2]
+                flux[i][j-1] = line_i[j].split()[1]
+                ferr[i][j-1] = line_i[j].split()[2]
                 for k in range(param_num):
-                    param_list[i][k][j-1] = line[j].split()[3 + k]
+                    param_list[i][k][j-1] = line_i[j].split()[3 + k]
 
         tot_flux = np.zeros(len_file-1)
         tot_ferr = np.zeros(len_file-1)
