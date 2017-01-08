@@ -72,6 +72,14 @@ if __name__=="__main__":
     mcmc1.run(pos, 0, 500)
 
     xl = np.array([0, 10])
-    mcmc1.walker_plot(theta_true)
-    mcmc1.triangle_plot(theta_true)
-    mcmc1.light_curve_plot(xl, model_fn, theta_true)
+    mcmc1.walker_plot(50,theta_true)
+    #mcmc1.triangle_plot(theta_true)
+    #mcmc1.light_curve_plot(xl, model_fn, theta_true)
+
+    mcmc2=mcmc.MCMC(x, y, yerr, lnprob, ["m", "b", "lnf"] , [], nwalkers, 1)
+    mcmc2.walker_plot(50,theta_true)
+    mcmc2.run(pos, 0, 500)
+    mcmc2.walker_plot(5000,theta_true)
+    mcmc2.walker_plot(50,theta_true)
+    mcmc2.walker_plot(50)
+    mcmc2.walker_plot()
