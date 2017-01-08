@@ -1,9 +1,8 @@
 # SAMPLE USER INPUT PARAMETER FILE FOR EXOSPEC
-# FOR directory lc_white_none_red_none
 
 # -----------------------------------------------------------------------------
 # META DATA
-lc_path = lc_white_none_red_none
+lc_path = lc_white_low_red_none
 wave_bin_size = 1
 n_errors = 4  # number of auxiliary parameters you have in addition to the usual error on flux measure... the read in process will adjust to include usual yerr
 ndim = 11       # the sum of transit parameters being fit, 3 GP hyper parameters, and an additional scale factor for each auxiliary measure + yerr 

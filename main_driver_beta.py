@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize
+import sys
 
 import george
 from george import kernels
@@ -11,7 +12,7 @@ import mcmc
 import lc_class
 from read_input import read_input
 import TransitModel
-import deliverables
+#import deliverables
 
 # routine for fitting one wl: -------------------------------------------------
 def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
@@ -21,6 +22,8 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     nsteps = input_param_dic['nsteps']
     ndim = input_param_dic['ndim']
     nthreads = input_param_dic['nthreads']
+    transit_par_names = input_param_dic['transit_par_names']
+    gp_hyper_par_names = input_param_dic['gp_hyper_par_names']
 
     p0 = input_param_dic['p0']    
     x = LC_dic[wl_id].time # extract the times
@@ -37,13 +40,11 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     aparam_num = LC_dic[wl_id].param_num # extract the # of auxiliary measures
     aparam_name = LC_dic[wl_id].param_name # extract their names
     aparam_list = LC_dic[wl_id].param_list # extract a list of these parameters
-    for i in range(input_param_dic['n_errors']):
+    for i in range(input_param_dic['n_errors']):  # add auxiliary parameter measures
         input_param_dic['yerr'+str(i+2)]= aparam_list[i]
 
     #initialize model
     model = TransitModel.TransitModel(**input_param_dic)
-    transit_par_names = ["rp","u1","u2"]
-    gp_hyper_par_names = ["a","sig2","g1","g2","g3","g4","g5", "g6"]
 
     # run mcmc beginning at users initial guess 
     LC_dic[wl_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, model.lnprob_mcmc, 
@@ -57,42 +58,45 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
 
     print values, errors  # TO_DO: print this out more nicely 
 
-# Read in MPI flag from user input file ---------------------------------------
-try:
-    input_file = read_input('test_suite_input_file.txt')
-except IOError:
-    print "Input file is not in the same directory as driver program."+\
-            " Move to same directory or change path."
-    raise
-input_param_dic = input_file.param_dic
-# TO_DO: remove following for loop once we correct read_input.py ??
-for key in input_param_dic.keys():
-    if len(input_param_dic[key]) == 1:
-        input_param_dic[key]=input_param_dic[key][0]
-
-mpi_flag = input_param_dic['mpi_flag']
-
-if mpi_flag:
-    try:
-        from mpi4py import MPI
-        #mpi_flag = True
-    except ImportError:
-        print "MPI not installed, but MPI flag set to True. Setting flag to" +\
-                "False and continuing."
-        mpi_flag = False
-        pass
 
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
 
-    # From user input file ----------------------------------------------------
+    # Read from user input file ----------------------------------------------------
+    if len(sys.argv)!=2:
+        raise ValueError("Run as python main_driver_beta.py <input_filename>")
+
+    try:
+        input_file = read_input(sys.argv[1])   # TO-DO: this should be command line argument
+    except IOError:
+        print "Input file is not in the same directory as driver program."+\
+                " Move to same directory or change path."
+        raise
+    input_param_dic = input_file.param_dic
+    # TO_DO: remove following for loop once we correct read_input.py ??
+    for key in input_param_dic.keys():
+        if len(input_param_dic[key]) == 1:
+            input_param_dic[key]=input_param_dic[key][0]
+
     lc_path = input_param_dic['lc_path']
     wave_bin_size = input_param_dic['wave_bin_size']
     visualization = input_param_dic['visualization']
     confidence = input_param_dic['confidence']
 
-    # Reading in the data -----------------------------------------------------
+    # Read in MPI flag from user input file ---------------------------------------
+    mpi_flag = input_param_dic['mpi_flag']
 
+    if mpi_flag:
+        try:
+            from mpi4py import MPI
+            #mpi_flag = True
+        except ImportError:
+            print "MPI not installed, but MPI flag set to True. Setting flag to" +\
+                    "False and continuing."
+            mpi_flag = False
+            pass
+
+    # Reading in the data -----------------------------------------------------
     LC = lc_class.LightCurve(lc_path, wave_bin_size)
     LC_dic = LC.LC_dic # dictionary of light curve for each wavelength
 
@@ -118,12 +122,13 @@ if __name__ == "__main__":
             print "now processing channel centered on: %s microns" % wl_id
             run_mcmc_single_wl(input_param_dic, LC_dic, wl_id)
 
-    #TO-DO: debug deliverables
+    # TO-DO: debug deliverables
     #deliverables.latex_table("test_data", LC_dic, visualization, confidence)
+    # TO-DO: add summary comparing expected values to the fit found by our routine
     # TO_DO: add heather's nice visualization and remove the loop below
     for wl_id in LC_dic.keys():
         corner.corner(LC_dic[wl_id].obj_chainGP, 
-            labels=["rp","u1","u2","a","sig2","g1","g2","g3","g4","g5", "g6"], 
+            labels=input_param_dic['transit_par_names']+input_param_dic['gp_hyper_par_names'], 
             truths=input_param_dic["p0"])
         
-    #deliverables.latex_table("test", LC_dic, visualization, np.float(confidence))
+
