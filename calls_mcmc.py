@@ -27,6 +27,7 @@ def get_data():
     pl.ylabel("$y$")
     pl.tight_layout()
     pl.savefig("line-data.png")
+    pl.close()
 
     theta_true=(m_true, b_true, f_true)
     return x, y, yerr, theta_true
@@ -69,17 +70,27 @@ if __name__=="__main__":
 
     pos = [result["x"] + 1e-4*np.random.randn(ndim) for i in range(nwalkers)]
 
+    #I will incorporate the cases below into a unittest soon
     mcmc1.run(pos, 0, 500)
 
     xl = np.array([0, 10])
     mcmc1.walker_plot(50,theta_true)
-    #mcmc1.triangle_plot(theta_true)
-    #mcmc1.light_curve_plot(xl, model_fn, theta_true)
+    mcmc1.triangle_plot(50, theta_true)
+    #mcmc1.triangle_plot(50)
+    #mcmc1.triangle_plot()
+    mcmc1.light_curve_plot(model_fn, 50, theta_true)
+    med, err1, err2=mcmc1.get_median_and_errors()
+    print "Acceptance fraction: ", mcmc1.get_mean_acceptance_fraction()
 
     mcmc2=mcmc.MCMC(x, y, yerr, lnprob, ["m", "b", "lnf"] , [], nwalkers, 1)
-    mcmc2.walker_plot(50,theta_true)
+    #mcmc2.walker_plot(50,theta_true)
     mcmc2.run(pos, 0, 500)
     mcmc2.walker_plot(5000,theta_true)
-    mcmc2.walker_plot(50,theta_true)
-    mcmc2.walker_plot(50)
-    mcmc2.walker_plot()
+    #mcmc2.walker_plot(50,theta_true)
+    #mcmc2.walker_plot(50)
+    #mcmc2.walker_plot()
+    #mcmc2.triangle_plot()
+    #mcmc2.light_curve_plot(xl, model_fn, theta_true)
+    #mcmc2.light_curve_plot(model_fn)
+    med, err1, err2=mcmc2.get_median_and_errors()
+    print "Acceptance fraction: ", mcmc2.get_mean_acceptance_fraction()

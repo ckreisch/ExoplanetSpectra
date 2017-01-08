@@ -7,7 +7,7 @@ import time
 
 
 class MCMC(object):
-    def __init__(self, t, val, err, ln_prob_fn, transit_params, hyper_params, num_walkers, num_threads):#, burnin_steps=0):
+    def __init__(self, t, val, err, ln_prob_fn, transit_params, hyper_params, num_walkers, num_threads):
         """Returns an object to run emcee and visualize results """
         self._t=t
         self._val=val
@@ -19,15 +19,12 @@ class MCMC(object):
         self._dim=len(self._all_params)
         self._nwalkers=num_walkers
         self._nthreads=num_threads
-        #self._burnin_steps=burnin_steps
         self._sampler = emcee.EnsembleSampler(self._nwalkers, self._dim, self._ln_prob_fn, args=(self._t, self._val, self._err), threads=self._nthreads)
 
 
     def run(self, pos, burnin_steps, production_run_steps):
         """should run emcee given a log probability function
         result is the MCMC chains which are saved as an object attribute"""
-        #burnin_steps=max(self._burnin_steps, burnin_steps)  #when you run you can choose to use a longer burnin than you may have set when initialising the object
-
         if burnin_steps>0:
             time0 = time.time()
             # burnin phase
@@ -50,49 +47,73 @@ class MCMC(object):
         # samples.shape
         return samples
 
+    """
+    consider adding as options once everything else is working:
+
     def update_ln_prob_fn(self, ln_prob_fn):
         "user may want to try to fit the same dater using a different likelihood funtion"
         self._ln_prob_fn = ln_prob_fn
+        self._sampler = emcee.EnsembleSampler(self._nwalkers, self._dim, self._ln_prob_fn, args=(self._t, self._val, self._err), threads=self._nthreads)
 
     def update_num_walkers(self, num_walkers):
         self._nwalkers=num_walkers
+        self._sampler = emcee.EnsembleSampler(self._nwalkers, self._dim, self._ln_prob_fn, args=(self._t, self._val, self._err), threads=self._nthreads)
 
     def update_num_threads(self, num_threads):
         self._nthreads=num_threads
+        self._sampler = emcee.EnsembleSampler(self._nwalkers, self._dim, self._ln_prob_fn, args=(self._t, self._val, self._err), threads=self._nthreads)
+    """
 
-    def save_chains(self):
+    def save_chain(self, filename):
         #saves the MCMC chains for the user to analyse
+        if self._sampler.chain.shape[1]==0:
+            print "The Markov chain is empty. Run MCMC using \n" \
+            "object_name.run(starting_positions, burnin_steps, production_run_steps) \n" \
+            "to sample the posterior distribution before saving"
+            return 1
+
+        try:
+            np.savetxt(filename, self._sampler.flatchain)
+        except IOError:
+            print "Invalid filename, unable to save chains"
+            return 1
         return 0
 
-    def get_acceptance_fraction(self):
-        return 0
+    def get_mean_acceptance_fraction(self):
+        return np.mean(self._sampler.acceptance_fraction)
 
     def get_median_and_errors(self):
-        return 0
+        "return median and errors"
+        "I plan to use ths to plot 1 sigma or 3 sigma confidence levels on the posterior probability distribution"
+        ps=np.percentile(self._sampler.flatchain, [16, 50, 84],axis=0)
+        median=ps[1]
+        err1=ps[2]-ps[1]
+        err2=ps[1]-ps[0]
 
-    def triangle_plot(self, burnin_steps, theta_true=None):
+        for i, p in enumerate(self._all_params):
+            print p,"=",median[i],"+",err1[i],"-",err2[i]
+
+        return median, err1, err2
+
+
+    def triangle_plot(self, burnin_steps=50, theta_true=None):
         #makes triangle plot
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         if self._sampler.chain.shape[1]==0:
-            print "The Markov chain is empty. Run MCMC using \n \
-            object_name.run(starting_positions, burnin_steps, production_run_steps) \n \
-            to sample the posterior distribution before plotting"
+            print "The Markov chain is empty. Run MCMC using \n" \
+            "object_name.run(starting_positions, burnin_steps, production_run_steps) \n" \
+            "to sample the posterior distribution before plotting"
             return 1
 
         if self._sampler.chain.shape[1]<burnin_steps:
-            print "The chain is shorter than the requested burnin. \n \
-            Please run the chain for more iterations or reduce the burnin steps requested for the plot"
+            print "The chain is shorter than the requested burnin. \n" \
+            "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
 
-        m_true, b_true, f_true=theta_true
-        samples = self._sampler.chain[:, burnin_steps:, :].reshape((-1, self._dim))
+        samples = self._sampler.flatchain
 
-        print "Checking flatchain:", self._sampler.chain.reshape((-1, self._dim))-self._sampler.flatchain
-
-
-        fig = corner.corner(samples, labels=self._all_params,
-                              truths=theta_true)
+        fig = corner.corner(samples, labels=self._all_params, truths=theta_true)
         fig.savefig("triangle.png")
         plt.show()
 
@@ -102,14 +123,14 @@ class MCMC(object):
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
 
         if self._sampler.chain.shape[1]==0:
-            print "The Markov chain is empty. Run MCMC using \n \
-            object_name.run(starting_positions, burnin_steps, production_run_steps) \n \
-            to sample the posterior distribution before plotting"
+            print "The Markov chain is empty. Run MCMC using \n" \
+            "object_name.run(starting_positions, burnin_steps, production_run_steps) \n" \
+            "to sample the posterior distribution before plotting"
             return 1
 
         if self._sampler.chain.shape[1]<burnin_steps:
-            print "The chain is shorter than the requested burnin. \n \
-            Please run the chain for more iterations or reduce the burnin steps requested for the plot"
+            print "The chain is shorter than the requested burnin. \n" \
+            "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
         nplots=len(self._transit_params)
@@ -143,29 +164,30 @@ class MCMC(object):
         plt.show()
 
 
-    def light_curve_plot(self, t, model, burnin_steps, theta_true):
+    def light_curve_plot(self, model, burnin_steps=50, theta_true=None):
         # Plot some samples onto the data.
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
-
+        #model is a function that takes an array of parameters and an array of times and evaluates the model
         if self._sampler.chain.shape[1]==0:
-            print "The Markov chain is empty. Run MCMC using \n \
-            object_name.run(starting_positions, burnin_steps, production_run_steps) \n \
-            to sample the posterior distribution before plotting"
+            print "The Markov chain is empty. Run MCMC using \n" \
+            "object_name.run(starting_positions, burnin_steps, production_run_steps) \n" \
+            "to sample the posterior distribution before plotting"
             return 1
 
         if self._sampler.chain.shape[1]<burnin_steps:
-            print "The chain is shorter than the requested burnin. \n \
-            Please run the chain for more iterations or reduce the burnin steps requested for the plot"
+            print "The chain is shorter than the requested burnin. \n" \
+            "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
-            
-        samples = self._sampler.chain[:, burnin_steps:, :].reshape((-1, self._dim))
 
+        samples = self._sampler.flatchain # self._sampler.chain[:, burnin_steps:, :].reshape((-1, self._dim))
+
+        t=self._t #can make it finer resolution
         plt.figure()
         for theta in samples[np.random.randint(len(samples), size=100)]:
             plt.plot(t, model(theta, t), color="k", alpha=0.1)
-        plt.plot(t, model(theta_true, t), color="r", lw=2, alpha=0.8)
+        if theta_true:
+            plt.plot(t, model(theta_true, t), color="r", lw=2, alpha=0.8)
         plt.errorbar(self._t, self._val, yerr=self._err, fmt=".k")
-        plt.ylim(-9, 9)
         plt.xlabel("$t$")
         plt.ylabel("flux")
         plt.tight_layout()
