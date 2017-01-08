@@ -44,6 +44,10 @@ class read_input:
         param_elt = [None]*len_param_input
         if params_name[i] == 'lc_path' or params_name[i] == 'mpi_flag' or params_name[i] == 'visualization' or params_name[i] == 'confidence' or params_name[i] == 'limb_dark':
              param_elt = param_input
+
+        elif params_name[i] == 'transit_par_names' or params_name[i] == 'gp_hyper_par_names':
+            param_elt = [param_input[k] for k in range(len(param_input))]
+
         else:
              for j in range(len_param_input):
                  #put in try except block for if they messed up input type like this
@@ -60,12 +64,12 @@ class read_input:
 
         param_dic[params_name[i]] = param_elt
 
-    param_dic['transit_parameters'] = [param_dic['t0'][0],param_dic['per'][0],\
-                                        param_dic['rp'][0],param_dic['a'][0],\
-                                        param_dic['inc'][0],param_dic['ecc'][0]\
-                                        ,param_dic['w'][0],param_dic['u0'][0],\
-                                        param_dic['u1'][0],param_dic['u2'][0],\
-                                        param_dic['u3'][0]]
+    # param_dic['transit_parameters'] = [param_dic['t0'][0],param_dic['per'][0],\
+    #                                     param_dic['rp'][0],param_dic['a'][0],\
+    #                                     param_dic['inc'][0],param_dic['ecc'][0]\
+    #                                     ,param_dic['w'][0],param_dic['u0'][0],\
+    #                                     param_dic['u1'][0],param_dic['u2'][0],\
+    #                                     param_dic['u3'][0]]
 
     light_curve = param_dic['lc_path']
     LC_dic = LightCurve(light_curve[0], 2).LC_dic
