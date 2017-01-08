@@ -193,3 +193,8 @@ class MCMC(object):
         plt.tight_layout()
         plt.savefig("light_curve.png")
         plt.show()
+
+    def all_plots(self, model, burnin_steps=50, theta_true=None):
+        self.walker_plot(burnin_steps, theta_true)
+        self.triangle_plot(burnin_steps, theta_true)
+        self.light_curve_plot(model, burnin_steps, theta_true)
