@@ -30,16 +30,19 @@ class LightCurve:
 
     def __init__(self, PathToLC, wave_bin_size):
 
+        # List all the light curve files in the indicated folder
         files_list = listdir(PathToLC)
         files_list.sort()
         files_num = len(files_list)
         if files_num == 0:
             raise EmptyFolder('No light curve files in indicated folder')
 
+        # if the user decided to use another wavelength resolution than the one provided with the files, the code compute the resulting number of new wavelength to be used
         new_obj_num = files_num/wave_bin_size
         wave_length = [None]*files_num
         new_wave_length = [0.0]*new_obj_num
 
+        # loop over the light curve files to get their file names and original wavelengths
         for i in range(files_num):
             file_name = files_list[i].split('.')[0]
             wave_length[i] = file_name.split('_')[2]
@@ -48,6 +51,7 @@ class LightCurve:
         wave_length.sort()
 
         # The code is not able yet to handle situation where files_num is not proportional to wave_bin_size
+        #If the user decided to use a new wavelength resolution, the code computes the new wavelength to be used
         for i in range(new_obj_num):
             for j in range(wave_bin_size):
                 new_wave_length[i] = new_wave_length[i]\
@@ -73,6 +77,7 @@ class LightCurve:
         self.obj_chain = None
         self.obj_mcmcGP = None
         self.obj_chainGP = None
+        self.transit_model = None
 
     def LC_dic(self):
 
@@ -86,11 +91,16 @@ class LightCurve:
 
         return new_wave_length
 
+    def store_transit_model(self, transit_model):
 
+        self.transit_model = transit_model
+
+# this is class is used by the above class LightCurve
 class LightCurveData:
 
     def __init__(self, Path_to_files):
 
+        # this counts the number of files specified per LC object. Typically, if the user decided to lump several light curve files together to change the wavelength resolution, file_num will be higher than one
         file_num = len(Path_to_files)
 
         #just sample the first file just to have info that are in common for all files
@@ -125,7 +135,7 @@ class LightCurveData:
         ferr = np.zeros((file_num, len_file-1))
         param_list = np.zeros((file_num, param_num, len_file))
 
-
+        # loop over the number of light curve files to be lumped together to first extract their data
         for i in range(file_num):
             lc_file = open(Path_to_files[i])
             line_i = lc_file.readlines()
@@ -156,11 +166,12 @@ class LightCurveData:
 
         tot_flux = np.zeros(len_file-1)
         tot_ferr = np.zeros(len_file-1)
+
+        # finally merge the data of the different light curve files to lump them together
         for i in range(len_file-1):
             for j in range(file_num):
                 tot_flux[i] = tot_flux[i] + flux[j][i]
                 tot_ferr[i] = tot_ferr[i] + ferr[j][i]
-
         av_param_list = np.zeros((param_num, len_file-1))
         for i in range(len_file-1):
             for j in range(param_num):
@@ -203,6 +214,7 @@ class LightCurveData:
 
         return self.param_list
 
+    # enables the user to use a new time resolution
     def new_time_bin(self, bin_size):
 
         time = self.time
@@ -217,7 +229,7 @@ class LightCurveData:
 
         return new_time, new_flux
 
-
+    # plot the flux with a new time resolution using function new_time_bin
     def plot_flux_time(self, bin_size):
 
         if (bin_size == 1):
@@ -233,7 +245,7 @@ class LightCurveData:
           plt.plot(new_time, new_flux)
           plt.show()
 
-
+    # plot the parameter indicated by the user against time
     def plot_flux_param(self, param_index):
 
         plt.figure(1)

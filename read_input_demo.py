@@ -2,12 +2,6 @@ from read_input import read_input #
 #import re
 #from ast import literal_eval as read
 
-try:
-    input_file = read_input('test_suite_input_file.txt')
-except IOError:
-    print "Input file is not in the same directory as driver program."+\
-            " Move to same directory or change path."
-    raise
 param_dic = input_file.param_dic
 global_dic = input_file.global_dic
 

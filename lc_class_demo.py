@@ -23,6 +23,9 @@ LC_15_param_name = LC_15.param_name # extract their name
 LC_15_param = LC_15.param_list # extract a list of these parameters
 
 
+transit_model = [1, 2, 3]
+LC.store_transit_model(transit_model)
+print LC.transit_model
 
 print wave_length
 print new_wave_length
