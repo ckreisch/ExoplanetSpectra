@@ -1,11 +1,15 @@
+#!/Users/Paulina/anaconda/lib/python3.5
+
 import unittest
 import numpy as np
 import george
 from george import kernels
 from TransitModel import TransitModel
-
+import time
 
 class TestFunctions(unittest.TestCase):
+
+    # TODO: Handling the empty error array
 
     def setUp(self):
         """ Initializing the testing environment """
@@ -21,9 +25,24 @@ class TestFunctions(unittest.TestCase):
                        "kernel_a_prior_lower": -5., "kernel_a_prior_upper": 5.,
                        "kernel_gamma_prior_lower": 0., "kernel_gamma_prior_upper": 10.,
                        "kernel_variance_prior_lower": 0., "kernel_variance_prior_upper": 5.,
-                        "kernel_gamma": [2.]}
+                       "kernel_gamma": [2.]}
+
 
         self.test_transit = TransitModel(**self.params)
+        #
+        # t, y, yerr1, yerr2, yerr3 = self.generateDataHelper(N=20)
+        # errors = {'yerr1': yerr1, 'yerr2': yerr2, 'yerr3': yerr3}
+
+
+        #t, y, yerr1, yerr2, _= self.generateDataHelper(N=50)
+        #errors = {'yerr1': yerr1 , 'yerr2': yerr2 }
+        #self.test_transit.update_data(time=t, obs = y, **errors)
+        #self.test_transit.update_kernel_params(gamma_new=[2.,2., 2.])
+
+
+        #s = time.time()
+        #x = self.test_transit.lnprob_gp()
+        #print("Took ", time.time() - s)
 
     def modelHelper(self, params, t):
         """ The model to sample the observations """
@@ -126,19 +145,20 @@ class TestFunctions(unittest.TestCase):
         pass
 
     def testKernelParamsUpdate(self):
-        a_new1 = None; a_new2 = 10.;
+        a_new1 = None; a_new2 = 10.
 
-        gamma_new1 = None; gamma_new2 = 10.;
+        gamma_new1 = None; gamma_new2 = 10.
         gamma_new3 = [i for i in range(self.test_transit.n_errors)]
         gamma_new4 = [i for i in range(self.test_transit.n_errors+1)]
 
-        variance_new1 = None; variance_new2 = 10.;
+        variance_new1 = None; variance_new2 = 10.
 
-        with self.assertRaises(ValueError):
-            self.test_transit.update_kernel_params(a_new1, gamma_new1, variance_new1)
+        a_prev = self.test_transit.kernel_a
+        gamm_prev = self.test_transit.kernel_gamma
 
-        with self.assertRaises(ValueError):
-            self.test_transit.update_kernel_params(a_new2, gamma_new1, variance_new2)
+        self.test_transit.update_kernel_params(a_new=a_new1, gamma_new=gamma_new1)
+        self.assertTrue(self.test_transit.kernel_a == a_prev)
+        self.assertTrue(self.test_transit.kernel_gamma == gamm_prev)
 
         with self.assertRaises(TypeError):
             self.test_transit.update_kernel_params(a_new2, gamma_new2, variance_new2)
@@ -147,6 +167,7 @@ class TestFunctions(unittest.TestCase):
             self.test_transit.update_kernel_params(a_new2, gamma_new3, variance_new2)
 
         self.test_transit.update_kernel_params(a_new2, gamma_new4, variance_new2)
+
         self.assertTrue(self.test_transit.kernel_a == a_new2)
         self.assertTrue(self.test_transit.kernel_gamma == gamma_new4)
         self.assertTrue(self.test_transit.kernel_variance == variance_new2)
@@ -194,7 +215,7 @@ class TestFunctions(unittest.TestCase):
         kernel_gamma1 = [self.test_transit.kernel_gamma_prior_upper + 0.1, 1., 1., 1.]
         kernel_gamma2 = [self.test_transit.kernel_gamma_prior_upper - 0.1, 1., 1., 1.]
 
-        kernel_variance1 = -1.
+        kernel_variance1 = 0.
         kernel_variance2 = 4.
 
         self.test_transit.update_kernel_params(kernel_a1, kernel_gamma1, kernel_variance1)
@@ -223,7 +244,7 @@ class TestFunctions(unittest.TestCase):
 
         kernel_a = 1.
         kernel_gamma = [self.test_transit.kernel_gamma_prior_upper - 0.1, 1., 1., 1.]
-        kernel_variance1 = -1.
+        kernel_variance1 = 0.
         kernel_variance2 = 1.
 
         rp_current1 = self.test_transit.rp_prior_upper+0.1
@@ -243,7 +264,6 @@ class TestFunctions(unittest.TestCase):
         self.assertTrue(self.test_transit.lnprob_gp() != -np.inf)
 
         pass
-
 
 if __name__ == '__main__':
     unittest.main()
