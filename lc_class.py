@@ -51,7 +51,7 @@ class LightCurve:
         for i in range(new_obj_num):
             for j in range(wave_bin_size):
                 new_wave_length[i] = new_wave_length[i]\
-                                     + float(wave_length[i*wave_bin_size + j])/wave_bin_size
+                                    + float(wave_length[i*wave_bin_size + j])/wave_bin_size
         new_wave_length = [str(x) for x in new_wave_length]
         new_wave_length.sort()
 

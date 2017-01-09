@@ -71,7 +71,7 @@ if __name__=="__main__":
 
     mcmc1.run(pos, 0, 500)
 
-    xl = np.array([0, 10])
-    mcmc1.walker_plot(theta_true)
-    mcmc1.triangle_plot(theta_true)
-    mcmc1.light_curve_plot(xl, model_fn, theta_true)
+    # xl = np.array([0, 10])
+    # mcmc1.walker_plot(theta_true)
+    # mcmc1.triangle_plot(theta_true)
+    # mcmc1.light_curve_plot(xl, model_fn, theta_true)

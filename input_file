@@ -16,12 +16,12 @@ p0 = 0.1 0.1 0.1 0.5 0.1 0.1 -0.1
 priors = (0,1) (-0.5,0.5) (-0.5,0.5) (-0.5,0.5) (-0.5,0.5)
 lc_path = light_curve
 nwalkers = 32
-nburnin = 100
-nsteps =  1000
+nburnin = 10
+nsteps =  100
 ndim = 5
 wave_bin_size = 1
 #CK additions
-mpi_flag = True #if use MPI
-nthreads = 4 #set to num threads to use for each node
+mpi_flag = False #True if use MPI, False if not.
+nthreads = 1 #set to num threads to use for each node
 visualization = True #if want to see table output (and incorporate plots with this)
 confidence = 95 #CL for table
