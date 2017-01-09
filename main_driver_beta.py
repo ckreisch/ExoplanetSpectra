@@ -56,7 +56,7 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     values = np.median(LC_dic[wl_id].obj_chainGP, axis=0)
     errors = np.std(LC_dic[wl_id].obj_chainGP, axis=0)
 
-    print values, errors  # TO_DO: print this out more nicely
+    # print values, errors  # TO_DO: print this out more nicely
 
 
 # -----------------------------------------------------------------------------
@@ -108,10 +108,23 @@ if __name__ == "__main__":
             print "number of processors assigned is more than number of " + \
                     "wavelengths."
         for i in range(0, len(LC_dic.keys())):
-            if i % comm.Get_size() == rank:
+            if i % comm.Get_size() == rank and i != 0:
                 #below print statement needs to be edited. Units??
                 print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i])
                 run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i])
+
+                print "now rank number: %i of processor: %s is sending result to rank 0."% (rank, MPI.Get_processor_name())
+                comm.Send([LC_dic[LC_dic.keys()[i]].obj_chainGP, MPI.LONG_DOUBLE], dest=0, tag=11)
+                comm.Barrier()
+                print "send finished from rank %i"%(rank)
+            # elif i == 0 and rank == 0:
+            #     print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i])
+            #     run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i])
+        # comm.Barrier()
+        if rank == 0:
+            for i in range(1, len(LC_dic.keys())):
+                print "now rank number: %i is receiving result from rank %i."% (rank, i)
+                comm.Recv([LC_dic[LC_dic.keys()[i]].obj_chainGP, MPI.LONG_DOUBLE], source=i, tag=11)
 
     else:
         print "no MPI. Will use single core to process all lightcurves."
