@@ -25,13 +25,13 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     transit_par_names = input_param_dic['transit_par_names']
     gp_hyper_par_names = input_param_dic['gp_hyper_par_names']
 
-    p0 = input_param_dic['p0']    
+    p0 = input_param_dic['p0']
     x = LC_dic[wl_id].time # extract the times
-    y = LC_dic[wl_id].flux # extract flux  
+    y = LC_dic[wl_id].flux # extract flux
     yerr = LC_dic[wl_id].ferr # extract the flux error
 
     # add correct wavelength's t, y, yerr to the parameter dictionary
-    input_param_dic['t'] = x 
+    input_param_dic['t'] = x
     input_param_dic['y'] = y
     input_param_dic['yerr1'] = yerr
 
@@ -46,17 +46,17 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     #initialize model
     model = TransitModel.TransitModel(**input_param_dic)
 
-    # run mcmc beginning at users initial guess 
-    LC_dic[wl_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, model.lnprob_mcmc, 
-                                       transit_par_names, gp_hyper_par_names, 
+    # run mcmc beginning at users initial guess
+    LC_dic[wl_id].obj_mcmcGP = mcmc.MCMC(x, y, yerr, model.lnprob_mcmc,
+                                       transit_par_names, gp_hyper_par_names,
                                        nwalkers, nthreads)
     pos = np.array([p0 + 1e-4*np.random.randn(ndim) for i in range(nwalkers)])
     LC_dic[wl_id].obj_chainGP = LC_dic[wl_id].obj_mcmcGP.run(pos, nburnin, nsteps)
 
     values = np.median(LC_dic[wl_id].obj_chainGP, axis=0)
-    errors = np.std(LC_dic[wl_id].obj_chainGP, axis=0)  
+    errors = np.std(LC_dic[wl_id].obj_chainGP, axis=0)
 
-    print values, errors  # TO_DO: print this out more nicely 
+    print values, errors  # TO_DO: print this out more nicely
 
 
 # -----------------------------------------------------------------------------
@@ -86,14 +86,13 @@ if __name__ == "__main__":
     # Read in MPI flag from user input file ---------------------------------------
     mpi_flag = input_param_dic['mpi_flag']
 
-    if mpi_flag:
+    if mpi_flag == 'True':
         try:
             from mpi4py import MPI
-            #mpi_flag = True
         except ImportError:
             print "MPI not installed, but MPI flag set to True. Setting flag to" +\
                     "False and continuing."
-            mpi_flag = False
+            mpi_flag = 'False'
             pass
 
     # Reading in the data -----------------------------------------------------
@@ -101,18 +100,18 @@ if __name__ == "__main__":
     LC_dic = LC.LC_dic # dictionary of light curve for each wavelength
 
     # MPI sending different wavelength LCs to different nodes -----------------
-    if mpi_flag:
+    if mpi_flag == 'True':
         # initialize MPI
         comm = MPI.COMM_WORLD
         rank = comm.Get_rank()
         if comm.Get_size() > len(LC_dic) and rank == 0:
             print "number of processors assigned is more than number of " + \
                     "wavelengths."
-        for wl_id in LC_dic.keys():
-            if (float (wl_id) - 1) % comm.Get_size() == rank:
+        for i in range(0, len(LC_dic.keys())):
+            if i % comm.Get_size() == rank:
                 #below print statement needs to be edited. Units??
-                print "now processor number: %i is processing channel centered on: %s microns" % (rank, wl_id)
-                run_mcmc_single_wl(input_param_dic, LC_dic, wl_id)
+                print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i])
+                run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i])
 
     else:
         print "no MPI. Will use single core to process all lightcurves."
@@ -126,9 +125,8 @@ if __name__ == "__main__":
     #deliverables.latex_table("test_data", LC_dic, visualization, confidence)
     # TO-DO: add summary comparing expected values to the fit found by our routine
     # TO_DO: add heather's nice visualization and remove the loop below
+    # KY comment: currently this part is not working when MPI is used.
     for wl_id in LC_dic.keys():
-        corner.corner(LC_dic[wl_id].obj_chainGP, 
-            labels=input_param_dic['transit_par_names']+input_param_dic['gp_hyper_par_names'], 
+        corner.corner(LC_dic[wl_id].obj_chainGP,
+            labels=input_param_dic['transit_par_names']+input_param_dic['gp_hyper_par_names'],
             truths=input_param_dic["p0"])
-        
-

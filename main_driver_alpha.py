@@ -24,13 +24,13 @@ mpi_flag = input_param_dic['mpi_flag']
 # -------------------------------------------------------------------------
 
 #CK edited
-if mpi_flag:
+if mpi_flag == ['True']:    # KY comment: now the variable type of mpi_flag is list. Consider revising?
     try:
         from mpi4py import MPI
         #mpi_flag = True
     except ImportError:
         print "MPI not installed, but MPI flag set to True. Setting flag to False and continuing."
-        mpi_flag = False
+        mpi_flag = ['False']
         pass
 
 # import gp_model # waiting for this piece from Polina still
@@ -137,6 +137,8 @@ if __name__ == "__main__":
     visualization = input_param_dic['visualization']
     confidence = input_param_dic['confidence']
     # -------------------------------------------------------------------------
+    print "mpi flag:", mpi_flag
+    print "num of threads:", nthreads
 
     '''
     # replacing user parameter file for now -----------------------------------
@@ -152,21 +154,22 @@ if __name__ == "__main__":
     wave_bin_size = 1
     # -------------------------------------------------------------------------
     '''
-    LC = lc_class.LightCurve(lc_path, wave_bin_size)
+    LC = lc_class.LightCurve(lc_path[0], wave_bin_size)
     LC_dic = LC.LC_dic # dictionary of light curve for each wavelength
 
     #this part should have MPI so different LCs go on different nodes
-    if mpi_flag:
+    if mpi_flag == ['True']:
         # initialize MPI
         comm = MPI.COMM_WORLD
         rank = comm.Get_rank()
+        name = MPI.Get_processor_name()
+        # print("I am a worker with rank %d on %s." % (rank, name))
+
         if comm.Get_size() > len(LC_dic) and rank == 0:
             print "number of processors assigned is more than enough."
         for wavelength_id in LC_dic:
             if (float (wavelength_id) - 1) % comm.Get_size() == rank:
-                print "now processor number:", rank, "is processing wavelength_id:", wavelength_id
-                #below print statement needs to be edited. Correct object attribute??? Units??
-                # print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
+                print "now processor with rank number:", rank, "on", name, "is processing wavelength_id:", wavelength_id
                 x = LC_dic[wavelength_id].time # extract the times
                 y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
                 yerr = LC_dic[wavelength_id].ferr # extract the flux error
@@ -189,8 +192,6 @@ if __name__ == "__main__":
         print "no MPI. Will use single core to process all lightcurves."
         for wavelength_id in LC_dic:
             print "now processing wavelength_id:", wavelength_id
-            #below print statement needs to be edited. Correct object attribute??? Units??
-            # print "LC for wavelength "+str(LC_dic[wavelength_id].new_wave_number)+" um running on node MPINUMBER"
             x = LC_dic[wavelength_id].time # extract the times
             y = LC_dic[wavelength_id].flux / 8.0 # extract the flux & semi-normalize it
             yerr = LC_dic[wavelength_id].ferr # extract the flux error
@@ -210,7 +211,7 @@ if __name__ == "__main__":
             pos = np.array([p0 + 1e-4*np.random.randn(ndim+2) for i in range(nwalkers)])
             LC_dic[wavelength_id].obj_chainGP = LC_dic[wavelength_id].obj_mcmcGP.run(pos, nburnin, nsteps)
 
-    deliverables.latex_table(LC_dic,visualization,confidence)
+    # deliverables.latex_table(LC_dic,visualization,confidence)
 
     # check out results... plotting is not ready for general use yet :(
     # plt.figure(1)
