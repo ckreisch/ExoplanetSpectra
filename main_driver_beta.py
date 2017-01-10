@@ -56,7 +56,7 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     values = np.median(LC_dic[wl_id].obj_chainGP, axis=0)
     errors = np.std(LC_dic[wl_id].obj_chainGP, axis=0)
 
-    print values, errors  # TO_DO: print this out more nicely
+    # print values, errors  # TO_DO: print this out more nicely
 
 
 # -----------------------------------------------------------------------------
@@ -106,17 +106,51 @@ if __name__ == "__main__":
         rank = comm.Get_rank()
         if comm.Get_size() > len(LC_dic) and rank == 0:
             print "number of processors assigned is more than number of " + \
-                    "wavelengths."
-        for i in range(0, len(LC_dic.keys())):
-            if i % comm.Get_size() == rank:
-                #below print statement needs to be edited. Units??
-                print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i])
-                run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i])
+                    "lightcurves."
 
+        # a parameter counting the rounds for message passing
+        j = 0
+        # decide the number of rounds for message passing
+        if len(LC_dic) % comm.Get_size() == 0:
+            jmax = len(LC_dic) / comm.Get_size()
+        else:
+            jmax = len(LC_dic) / comm.Get_size() + 1
+
+        while j < jmax:
+            for i in range(0, comm.Get_size()):
+                if i % comm.Get_size() == rank and rank != 0 and i+j*comm.Get_size() < len(LC_dic):
+                    #below print statement needs to be edited. Units??
+                    print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i+j*comm.Get_size()])
+                    run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i+j*comm.Get_size()])
+
+                    # print "now rank number: %i of processor: %s is sending result to rank 0."% (rank, MPI.Get_processor_name())
+                    comm.Send([LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_chainGP, MPI.FLOAT], dest=0, tag=11)
+                    # print "send finished from rank %i"%(rank)
+
+            if rank == 0:
+                print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[j*comm.Get_size()])
+                run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[j*comm.Get_size()])
+
+                for i in range(1, comm.Get_size()):
+                    if i+j*comm.Get_size() < len(LC_dic):
+                        # print "now rank number: %i is receiving result from rank %i."% (rank, i)
+                        data = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].obj_chainGP))
+                        comm.Recv([data, MPI.FLOAT], source=i, tag=11)
+                        # print "receive finished."
+                        LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_chainGP = data
+
+            j = j+1
+
+        # master node processing plots
+        if rank == 0:
+            print "now rank number: %i is reaching corner."%(rank)
+            for wl_id in LC_dic.keys():
+                corner.corner(LC_dic[wl_id].obj_chainGP,
+                    labels=input_param_dic['transit_par_names']+input_param_dic['gp_hyper_par_names'],
+                    truths=input_param_dic["p0"])
     else:
         print "no MPI. Will use single core to process all lightcurves."
         for wl_id in LC_dic.keys():
-
             #below print statement needs to be edited. Correct object attribute??? Units are microns
             print "now processing channel centered on: %s microns" % wl_id
             run_mcmc_single_wl(input_param_dic, LC_dic, wl_id)
@@ -125,8 +159,10 @@ if __name__ == "__main__":
     #deliverables.latex_table("test_data", LC_dic, visualization, confidence)
     # TO-DO: add summary comparing expected values to the fit found by our routine
     # TO_DO: add heather's nice visualization and remove the loop below
-    # KY comment: currently this part is not working when MPI is used.
-    for wl_id in LC_dic.keys():
-        corner.corner(LC_dic[wl_id].obj_chainGP,
-            labels=input_param_dic['transit_par_names']+input_param_dic['gp_hyper_par_names'],
-            truths=input_param_dic["p0"])
+        for wl_id in LC_dic.keys():
+            corner.corner(LC_dic[wl_id].obj_chainGP,
+                labels=input_param_dic['transit_par_names']+input_param_dic['gp_hyper_par_names'],
+                truths=input_param_dic["p0"])
+
+    # KY comment: it's good not to put code outside the above if-else structure.
+    # Otherwise this part will be run multiple times when executing using mpirun.
