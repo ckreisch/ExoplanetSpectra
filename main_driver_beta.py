@@ -107,40 +107,32 @@ if __name__ == "__main__":
         if comm.Get_size() > len(LC_dic) and rank == 0:
             print "number of processors assigned is more than number of " + \
                     "wavelengths."
-        i = 1
-        if rank == i:
-            # for i in range(0, len(LC_dic.keys())):
-            #     if i % comm.Get_size() == rank and i != 0:
-            #         #below print statement needs to be edited. Units??
-            #         print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i])
-            #         run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i])
-            #
-            #         print "now rank number: %i of processor: %s is sending result to rank 0."% (rank, MPI.Get_processor_name())
-            #         comm.send([LC_dic[LC_dic.keys()[i]].obj_chainGP, MPI.LONG_DOUBLE], dest=0, tag=11)
-            #         # comm.Barrier()
-            #         print "send finished from rank %i"%(rank)
-            #     # elif i == 0 and rank == 0:
-            #     #     print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i])
-            #     #     run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i])
-            #         # comm.Barrier()
-            print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i])
-            # print "i:", i, "LC_dic", LC_dic.keys()[i]
-            run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i])
-            # print LC_dic[LC_dic.keys()[i]].obj_chainGP
-            print "now rank number: %i of processor: %s is sending result to rank 0."% (rank, MPI.Get_processor_name())
-            comm.Send([LC_dic[LC_dic.keys()[i]].obj_chainGP, MPI.FLOAT], dest=0, tag=11)
+
+        for i in range(0, len(LC_dic.keys())):
+            if i % comm.Get_size() == rank and rank != 0:
+                #below print statement needs to be edited. Units??
+                print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i])
+                run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i])
+
+                # print LC_dic[LC_dic.keys()[i]].obj_chainGP
+                print "now rank number: %i of processor: %s is sending result to rank 0."% (rank, MPI.Get_processor_name())
+                comm.Send([LC_dic[LC_dic.keys()[i]].obj_chainGP, MPI.FLOAT], dest=0, tag=11)
+                print "send finished from rank %i"%(rank)
 
         if rank == 0:
-            print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[0])
-            run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[0])
-            # for i in range(1, len(LC_dic.keys())):
-            print "now rank number: %i is receiving result from rank %i."% (rank, i)
-            data = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].obj_chainGP))
-            comm.Recv([data, MPI.FLOAT], source=i, tag=11)
-            print "receive finished."
-            LC_dic[LC_dic.keys()[i]].obj_chainGP = data
-            # print LC_dic[LC_dic.keys()[i]].obj_chainGP
-            # print "len of LC_dic:",len(LC_dic[LC_dic.keys()[i]].obj_chainGP)
+            for i in range(0, len(LC_dic.keys())):
+                if i % comm.Get_size() == rank:
+                    print "now rank number: %i of processor: %s is processing channel centered on: %s microns" % (rank, MPI.Get_processor_name(), LC_dic.keys()[i])
+                    run_mcmc_single_wl(input_param_dic, LC_dic, LC_dic.keys()[i])
+
+            for i in range(1, comm.Get_size()):
+                print "now rank number: %i is receiving result from rank %i."% (rank, i)
+                data = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].obj_chainGP))
+                comm.Recv([data, MPI.FLOAT], source=i, tag=11)
+                print "receive finished."
+                LC_dic[LC_dic.keys()[i]].obj_chainGP = data
+                # print LC_dic[LC_dic.keys()[i]].obj_chainGP
+                # print "len of LC_dic:",len(LC_dic[LC_dic.keys()[i]].obj_chainGP)
             print "now rank number: %i is reaching corner."%(rank)
             for wl_id in LC_dic.keys():
                 print "wl_id:", wl_id
