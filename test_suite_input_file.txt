@@ -17,7 +17,7 @@ nsteps =  10
 # -----------------------------------------------------------------------------
 # PARALLELIZATION FLAGS
 mpi_flag = True #if use MPI
-nthreads = 1 #set to num threads to use for each node
+nthreads = 2 #set to num threads to use for each node
 
 # -----------------------------------------------------------------------------
 # POST-PROCESSING FLAGS (for interpretting MCMC results)
