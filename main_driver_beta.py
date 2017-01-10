@@ -59,24 +59,25 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     # print values, errors  # TO_DO: print this out more nicely
 
 
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
 if __name__ == "__main__":
 
     # Read from user input file ----------------------------------------------------
+    # perhaps makes more sense to put mpi flag as command line??
     if len(sys.argv)!=2:
         raise ValueError("Run as python main_driver_beta.py <input_filename>")
 
     try:
-        input_file = read_input(sys.argv[1])   # TO-DO: this should be command line argument
+        input_file = read_input(sys.argv[1])   
     except IOError:
         print "Input file is not in the same directory as driver program."+\
                 " Move to same directory or change path."
         raise
     input_param_dic = input_file.param_dic
     # TO_DO: remove following for loop once we correct read_input.py ??
-    for key in input_param_dic.keys():
-        if len(input_param_dic[key]) == 1:
-            input_param_dic[key]=input_param_dic[key][0]
+    # for key in input_param_dic.keys():
+    #     if len(input_param_dic[key]) == 1:
+    #         input_param_dic[key]=input_param_dic[key][0]
 
     lc_path = input_param_dic['lc_path']
     wave_bin_size = input_param_dic['wave_bin_size']
