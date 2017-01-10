@@ -2,6 +2,9 @@ import numpy as np
 import george
 import batman
 from george import kernels
+import pandas as pd
+from time import time
+import cProfile
 
 import copy_reg
 import types
@@ -27,7 +30,8 @@ class TransitModel(object):
 
         self.kernel_default_params = {"kernel_a": 1.,
                                       "kernel_gamma": [1., 1., 1., 1.],
-                                      "kernel_variance": 1.}
+                                      "kernel_variance": 1.,
+                                      "kernel_type": "Custom"}
 
         self.kernel_default_priors = {"kernel_a_prior_lower": -5.,       "kernel_a_prior_upper": 5.,
                                       "kernel_gamma_prior_lower": 0.,    "kernel_gamma_prior_upper": 10.,
@@ -38,8 +42,9 @@ class TransitModel(object):
                               "yerr1": None}
         self.n_errors = 0
         self.err_names = ["yerr1"]
-
+        self.errors_list = []
         self.params = batman.TransitParams()
+        self._model = None
 
         # uncomment for the Python 2 and comment the line after next
         for (param, default) in self.batman_default_params.iteritems():
@@ -72,7 +77,9 @@ class TransitModel(object):
             raise ValueError(" The prior for kernel variance cannot be negative.")
 
         self.batman_model = batman.TransitModel(self.params, self.t)
+        self.model = self.params
 
+        self.data_dict = dict(zip(self.t, zip(*self.errors_list)))
 
     def set_values(self, dict_of_values, **kwargs):
         """Sets the attributes. If value is not provided the default value is set"""
@@ -119,10 +126,13 @@ class TransitModel(object):
                 if er_name not in self.err_names:
                     self.err_names.append(er_name)
 
-        self.n_errors = 0;
+        self.n_errors = 0
         for name in self.err_names:
             if getattr(self, name) is not None:
                 self.n_errors+=1
+                self.errors_list.append(getattr(self, name))
+
+        self.data_dict = dict(zip(self.t, zip(*self.errors_list)))
 
     def update_data(self, time=None, obs=None, **kwargs):
         """ Updates the data for the given parameters """
@@ -160,7 +170,7 @@ class TransitModel(object):
             self.params.u = u_new
             self.updateTransitMode()
 
-    def update_kernel_params(self, a_new, gamma_new, variance_new):
+    def update_kernel_params(self, a_new=None, gamma_new=None, variance_new=None):
         """
         Updates the hyperparameters of the kernel function
         :param a_new: new value of the kernel_a
@@ -168,49 +178,54 @@ class TransitModel(object):
         """
 
         if a_new is None:
-            raise ValueError("The None was passed as kernel_a parameter.")
-        elif gamma_new is None:
-            raise ValueError("The None was passed as kernel_gamma parameter.")
+            setattr(self, "kernel_a", self.kernel_a)
+        else:
+            setattr(self, "kernel_a", a_new)
+
+        if gamma_new is None:
+            setattr(self, "kernel_gamma", self.kernel_gamma)
         elif type(gamma_new) != list:
             raise TypeError("For the gamma parameters list is expected. Instead got ", type(gamma_new))
         elif len(gamma_new) != (self.n_errors + 1):
             raise ValueError("The length of eta is wrong. List of size", (self.n_errors + 1),
                              "is expected.")
-
-        elif variance_new is None:
-             raise ValueError("The None was passed as kernel_variance parameter.")
         else:
-            self.kernel_a = a_new
-            self.kernel_gamma = gamma_new
-            self.kernel_variance = variance_new
+            setattr(self, "kernel_gamma", gamma_new)
+
+        if variance_new is None:
+            setattr(self, "kernel_variance", self.kernel_variance)
+        elif variance_new < 0:
+            raise ValueError("Kernel_variance cannot be negative.")
+        else:
+            setattr(self, "kernel_variance", variance_new)
+
 
     def updateTransitMode(self):
         """ Updates the transit model parameters """
         self.batman_model = batman.TransitModel(self.params, self.t)
+        self.model = self.params
         self.model_initialized = True
 
+    @property
     def model(self):
         """ Returns the flux values array """
-        return self.batman_model.light_curve(self.params)
+        return self._model
+
+    @model.setter
+    def model(self, params):
+        self._model = self.batman_model.light_curve(params)
 
     def meanfnc(self, t):
         """ Mean function for the kernel estimation"""
-        return self.model()
+        return self.model
 
     def kernelfnc(self, x1, x2, p):
         """ Computes the kernel function for the arbitrary sources of errors in the observations"""
         ksi, sig, eta = self.kernel_a, self.kernel_variance, self.kernel_gamma
-
-        # get the positions of the current observations
-        n = list(self.t).index(x1); m = list(self.t).index(x2)
-
-        # time component, always present
         s = eta[0]*((x1[0]-x2[0])**2)
 
         for i in range(self.n_errors):
-            next_error = getattr(self, "yerr" + str(i+1));
-            if next_error is not None:
-                s += eta[(i+1)]*((next_error[n]-next_error[m])**2)
+            s += eta[(i+1)]*((self.data_dict[x1[0]][i]-self.data_dict[x2[0]][i])**2)
 
         val = ksi * np.exp(-s) + (x1 == x2) * sig
 
@@ -226,12 +241,20 @@ class TransitModel(object):
             raise ValueError("Time data is not properly initialized. Expected array of size greater then 1.")
 
         else:
-            t, y = self.t, self.y
-            kernel = kernels.PythonKernel(self.kernelfnc)
-            gp = george.GP(kernel, mean=self.meanfnc)
-            gp.compute(t)
 
-            return gp.lnlikelihood(y - self.model())
+            t, y = self.t, self.y
+
+            if self.kernel_type == "Standard":
+                kernel = 1.*kernels.ExpSquaredKernel(5.) + kernels.WhiteKernel(2.)
+                gp = george.GP(kernel, mean=self.meanfnc)
+                gp.compute(t, self.yerr1)
+                return gp.lnlikelihood(y - self.model)
+
+            else:
+                kernel = kernels.PythonKernel(self.kernelfnc)
+                gp = george.GP(kernel, mean=self.meanfnc)
+                gp.compute(t)
+                return gp.lnlikelihood(y - self.model)
 
     def lnprior_base(self):
         """ Checks if the batman params are within the predefined prior ranges """

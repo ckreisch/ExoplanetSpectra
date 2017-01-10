@@ -19,6 +19,7 @@ n_errors = 2  # begin with the number of auxiliary parameters you have in additi
 kernel_a = 1
 kernel_gamma = 0.1, 0.2, 0.3, 0.4 # make sure that the length of the list == to the number of data arrays (1 time + 3 errors)=4
 kernel_variance = 1
+kernel_type = Custom # if "standard" - then the standard cyton kernel is used, else - our kernel is used
 
 # priors
 rp_prior_lower = 0
