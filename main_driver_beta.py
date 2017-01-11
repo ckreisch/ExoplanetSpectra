@@ -59,18 +59,18 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     best_fit = model.sample_conditional(median, x, y, yerr)
     LC_dic[wl_id].transit_model = model
 
-    # save plots for this wavelength... TO-DO: fix so can save plots
-    # if input_param_dic['visualization']:
-    #
-    #     output_dir = input_param_dic['output_dir']
-    #     LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
-    #
-    #     plt.figure()
-    #     plt.plot(x, best_fit)
-    #     plt.plot(x, y, 'ko')
-    #     plt.xlabel("phase")
-    #     plt.ylabel("normalized flux")
-    #     plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
+    save plots for this wavelength... TO-DO: fix so can save plots
+    if input_param_dic['visualization']:
+
+        output_dir = input_param_dic['output_dir']
+        LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
+
+        plt.figure()
+        plt.plot(x, best_fit)
+        plt.plot(x, y, 'ko')
+        plt.xlabel("phase")
+        plt.ylabel("normalized flux")
+        plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
         # the following two plots made on head node for now
         # LC_dic[wl_id].obj_mcmc.walker_plot()
         # LC_dic[wl_id].obj_mcmc.triangle_plot()
