@@ -22,13 +22,13 @@ class MCMC(object):
         self._sampler = emcee.EnsembleSampler(self._nwalkers, self._dim, self._ln_prob_fn, args=(self._t, self._val, self._err), threads=self._nthreads)
 
 
-    def run(self, pos, burnin_steps, production_run_steps):
+    def run(self, p0, burnin_steps, production_run_steps):
         """should run emcee given a log probability function
         result is the MCMC chains which are saved as an object attribute"""
         if burnin_steps>0:
             time0 = time.time()
             # burnin phase
-            pos, prob, state  = self._sampler.run_mcmc(pos, burnin_steps)
+            pos, prob, state  = self._sampler.run_mcmc(p0, burnin_steps)
             self._sampler.reset()
             time1=time.time()
             print "burnin time: %f" %(time1-time0)
@@ -90,8 +90,8 @@ class MCMC(object):
         err_plus=ps[2]-ps[1]
         err_minus=ps[1]-ps[0]
 
-        for i, p in enumerate(self._all_params):
-            print p,"=",median[i],"+",err_plus[i],"-",err_minus[i]
+        # for i, p in enumerate(self._all_params):
+        #     print p,"=",median[i],"+",err_plus[i],"-",err_minus[i]
 
         return median, err_plus, err_minus
 
