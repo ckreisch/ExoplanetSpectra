@@ -179,7 +179,7 @@ if __name__ == "__main__":
             print "now processing channel centered on: %s microns" % wl_id
             run_mcmc_single_wl(input_param_dic, LC_dic, wl_id)
 
-        if input_param_dic['visualization']:
+        # if input_param_dic['visualization']:
             # # proceed with post-processing inside this if statement
             # # TO-DO: debug deliverables
             # output_dir = input_param_dic['output_dir'] + "/"
