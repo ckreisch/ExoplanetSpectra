@@ -127,7 +127,7 @@ class MCMC(object):
             print "Either plot_transit_params or plot_hyper_params must be true"
             return 1
         fig.savefig(save_as_dir+save_as_name)   #check if it works, otherwise save in current directory and print message
-        plt.show()
+        plt.close()
 
 
     def walker_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="walkers.png"):
@@ -197,7 +197,7 @@ class MCMC(object):
 
         fig.tight_layout(h_pad=0.0)
         fig.savefig(save_as_dir+save_as_name)
-        plt.show()
+        plt.close()
 
 
     def light_curve_plot(self, model, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="light_curve"):
@@ -228,4 +228,4 @@ class MCMC(object):
         plt.ylabel("flux")
         plt.tight_layout()
         plt.savefig(save_as_dir+save_as_name)
-        plt.show()
+        plt.close()
