@@ -59,7 +59,7 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     best_fit = model.sample_conditional(median, x, y, yerr)
     LC_dic[wl_id].transit_model = model
 
-    save plots for this wavelength... TO-DO: fix so can save plots
+    # save plots for this wavelength... TO-DO: fix so can save plots
     if input_param_dic['visualization']:
 
         output_dir = input_param_dic['output_dir']
