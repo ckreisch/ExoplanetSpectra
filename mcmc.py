@@ -96,7 +96,7 @@ class MCMC(object):
         return median, err_plus, err_minus
 
 
-    def triangle_plot(self, burnin_steps=50, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="triangle.png"):
+    def triangle_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="triangle.png"):
         #makes triangle plot
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         if self._sampler.chain.shape[1]==0:
@@ -130,7 +130,7 @@ class MCMC(object):
         plt.show()
 
 
-    def walker_plot(self, burnin_steps=50, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="walkers.png"):
+    def walker_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="walkers.png"):
         #makes a walker plot and histogram
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         #check theta_true!!
@@ -200,7 +200,7 @@ class MCMC(object):
         plt.show()
 
 
-    def light_curve_plot(self, model, burnin_steps=50, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="light_curve"):
+    def light_curve_plot(self, model, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="light_curve"):
         # Plot some samples onto the data.
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         #model is a function that takes an array of parameters and an array of times and evaluates the model
@@ -229,8 +229,3 @@ class MCMC(object):
         plt.tight_layout()
         plt.savefig(save_as_dir+save_as_name)
         plt.show()
-
-    def all_plots(self, model, burnin_steps=50, theta_true=None, plot_transit_params=True, plot_hyper_params=True, saving_dir=""):
-        self.walker_plot(burnin_steps, theta_true, plot_transit_params, plot_hyper_params, saving_dir, "triangle.png")
-        self.triangle_plot( burnin_steps, theta_true, plot_transit_params, plot_hyper_params, saving_dir, "walkers.png")
-        self.light_curve_plot(model, burnin_steps, theta_true,  plot_transit_params, plot_hyper_params, saving_dir, "light_curve.png")
