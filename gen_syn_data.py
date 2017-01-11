@@ -100,6 +100,27 @@ def write_lc(t, f, ferr, a_params, fname, m, w_level, r_level, wl_params):
     ofile.close()
     return 0
 
+def write_expected_vals(fname, t_params, radii, slopes, w_level, r_level,
+                        w_scale, r_scale):
+    """
+    arguments:
+    returns: 0 if successfully saved file with table of expected values
+
+    """
+    airmass, pos, skynoise, fwhm = slopes
+    t0,per,rp,a,inc,ecc,w,u0,u1 = t_params
+    dic = {'airmass': airmass, 'pos' : pos, 'skynoise' : skynoise,
+           'fwhm' : fwhm, 't0' : t0, 'per' : per, 'a' : a, 'inc' : inc,
+           'ecc' : ecc, 'w' : w, 'w_level' : w_level, 'r_level' : r_level}
+    ofile = open(fname,"w")
+    for key in dic.keys():
+        ofile.write("# " + key + " = " + str(dic[key]) + "\n")
+    ofile.write("# WL: rp: u0: u1: w_scale: r_scale:")
+    for k in range(len(radii)):
+        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\n" % (WL[k],rp[k],u0[k],u1[k],w_scale[k],r_scale[k]))
+
+    return 0
+
 def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,   
                 w_scale, r_scale, w_level, r_level, N=300, phase_range=(-0.025,0.025)):
     """
@@ -134,6 +155,11 @@ def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,
         write_lc(t, f, ferr, wl_a_params, fname ,
                  slopes*r_scale[k], w_level, r_level, wl_params)
 
+    fname = fileroot+"expected_values.txt"   
+    write_expected_vals(fname, t_params, radii, slopes, w_level, r_level,
+                        w_scale, r_scale)
+    return 0
+
 
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
@@ -161,7 +187,7 @@ if __name__ == "__main__":
 
     # generate suite of data, 
     # 3 red levels and 3 white levels saved in their own directories
-    rootname = "lc"
+    rootname = ""
     descriptors = ["none","low","some"]
     w_levels = [0.0, 0.0001, 0.0005]
     r_levels = [0.0, 0.00008, 0.0002]
@@ -174,48 +200,27 @@ if __name__ == "__main__":
             os.system('mkdir '+ dname)
             fileroot = dname+"/"+rootname
             gen_obs_set(fileroot, truth, radii, ldark, wl,
-                        w_scale, r_scale, w_level, r_level, N=40)  
+                        w_scale, r_scale, w_level, r_level, N=150)  
+    
 
 
-
-    # # generate one set of data:
-    # fileroot = "testing"
+    # # generate one set of data and look at it:
+    # fileroot = "heather"
     # w_level, r_level = 0.0, 0.0
     # gen_obs_set(fileroot, truth, radii, ldark, wl, 
-    #             w_scale, r_scale, w_level, r_level)
+    #             w_scale, r_scale, w_level, r_level, N=30)
 
-    # check1 = np.loadtxt('testing_lc_500.txt',unpack=True)
-    # check3 = np.loadtxt('testing_lc_650.txt',unpack=True)
-    # check2 = np.loadtxt('testing_lc_800.txt',unpack=True)
-    # check4 = np.loadtxt('testing_lc_950.txt',unpack=True)
-    # check5 = np.loadtxt('testing_lc_1100.txt',unpack=True)
+    # check1 = np.loadtxt('example_lc_500.txt',unpack=True)
+    # check3 = np.loadtxt('example_lc_650.txt',unpack=True)
+    # check2 = np.loadtxt('example_lc_800.txt',unpack=True)
+    # check4 = np.loadtxt('example_lc_950.txt',unpack=True)
+    # check5 = np.loadtxt('example_lc_1100.txt',unpack=True)
 
     # import matplotlib.pyplot as plt
     # plt.figure(1)
     # plt.plot(check1[0],check1[1],'r.')
-    # plt.figure(2)
-    # plt.plot(check2[0],check2[1]+0.05,'g.')
-    # plt.figure(3)
-    # plt.plot(check3[0],check3[1]+0.1,'b.')
-    # plt.figure(4)
-    # plt.plot(check3[0],check4[1]+0.1,'k.')
-    # plt.figure(5)
-    # plt.plot(check3[0],check5[1]+0.1,'c.')
+    # plt.plot(check2[0],check2[1],'g.')
+    # plt.plot(check3[0],check3[1],'b.')
+    # plt.plot(check3[0],check4[1],'k.')
+    # plt.plot(check3[0],check5[1],'c.')
     # plt.show()
-
-
-          
-
-
-    # tests/checks:
-    # no nans, all files saved with right # of rows and columns
-    #
-    # plots:
-    # each a_param over time 
-    # each a_param vs. flux & the slope it is supposed to have...
-    # all the light curves
-    # light curve + known model
-
-
-
-#fileroot, t_params, radii, limb_darkening, wl, w_scale, r_scale, w_level, r_level, N, exptime = fileroot, truth, radii, ldark, wl, w_scale, r_scale, w_level, r_level, 500, 0.0005
