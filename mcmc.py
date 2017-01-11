@@ -35,7 +35,7 @@ class MCMC(object):
         elif burnin_steps==0:
             print "no burnin requested"
         else:
-            print "Warning: incorrect input for burnin steps!"
+            print "Warning: incorrect input for burnin steps, setting burnin to 0"
 
         time0 = time.time()
         # perform MCMC
@@ -87,16 +87,16 @@ class MCMC(object):
         "I plan to use ths to plot 1 sigma or 3 sigma confidence levels on the posterior probability distribution"
         ps=np.percentile(self._sampler.flatchain, [16, 50, 84],axis=0)
         median=ps[1]
-        err1=ps[2]-ps[1]
-        err2=ps[1]-ps[0]
+        err_plus=ps[2]-ps[1]
+        err_minus=ps[1]-ps[0]
 
         for i, p in enumerate(self._all_params):
-            print p,"=",median[i],"+",err1[i],"-",err2[i]
+            print p,"=",median[i],"+",err_plus[i],"-",err_minus[i]
 
-        return median, err1, err2
+        return median, err_plus, err_minus
 
 
-    def triangle_plot(self, burnin_steps=50, theta_true=None):
+    def triangle_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="triangle.png"):
         #makes triangle plot
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         if self._sampler.chain.shape[1]==0:
@@ -110,17 +110,30 @@ class MCMC(object):
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
+        if plot_transit_params and plot_hyper_params:
+            samples = self._sampler.flatchain[burnin_steps:,:]
+            fig = corner.corner(samples, labels=self._all_params, truths=theta_true)
+        elif plot_transit_params:
+            samples = self._sampler.flatchain[burnin_steps:, 0:len(self._transit_params)]
+            fig = corner.corner(samples, labels=self._transit_params, truths=theta_true)    #check theta true shape!
+        elif plot_hyper_params:
+            if len(self._hyper_params)==0:
+                print "You do not have any hyper parameters to plot. "\
+                "Try plotting your transit parameters by setting plot_transit_params=True"
+                return 1
+            samples = self._sampler.flatchain[burnin_steps:, len(self._transit_params):]
+            fig = corner.corner(samples, labels=self._hyper_params, truths=theta_true)    #check theta true shape!
+        else:
+            print "Either plot_transit_params or plot_hyper_params must be true"
+            return 1
+        fig.savefig(save_as_dir+save_as_name)   #check if it works, otherwise save in current directory and print message
+        plt.close()
 
-        samples = self._sampler.flatchain
 
-        fig = corner.corner(samples, labels=self._all_params, truths=theta_true)
-        fig.savefig("triangle.png")
-        plt.show()
-
-
-    def walker_plot(self, burnin_steps=50, theta_true=None):
+    def walker_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="walkers.png"):
         #makes a walker plot and histogram
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
+        #check theta_true!!
 
         if self._sampler.chain.shape[1]==0:
             print "The Markov chain is empty. Run MCMC using \n" \
@@ -133,13 +146,35 @@ class MCMC(object):
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
-        nplots=len(self._transit_params)
-        #use gridspec??
-        fig, axes = plt.subplots(nplots, 2, figsize=(8, 9))
-        fig.subplots_adjust(wspace=0)
+        if plot_transit_params and plot_hyper_params:
+            params=self._all_params
+            samples_flat=self._sampler.flatchain[burnin_steps:,:]
+            samples=self._sampler.chain[:, burnin_steps:, :]
+        elif plot_transit_params:
+            params=self._transit_params
+            samples_flat=self._sampler.flatchain[burnin_steps:,0:len(self._transit_params)]
+            samples=self._sampler.chain[:, burnin_steps:, 0:len(self._transit_params)]
+        elif plot_hyper_params:
+            if len(self._hyper_params)==0:
+                print "You do not have any hyper parameters to plot. "\
+                "Try plotting your transit parameters by setting plot_transit_params=True"
+                return 1
+            params=self._hyper_params
+            samples_flat=self._sampler.flatchain[burnin_steps:,len(self._transit_params):]
+            samples=self._sampler.chain[:, burnin_steps:, len(self._transit_params):]
+        else:
+            print "Either plot_transit_params or plot_hyper_params must be true"
+            return 1
 
-        for i, p in enumerate(self._transit_params):
-            axes[i][0].hist(self._sampler.flatchain[burnin_steps:,i].T, bins=50, orientation='horizontal', alpha=.5)
+        nplots=len(params)
+        #use gridspec??
+        fig, axes = plt.subplots(nplots, 2, figsize=(10, 2.5*nplots))
+        fig.subplots_adjust(wspace=0)
+        if nplots==1:
+            axes=[axes] #want 2D array to index below
+
+        for i, p in enumerate(params):
+            axes[i][0].hist(samples_flat[:,i].T, bins=30, orientation='horizontal', alpha=.5)
             axes[i][0].yaxis.set_major_locator(MaxNLocator(5))
             axes[i][0].minorticks_off()
             axes[i][0].invert_xaxis()
@@ -150,9 +185,10 @@ class MCMC(object):
                 axes[i][0].set_xlabel("counts")
 
             axes[i][0].get_shared_y_axes().join(axes[i][0], axes[i][1])
+            axes[i][1].minorticks_off()
             plt.setp(axes[i][1].get_yticklabels(), visible=False)
             # .T transposes the chains to plot each walker's position as a function of time
-            axes[i][1].plot(self._sampler.chain[:, burnin_steps:, i].T, color="k", alpha=0.4)   #should it be .T??
+            axes[i][1].plot(samples[:, :, i].T, color="k", alpha=0.4)   #should it be .T??
             if theta_true:
                 axes[i][1].axhline(theta_true[i], color="#888888", lw=2)
             if i+1==nplots:
@@ -160,11 +196,11 @@ class MCMC(object):
             #axes[i][1].set_ylabel(p)
 
         fig.tight_layout(h_pad=0.0)
-        fig.savefig("walkers.png")
-        plt.show()
+        fig.savefig(save_as_dir+save_as_name)
+        plt.close()
 
 
-    def light_curve_plot(self, model, burnin_steps=50, theta_true=None):
+    def light_curve_plot(self, model, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="light_curve"):
         # Plot some samples onto the data.
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         #model is a function that takes an array of parameters and an array of times and evaluates the model
@@ -191,10 +227,5 @@ class MCMC(object):
         plt.xlabel("$t$")
         plt.ylabel("flux")
         plt.tight_layout()
-        plt.savefig("light_curve.png")
-        plt.show()
-
-    def all_plots(self, model, burnin_steps=50, theta_true=None):
-        self.walker_plot(burnin_steps, theta_true)
-        self.triangle_plot(burnin_steps, theta_true)
-        self.light_curve_plot(model, burnin_steps, theta_true)
+        plt.savefig(save_as_dir+save_as_name)
+        plt.close()
