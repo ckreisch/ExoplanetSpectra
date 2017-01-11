@@ -90,8 +90,8 @@ class MCMC(object):
         err_plus=ps[2]-ps[1]
         err_minus=ps[1]-ps[0]
 
-        for i, p in enumerate(self._all_params):
-            print p,"=",median[i],"+",err_plus[i],"-",err_minus[i]
+        # for i, p in enumerate(self._all_params):
+        #     print p,"=",median[i],"+",err_plus[i],"-",err_minus[i]
 
         return median, err_plus, err_minus
 

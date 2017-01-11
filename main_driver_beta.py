@@ -60,17 +60,17 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     LC_dic[wl_id].transit_model = model
 
     # save plots for this wavelength... TO-DO: fix so can save plots
-    if input_param_dic['visualization']:
-
-        output_dir = input_param_dic['output_dir']
-        LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
-
-        plt.figure()
-        plt.plot(x, best_fit)
-        plt.plot(x, y, 'ko')
-        plt.xlabel("phase")
-        plt.ylabel("normalized flux")
-        plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
+    # if input_param_dic['visualization']:
+    #
+    #     output_dir = input_param_dic['output_dir']
+    #     LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
+    #
+    #     plt.figure()
+    #     plt.plot(x, best_fit)
+    #     plt.plot(x, y, 'ko')
+    #     plt.xlabel("phase")
+    #     plt.ylabel("normalized flux")
+    #     plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
         # the following two plots made on head node for now
         # LC_dic[wl_id].obj_mcmc.walker_plot()
         # LC_dic[wl_id].obj_mcmc.triangle_plot()
@@ -137,8 +137,8 @@ if __name__ == "__main__":
 
                     # print "now rank number: %i of processor: %s is sending result to rank 0."% (rank, MPI.Get_processor_name())
                     comm.Send([LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_chain, MPI.FLOAT], dest=0, tag=11)
-                    comm.Send([LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].transit_model, MPI.FLOAT], dest=0, tag=22)
-                    comm.Send([LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_mcmc, MPI.FLOAT], dest=0, tag=33)
+                    # comm.Send([LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].transit_model, MPI.FLOAT], dest=0, tag=22)
+                    # comm.send(LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_mcmc, dest=0, tag=33)
                     # print "send finished from rank %i"%(rank)
 
             if rank == 0:
@@ -150,14 +150,17 @@ if __name__ == "__main__":
                         # print "now rank number: %i is receiving result from rank %i."% (rank, i)
                         chain = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].obj_chain))
                         comm.Recv([chain, MPI.FLOAT], source=i, tag=11)
-                        model = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].transit_model))
-                        comm.Recv([chain, MPI.FLOAT], source=i, tag=22)
-                        obj_mcmc = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].obj_mcmc))
-                        comm.Recv([obj_mcmc, MPI.FLOAT], source=i, tag=33)
-                        # print "receive finished."
                         LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_chain = chain
-                        LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].transit_model = model
-                        LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_mcmc = obj_mcmc
+                        # LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_mcmc = comm.recv(source=i, tag=33)
+
+                        # model = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].transit_model))
+                        # comm.Recv([chain, MPI.FLOAT], source=i, tag=22)
+                        # obj_mcmc = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].obj_mcmc))
+                        # comm.Recv([obj_mcmc, MPI.FLOAT], source=i, tag=33)
+                        # print "receive finished."
+
+                        # LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].transit_model = model
+                        # LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_mcmc = obj_mcmc
 
             j = j+1
 
