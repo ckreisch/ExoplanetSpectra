@@ -13,6 +13,7 @@ import lc_class
 from read_input import read_input
 import TransitModel
 import deliverables
+import visualize_chains
 
 # routine for fitting one wl: -------------------------------------------------
 def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
@@ -62,15 +63,15 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     if input_param_dic['visualization']:
 
         output_dir = input_param_dic['output_dir']
-        LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+ wl_id+'_mcmc_chain.out')
+        LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
 
         plt.figure()
         plt.plot(x, best_fit)
         plt.plot(x, y, 'ko')
         plt.xlabel("phase")
         plt.ylabel("normalized flux")
-        plt.savefig(output_dir+"/" +wl_id+".best_fit.png")
-
+        plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
+        # the following two plots made on head node for now
         # LC_dic[wl_id].obj_mcmc.walker_plot()
         # LC_dic[wl_id].obj_mcmc.triangle_plot()
 
@@ -165,12 +166,13 @@ if __name__ == "__main__":
             print "now rank number: %i is proceeding to post processing."%(rank)
             if input_param_dic['visualization']:
                 # proceed with post-processing
-                # TO_DO: add heather's nice visualization for transmission spectrum
                 # TO-DO: debug deliverables  
-                output_dir = input_param_dic['output_dir']              
+                output_dir = input_param_dic['output_dir'] + "/"             
                 confidence = input_param_dic['confidence']  # size of confidence interval to be included in table
                 #deliverables.latex_table(LC_dic, True, confidence, output_dir + "/latex_table.out")
-                deliverables.simple_table(LC_dic, output_dir + "/simple_table.out")
+                deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
+                visualize_chains.plot_all(LC_dic, extra_burnin_steps=0, theta_true=None, 
+                    plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir) 
     else:
         print "no MPI. Will use single core to process all lightcurves."
         for wl_id in LC_dic.keys():
@@ -179,7 +181,13 @@ if __name__ == "__main__":
 
         if input_param_dic['visualization']:
             # proceed with post-processing inside this if statement
-            print "hello"
+            # TO-DO: debug deliverables  
+            output_dir = input_param_dic['output_dir'] + "/"             
+            confidence = input_param_dic['confidence']  # size of confidence interval to be included in table
+            #deliverables.latex_table(LC_dic, True, confidence, output_dir + "/latex_table.out")
+            deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
+            visualize_chains.plot_all(LC_dic, extra_burnin_steps=0, theta_true=None, 
+                plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir) 
 
 
     # KY comment: it's good not to put code outside the above if-else structure.

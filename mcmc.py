@@ -105,23 +105,23 @@ class MCMC(object):
             "to sample the posterior distribution before plotting"
             return 1
 
-        if self._sampler.chain.shape[1]<burnin_steps:
+        if self._sampler.chain.shape[1]<extra_burnin_steps:
             print "The chain is shorter than the requested burnin. \n" \
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
         if plot_transit_params and plot_hyper_params:
-            samples = self._sampler.flatchain[burnin_steps:,:]
+            samples = self._sampler.flatchain[extra_burnin_steps:,:]
             fig = corner.corner(samples, labels=self._all_params, truths=theta_true)
         elif plot_transit_params:
-            samples = self._sampler.flatchain[burnin_steps:, 0:len(self._transit_params)]
+            samples = self._sampler.flatchain[extra_burnin_steps:, 0:len(self._transit_params)]
             fig = corner.corner(samples, labels=self._transit_params, truths=theta_true)    #check theta true shape!
         elif plot_hyper_params:
             if len(self._hyper_params)==0:
                 print "You do not have any hyper parameters to plot. "\
                 "Try plotting your transit parameters by setting plot_transit_params=True"
                 return 1
-            samples = self._sampler.flatchain[burnin_steps:, len(self._transit_params):]
+            samples = self._sampler.flatchain[extra_burnin_steps:, len(self._transit_params):]
             fig = corner.corner(samples, labels=self._hyper_params, truths=theta_true)    #check theta true shape!
         else:
             print "Either plot_transit_params or plot_hyper_params must be true"
@@ -141,27 +141,27 @@ class MCMC(object):
             "to sample the posterior distribution before plotting"
             return 1
 
-        if self._sampler.chain.shape[1]<burnin_steps:
+        if self._sampler.chain.shape[1]<extra_burnin_steps:
             print "The chain is shorter than the requested burnin. \n" \
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
         if plot_transit_params and plot_hyper_params:
             params=self._all_params
-            samples_flat=self._sampler.flatchain[burnin_steps:,:]
-            samples=self._sampler.chain[:, burnin_steps:, :]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:,:]
+            samples=self._sampler.chain[:, extra_burnin_steps:, :]
         elif plot_transit_params:
             params=self._transit_params
-            samples_flat=self._sampler.flatchain[burnin_steps:,0:len(self._transit_params)]
-            samples=self._sampler.chain[:, burnin_steps:, 0:len(self._transit_params)]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:,0:len(self._transit_params)]
+            samples=self._sampler.chain[:, extra_burnin_steps:, 0:len(self._transit_params)]
         elif plot_hyper_params:
             if len(self._hyper_params)==0:
                 print "You do not have any hyper parameters to plot. "\
                 "Try plotting your transit parameters by setting plot_transit_params=True"
                 return 1
             params=self._hyper_params
-            samples_flat=self._sampler.flatchain[burnin_steps:,len(self._transit_params):]
-            samples=self._sampler.chain[:, burnin_steps:, len(self._transit_params):]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:,len(self._transit_params):]
+            samples=self._sampler.chain[:, extra_burnin_steps:, len(self._transit_params):]
         else:
             print "Either plot_transit_params or plot_hyper_params must be true"
             return 1
@@ -210,7 +210,7 @@ class MCMC(object):
             "to sample the posterior distribution before plotting"
             return 1
 
-        if self._sampler.chain.shape[1]<burnin_steps:
+        if self._sampler.chain.shape[1]< extra_burnin_steps:
             print "The chain is shorter than the requested burnin. \n" \
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
