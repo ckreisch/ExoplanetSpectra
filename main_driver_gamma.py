@@ -66,9 +66,9 @@ if __name__ == "__main__":
             for i in range(0, comm.Get_size()):
                 if (i % comm.Get_size() == rank and
                         rank != 0 and i+j*comm.Get_size() < len(LC_dic)):
-                    print "now rank number: %i of processor: %s" + \
+                    print "now rank number: %i of processor: %s" % (
+                        rank, MPI.Get_processor_name()) + \
                      "is processing channel centered on: %s microns" % (
-                        rank, MPI.Get_processor_name(),
                         LC_dic.keys()[j*comm.Get_size()])
                     fsl.run_mcmc_single_wl(
                         input_param_dic, LC_dic,
@@ -80,9 +80,9 @@ if __name__ == "__main__":
                     # print "send finished from rank %i"%(rank)
 
             if rank == 0:
-                print "now rank number: %i of processor: %s" + \
+                print "now rank number: %i of processor: %s" % (
+                    rank, MPI.Get_processor_name()) + \
                  "is processing channel centered on: %s microns" % (
-                    rank, MPI.Get_processor_name(),
                     LC_dic.keys()[j*comm.Get_size()])
                 fsl.run_mcmc_single_wl(
                     input_param_dic, LC_dic, LC_dic.keys()[j*comm.Get_size()])
@@ -93,7 +93,7 @@ if __name__ == "__main__":
                             np.shape(LC_dic[LC_dic.keys()[0]].obj_chain))
                         comm.Recv(
                             [chain, MPI.FLOAT], source=i, tag=11)
-                        LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_chain =
+                        LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_chain =\
                         chain
                         # print "receive finished."
             j = j+1
