@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # -----------------------------------------------------------------------------
-from __future__ import division, print_function
 import numpy as np
 import matplotlib.pyplot as pl
 import emcee
@@ -10,6 +9,7 @@ import batman
 import george
 from   george import kernels
 import os
+import sys
 import matplotlib.pyplot as plt
 
 # -----------------------------------------------------------------------------
@@ -29,7 +29,7 @@ def init_model(params, t, limb_dark="quadratic"):
     p.ecc = ecc                 #eccentricity 
     p.w = w                     #longitude of periastron (in degrees) 
     p.limb_dark = limb_dark     #limb darkening model 
-    p.u = [u0, u1]      #limb darkening coefficients 
+    p.u = [u0, u1]              #limb darkening coefficients 
     m = batman.TransitModel(p, t)  #initializes model 
     flux = m.light_curve(p)        #calculates white light curve  
     return p, m, flux
@@ -102,7 +102,7 @@ def write_lc(t, f, ferr, a_params, fname, m, w_level, r_level, wl_params):
     ofile.close()
     return 0
 
-def write_expected_vals(fname, t_params, radii, slopes, w_level, r_level,
+def write_expected_vals(fname, t_params, radii, WL, ldark, slopes, w_level, r_level,
                         w_scale, r_scale):
     """
     arguments:
@@ -119,12 +119,12 @@ def write_expected_vals(fname, t_params, radii, slopes, w_level, r_level,
         ofile.write("# " + key + " = " + str(dic[key]) + "\n")
     ofile.write("# WL: rp: u0: u1: w_scale: r_scale:\n")
     for k in range(len(radii)):
-        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\n" % (WL[k],rp[k],u0[k],u1[k],w_scale[k],r_scale[k]))
+        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\n" % (WL[k],radii[k],ldark[k][0],ldark[k][0],w_scale[k],r_scale[k]))
 
     return 0
 
-def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,   
-                w_scale, r_scale, w_level, r_level, N=300, phase_range=(-0.025,0.025)):
+def gen_obs_set(dname, t_params, radii, limb_darkening, wl,   
+                w_scale, r_scale, w_level, r_level, N=300, phase_range=(-0.025,0.025),fileroot=""):
     """
     arguments: transit parameter list, radii for each wavelength,
                list of limb darkening coefficients for each wavelength
@@ -153,12 +153,12 @@ def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,
         # put  it all together
         f = signal*red_noise(wl_a_params, slopes) + ferr*np.random.randn(N)
         # write to a file
-        fname = fileroot+"_lc_"+str(wl[k])+".txt"
+        fname = dname+"/"+fileroot+"lc_"+str(wl[k])+".txt"
         write_lc(t, f, ferr, wl_a_params, fname ,
                  slopes*r_scale[k], w_level, r_level, wl_params)
 
     fname = fileroot+"expected_values.txt"   
-    write_expected_vals(fname, t_params, radii, slopes, w_level, r_level,
+    write_expected_vals(fname, t_params, radii, wl, limb_darkening, slopes, w_level, r_level,
                         w_scale, r_scale)
     return 0
 
@@ -191,7 +191,7 @@ r_scale = [np.sqrt(fwhm[k]**2.+skyspec[k]**2.) for k in range(len(fwhm))]
 if __name__ == "__main__":
 
     if len(sys.argv)!=5:
-        raise ValueError("Run as python gen_syn_data.py <output_directory> " +\
+        raise ValueError("Run as python gen_syn_data.py <output_directory> " + \
                 "<N data in lightcurve> <white noise level> <red noise level>")
 
     output_dir, N, w_level, r_level = sys.argv[1:]
@@ -201,7 +201,7 @@ if __name__ == "__main__":
         w_level = float(w_level)
         r_level = float(r_level)
     except ValueError:
-        print "command line arguments need to be convertable to string" +\
+        print "command line arguments need to be convertable to string" + \
               " integer float float"
         raise
 
@@ -217,8 +217,11 @@ if __name__ == "__main__":
 
     plt.figure(1)
     for wavelength in wl:
-        check = np.loadtxt(output_dir+'lc_'+str(wavelength)+'.txt',unpack=True)
-        plt.plot(check1[0],check1[1])
+        check = np.loadtxt(output_dir+'/lc_'+str(wavelength)+'.txt',unpack=True)
+        plt.plot(check[0],check[1],label=str(wavelength))
+    plt.legend()
+    plt.xlabel("phase")
+    plt.ylabel("normalized flux")
     plt.show()
 
 
