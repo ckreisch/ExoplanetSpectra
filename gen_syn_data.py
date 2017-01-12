@@ -10,6 +10,8 @@ import batman
 import george
 from   george import kernels
 import os
+import matplotlib.pyplot as plt
+
 # -----------------------------------------------------------------------------
 def init_model(params, t, limb_dark="quadratic"):
     """
@@ -115,7 +117,7 @@ def write_expected_vals(fname, t_params, radii, slopes, w_level, r_level,
     ofile = open(fname,"w")
     for key in dic.keys():
         ofile.write("# " + key + " = " + str(dic[key]) + "\n")
-    ofile.write("# WL: rp: u0: u1: w_scale: r_scale:")
+    ofile.write("# WL: rp: u0: u1: w_scale: r_scale:\n")
     for k in range(len(radii)):
         ofile.write("%f\t%f\t%f\t%f\t%f\t%f\n" % (WL[k],rp[k],u0[k],u1[k],w_scale[k],r_scale[k]))
 
@@ -160,67 +162,76 @@ def gen_obs_set(fileroot, t_params, radii, limb_darkening, wl,
                         w_scale, r_scale)
     return 0
 
+# -----------------------------------------------------------------------------
+# Define some global constants, all data generated will take on these
+# root parameters, with noise added on top
+#
+# transit parameters in order: t0,per,rp,a,inc,ecc,w,u0,u1
+# see def init_model() for physical meanings
+truth = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1]
+# central wavelengths in microns for each channel
+wl = [500, 650, 800, 950, 1100, 1350]  
+# fractional radius of planet       
+radii = [0.05, 0.08, 0.1, 0.12, 0.15, 0.09]   
+# limb darkening coefficients for the star
+ldark = [[0.45, 0.1],[0.55, 0.1],[0.45, 0.11],[0.35,0.16],[0.5,0.1],[0.3,0.2]]    
+# flux level coming from star normalized to channel with maximum flux (to scale white noise)
+starspec = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]  
+# fwhm of psf for that wavelength normalized to channel with maximum psf size (to scale red noise)
+fwhm = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), 
+        np.sqrt(1./2.)]      
+# sky flux level normalized to maximum sky flux level (to scale red noise)
+skyspec = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), 
+           np.sqrt(1./2.)] 
+# convert starspec, fwhm, skyspec  to w_scale, r_scale
+w_scale = [1./starspec[k] for k in range(len(starspec))] # brighter channels will have lower white noise levels
+r_scale = [np.sqrt(fwhm[k]**2.+skyspec[k]**2.) for k in range(len(fwhm))]
 
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
 
+    if len(sys.argv)!=5:
+        raise ValueError("Run as python gen_syn_data.py <output_directory> " +\
+                "<N data in lightcurve> <white noise level> <red noise level>")
+
+    output_dir, N, w_level, r_level = sys.argv[1:]
+
+    try:
+        N = int(N)
+        w_level = float(w_level)
+        r_level = float(r_level)
+    except ValueError:
+        print "command line arguments need to be convertable to string" +\
+              " integer float float"
+        raise
+
+
     np.random.seed(1234)
-    # transit parameters in order: t0,per,rp,a,inc,ecc,w,u0,u1
-    # see def init_model() for physical meanings
-    truth = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1]
-    # central wavelengths in microns for each channel
-    wl = [500, 650, 800, 950, 1100]  
-    # fractional radius of planet       
-    radii = [0.05, 0.08, 0.1, 0.12, 0.15]   
-    # limb darkening coefficients for the star
-    ldark = [[0.45, 0.1],[0.55, 0.1],[0.45, 0.11],[0.35,0.16],[0.5,0.1]]    
-    # flux level coming from star normalized to channel with maximum flux (to scale white noise)
-    starspec = [1.0, 1.0, 1.0, 1.0, 1.0]  
-    # fwhm of psf for that wavelength normalized to channel with maximum psf size (to scale red noise)
-    fwhm = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.)]      
-    # sky flux level normalized to maximum sky flux level (to scale red noise)
-    skyspec = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.)]   
+  
+    # generate one set of data and look at it:
+    gen_obs_set(output_dir, truth, radii, ldark, wl, 
+                w_scale, r_scale, w_level, r_level, N=N)
 
-    # convert starspec, fwhm, skyspec  to w_scale, r_scale
-    w_scale = [1./starspec[k] for k in range(len(starspec))] # brighter channels will have lower white noise levels
-    r_scale = [np.sqrt(fwhm[k]**2.+skyspec[k]**2.) for k in range(len(fwhm))]
-
-    # generate suite of data, 
-    # 3 red levels and 3 white levels saved in their own directories
-    rootname = ""
-    descriptors = ["none","low","some"]
-    w_levels = [0.0, 0.0001, 0.0005]
-    r_levels = [0.0, 0.00008, 0.0002]
-
-    for i in range(3):
-        w_level = w_levels[i]
-        for j in range(3):
-            r_level = r_levels[j]
-            dname = rootname + '_white_' + descriptors[i] + '_red_' + descriptors[j]
-            os.system('mkdir '+ dname)
-            fileroot = dname+"/"+rootname
-            gen_obs_set(fileroot, truth, radii, ldark, wl,
-                        w_scale, r_scale, w_level, r_level, N=150)  
-    
+    plt.figure(1)
+    for wavelength in wl:
+        check = np.loadtxt(output_dir+'lc_'+str(wavelength)+'.txt',unpack=True)
+        plt.plot(check1[0],check1[1])
+    plt.show()
 
 
-    # # generate one set of data and look at it:
-    # fileroot = "heather"
-    # w_level, r_level = 0.0, 0.0
-    # gen_obs_set(fileroot, truth, radii, ldark, wl, 
-    #             w_scale, r_scale, w_level, r_level, N=30)
+    # # generate suite of data, 
+    # # 3 red levels and 3 white levels saved in their own directories
+    # rootname = ""
+    # descriptors = ["none","low","some"]
+    # w_levels = [0.0, 0.0001, 0.0005]
+    # r_levels = [0.0, 0.00008, 0.0002]
 
-    # check1 = np.loadtxt('example_lc_500.txt',unpack=True)
-    # check3 = np.loadtxt('example_lc_650.txt',unpack=True)
-    # check2 = np.loadtxt('example_lc_800.txt',unpack=True)
-    # check4 = np.loadtxt('example_lc_950.txt',unpack=True)
-    # check5 = np.loadtxt('example_lc_1100.txt',unpack=True)
-
-    # import matplotlib.pyplot as plt
-    # plt.figure(1)
-    # plt.plot(check1[0],check1[1],'r.')
-    # plt.plot(check2[0],check2[1],'g.')
-    # plt.plot(check3[0],check3[1],'b.')
-    # plt.plot(check3[0],check4[1],'k.')
-    # plt.plot(check3[0],check5[1],'c.')
-    # plt.show()
+    # for i in range(3):
+    #     w_level = w_levels[i]
+    #     for j in range(3):
+    #         r_level = r_levels[j]
+    #         dname = rootname + '_white_' + descriptors[i] + '_red_' + descriptors[j]
+    #         os.system('mkdir '+ dname)
+    #         fileroot = dname+"/"+rootname
+    #         gen_obs_set(fileroot, truth, radii, ldark, wl,
+    #                     w_scale, r_scale, w_level, r_level, N=150)  
