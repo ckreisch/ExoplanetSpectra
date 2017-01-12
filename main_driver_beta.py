@@ -153,15 +153,15 @@ if __name__ == "__main__":
         if rank == 0:
             print "now rank number: %i is proceeding to post processing."%(rank)
             # To-Do: make sure this is working on cluster
-            # if input_param_dic['visualization']:
-            #     # proceed with post-processing
-            #     # TO-DO: debug deliverables
-            #     output_dir = input_param_dic['output_dir'] + "/"
-            #     confidence = input_param_dic['confidence']  # size of confidence interval to be included in table
-            #     #deliverables.latex_table(LC_dic, True, confidence, output_dir + "/latex_table.out")
-            #     deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
-            #     visualize_chains.plot_all(LC_dic, extra_burnin_steps=0, theta_true=None,
-            #         plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
+            if input_param_dic['visualization']:
+                # proceed with post-processing
+                # TO-DO: debug deliverables
+                output_dir = input_param_dic['output_dir'] + "/"
+                confidence = input_param_dic['confidence']  # size of confidence interval to be included in table
+                #deliverables.latex_table(LC_dic, True, confidence, output_dir + "/latex_table.out")
+                deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
+                visualize_chains.plot_all(LC_dic, extra_burnin_steps=0, theta_true=None,
+                    plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
     else:
         print "no MPI. Will use single core to process all lightcurves."
         for wl_id in LC_dic.keys():

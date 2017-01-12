@@ -29,18 +29,20 @@ class TestStyle(unittest.TestCase):
         self.assertEqual(file_error.total_errors, 0, "pep8 style violation.")
 
 class TestIntegration(unittest.TestCase):
-    def run_main_and_check_output_names(self):
+    def setUp(self):
+        os.chdir("jenkins_test_out")
+        os.system("rm *.png")  # clean up any previous tests 
+        os.system("rm *.out")       
+        os.chdir("../")
+        os.system("python main_driver_beta.py jenkins_test.ini") # run main_driver
+
+    def check_output_names(self):
         """
         so long as jenkins_test.ini jenkins_test_out and jenkins_test_lc are kept
         as they are, this test will show that main_driver is producing the expected
         outputs. as main driver is editted to contain different visualization output, checks
         can be added. 
         """
-        os.chdir("jenkins_test_out")
-        os.system("rm *.png")  # clean up any previous tests 
-        os.system("rm *.out")       
-        os.chdir("../")
-        os.system("python main_driver_beta.py jenkins_test.ini") # run main_driver
         os.chdir("jenkins_test_out") 
         file_list = np.array([])      # get list of output files
         for file in glob.glob("*"):
@@ -66,6 +68,11 @@ class TestIntegration(unittest.TestCase):
 
         if flag:
             pass
+
+    def check_chain_shapes(self):
+        """
+        
+        """
 
 if __name__ == '__main__':
     unittest.main()

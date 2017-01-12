@@ -67,17 +67,19 @@ def simple_table(LC_dic, filename):
             err_plus[1], err_plus[2]))
     ofile.close()
 
-def best_fit_plot(t, y, yerr, best_fit, output_dir, wl_id):
-    """ use gp.sample_conditional to plot best fit model
-         and data
-    """ 
-    plt.figure()
-    plt.plot(t, best_fit)
-    plt.plot(t, y, 'ko')
-    #plt.errorbar()
-    plt.xlabel("phase")
-    plt.ylabel("normalized flux")
-    plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
+# TO-DO: Heather can you make this plot match the style of the others and do 
+# the matplot lib in the way that works on the cluster?
+# def best_fit_plot(t, y, yerr, best_fit, output_dir, wl_id):
+#     """ use gp.sample_conditional to plot best fit model
+#          and data
+#     """ 
+#     plt.figure()
+#     plt.plot(t, best_fit)
+#     plt.plot(t, y, 'ko')
+#     #plt.errorbar()
+#     plt.xlabel("phase")
+#     plt.ylabel("normalized flux")
+#     plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
 
 if __name__ == "__main__":
     import sys
