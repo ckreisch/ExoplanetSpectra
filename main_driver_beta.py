@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize
 import sys
+import os
 
 import george
 from george import kernels
@@ -59,22 +60,21 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     best_fit = model.sample_conditional(median, x, y, yerr)
     LC_dic[wl_id].transit_model = model
     output_dir = input_param_dic['output_dir']
+    # create an output folder if it does not exist... (whichever process is fastest will make it)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        
+    # always save the chain
     LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
 
-
-
-    # save plots for this wavelength...
+    # if visualization is True save plots for this wavelength
     if input_param_dic['visualization']:
         print "visualization under developement\n"
         output_dir = input_param_dic['output_dir']
-        LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
         visualize_chains.plot_single_wavelength(wl_id, LC_dic[wl_id].obj_mcmc, LC_dic[wl_id].transit_model.sample_conditional, extra_burnin_steps=0, theta_true=None,
             plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
 
         #deliverables.best_fit_plot(x, y, yerr, best_fit, output_dir, wl_id)
-        # the following two plots made on head node for now, eventually will be done here
-        # LC_dic[wl_id].obj_mcmc.walker_plot()
-        # LC_dic[wl_id].obj_mcmc.triangle_plot()
 
     return 0
 
