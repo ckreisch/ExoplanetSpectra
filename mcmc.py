@@ -110,7 +110,7 @@ class MCMC(object):
     # @param save_as_name Name under which plot should be saved
     # @retval 0 if successful
     # @retval 1 on failure
-    def triangle_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="triangle.png"):
+    def triangle_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="triangle.png", steps_max_cutoff=None):
         #makes triangle plot
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         if self._sampler.chain.shape[1]==0:
@@ -124,24 +124,29 @@ class MCMC(object):
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
+        if not(steps_max_cutoff):
+            steps_max_cutoff=self._sampler.chain.shape[1]
+
         if plot_transit_params and plot_hyper_params:
-            samples = self._sampler.flatchain[extra_burnin_steps:,:]
+            samples = self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,:]
             fig = corner.corner(samples, labels=self._all_params, truths=theta_true)
         elif plot_transit_params:
-            samples = self._sampler.flatchain[extra_burnin_steps:, 0:len(self._transit_params)]
+            samples = self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff, 0:len(self._transit_params)]
             fig = corner.corner(samples, labels=self._transit_params, truths=theta_true)    #check theta true shape!
         elif plot_hyper_params:
             if len(self._hyper_params)==0:
                 print "You do not have any hyper parameters to plot. "\
                 "Try plotting your transit parameters by setting plot_transit_params=True"
                 return 1
-            samples = self._sampler.flatchain[extra_burnin_steps:, len(self._transit_params):]
+            samples = self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff, len(self._transit_params):]
             fig = corner.corner(samples, labels=self._hyper_params, truths=theta_true)    #check theta true shape!
         else:
             print "Either plot_transit_params or plot_hyper_params must be true"
             return 1
-        fig.savefig(save_as_dir+save_as_name)   #check if it works, otherwise save in current directory and print message
+        fig.savefig(save_as_dir+"/"+save_as_name)   #check if it works, otherwise save in current directory and print message
         plt.close()
+
+        return 0
 
     ## Plots the chains of each walker and a histogram showing how each parameter was sampled
     # @param self The object pointer
@@ -153,7 +158,7 @@ class MCMC(object):
     # @param save_as_name Name under which plot should be saved
     # @retval 0 if successful
     # @retval 1 on failure
-    def walker_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="walkers.png"):
+    def walker_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="walkers.png", steps_max_cutoff=None):
         #makes a walker plot and histogram
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         #check theta_true!!
@@ -169,22 +174,25 @@ class MCMC(object):
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
+        if not(steps_max_cutoff):
+            steps_max_cutoff=self._sampler.chain.shape[1]
+
         if plot_transit_params and plot_hyper_params:
             params=self._all_params
-            samples_flat=self._sampler.flatchain[extra_burnin_steps:,:]
-            samples=self._sampler.chain[:, extra_burnin_steps:, :]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,:]
+            samples=self._sampler.chain[:, extra_burnin_steps:steps_max_cutoff, :]
         elif plot_transit_params:
             params=self._transit_params
-            samples_flat=self._sampler.flatchain[extra_burnin_steps:,0:len(self._transit_params)]
-            samples=self._sampler.chain[:, extra_burnin_steps:, 0:len(self._transit_params)]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,0:len(self._transit_params)]
+            samples=self._sampler.chain[:, extra_burnin_steps:steps_max_cutoff, 0:len(self._transit_params)]
         elif plot_hyper_params:
             if len(self._hyper_params)==0:
                 print "You do not have any hyper parameters to plot. "\
                 "Try plotting your transit parameters by setting plot_transit_params=True"
                 return 1
             params=self._hyper_params
-            samples_flat=self._sampler.flatchain[extra_burnin_steps:,len(self._transit_params):]
-            samples=self._sampler.chain[:, extra_burnin_steps:, len(self._transit_params):]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,len(self._transit_params):]
+            samples=self._sampler.chain[:, extra_burnin_steps:steps_max_cutoff, len(self._transit_params):]
         else:
             print "Either plot_transit_params or plot_hyper_params must be true"
             return 1
@@ -215,12 +223,14 @@ class MCMC(object):
             if theta_true:
                 axes[i][1].axhline(theta_true[i], color="#888888", lw=2)
             if i+1==nplots:
-                axes[i][1].set_xlabel("time")
+                axes[i][1].set_xlabel("steps")
             #axes[i][1].set_ylabel(p)
 
         fig.tight_layout(h_pad=0.0)
-        fig.savefig(save_as_dir+save_as_name)
+        fig.savefig(save_as_dir+"/"+save_as_name)
         plt.close()
+
+        return 0
 
     ## Plots the chains of each walker and a histogram showing how each parameter was sampled
     # @param self The object pointer
@@ -233,7 +243,7 @@ class MCMC(object):
     # @param save_as_name Name under which plot should be saved
     # @retval 0 if successful
     # @retval 1 on failure
-    def light_curve_plot(self, model, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir="", save_as_name="light_curve"):
+    def light_curve_plot(self, model, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="light_curve"):
         # Plot some samples onto the data.
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         #model is a function that takes an array of parameters and an array of times and evaluates the model
@@ -250,15 +260,29 @@ class MCMC(object):
 
         samples = self._sampler.flatchain # self._sampler.chain[:, burnin_steps:, :].reshape((-1, self._dim))
 
-        t=self._t #can make it finer resolution
         plt.figure()
         for theta in samples[np.random.randint(len(samples), size=100)]:
-            plt.plot(t, model(theta, t), color="k", alpha=0.1)
+            plt.plot(self._t, model(theta, self._t, self._val, self._err), color="k", alpha=0.1)
         if theta_true:
-            plt.plot(t, model(theta_true, t), color="r", lw=2, alpha=0.8)
+            plt.plot(t, model(theta_true, self._t, self._val, self._err), color="r", lw=2, alpha=0.8)
         plt.errorbar(self._t, self._val, yerr=self._err, fmt=".k")
         plt.xlabel("$t$")
         plt.ylabel("flux")
         plt.tight_layout()
-        plt.savefig(save_as_dir+save_as_name)
+        plt.savefig(save_as_dir+"/"+save_as_name)
         plt.close()
+
+        median, err1, err2=self.get_median_and_errors()
+        best_fit = model(median, self._t, self._val, self._err)
+        plt.figure()
+        plt.plot(self._t, best_fit)
+        if theta_true:
+            plt.plot(t, model(theta_true, self._t, self._val, self._err), color="r", lw=2, alpha=0.8)
+        plt.errorbar(self._t, self._val, yerr=self._err, fmt=".k")
+        plt.xlabel("$t$")
+        plt.ylabel("flux")
+        plt.tight_layout()
+        plt.savefig(save_as_dir+"/best_fit_"+save_as_name)
+        plt.close()
+
+        return 0
