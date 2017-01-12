@@ -63,8 +63,21 @@ def simple_table(LC_dic, filename):
         err_plus=ps[2]-ps[1]
         err_minus=ps[1]-ps[0]
         ofile.write("%s\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n" % (wavelength_id, medians[0],
-            medians[1],medians[2], err_minus[0], err_minus[1], err_minus[2], err_plus[0], err_plus[1], err_plus[2]))
+            medians[1],medians[2], err_minus[0], err_minus[1], err_minus[2], err_plus[0], 
+            err_plus[1], err_plus[2]))
     ofile.close()
+
+def best_fit_plot(t, y, yerr, best_fit, output_dir, wl_id):
+    """ use gp.sample_conditional to plot best fit model
+         and data
+    """ 
+    plt.figure()
+    plt.plot(t, best_fit)
+    plt.plot(t, y, 'ko')
+    #plt.errorbar()
+    plt.xlabel("phase")
+    plt.ylabel("normalized flux")
+    plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
 
 if __name__ == "__main__":
     import sys
