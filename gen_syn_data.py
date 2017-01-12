@@ -205,7 +205,10 @@ if __name__ == "__main__":
               " integer float float"
         raise
 
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
+    # for reproducability seed the numpy random number generator
     np.random.seed(1234)
   
     # generate one set of data and look at it:
