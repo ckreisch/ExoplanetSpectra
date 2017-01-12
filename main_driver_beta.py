@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.optimize
 import sys
+import os
 
 import george
 from george import kernels
@@ -59,10 +60,13 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     best_fit = model.sample_conditional(median, x, y, yerr)
     LC_dic[wl_id].transit_model = model
     output_dir = input_param_dic['output_dir']
+    # create an output folder if it does not exist 
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
 
 
-    # save plots for this wavelength... 
+    # save plots for this wavelength...
     if input_param_dic['visualization']:
         print "visualization under developement\n"
         #deliverables.best_fit_plot(x, y, yerr, best_fit, output_dir, wl_id)
