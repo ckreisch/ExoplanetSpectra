@@ -157,7 +157,7 @@ def gen_obs_set(dname, t_params, radii, limb_darkening, wl,
         write_lc(t, f, ferr, wl_a_params, fname ,
                  slopes*r_scale[k], w_level, r_level, wl_params)
 
-    fname = fileroot+"expected_values.txt"   
+    fname = dname+"/"+fileroot+"expected_values.txt"   
     write_expected_vals(fname, t_params, radii, wl, limb_darkening, slopes, w_level, r_level,
                         w_scale, r_scale)
     return 0
