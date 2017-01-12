@@ -45,6 +45,7 @@ class TestMCMC(unittest.TestCase):
         #mcmc2.walker_plot(50,theta_true, False, True)
         #mcmc2.walker_plot(50)
         #mcmc2.walker_plot()
+        pass
 
     def test_triangle_plots(self):
         #mcmc1.triangle_plot(50, theta_true)
@@ -52,6 +53,7 @@ class TestMCMC(unittest.TestCase):
         #mcmc1.triangle_plot()
         #mcmc1.light_curve_plot(model_fn, 50, theta_true)
         #mcmc2.triangle_plot()
+        pass
 
     def test_light_curve_plots(self):
         pass
