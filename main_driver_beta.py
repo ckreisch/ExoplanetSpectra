@@ -58,23 +58,19 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     accept_frac = LC_dic[wl_id].obj_mcmc.get_mean_acceptance_fraction()
     best_fit = model.sample_conditional(median, x, y, yerr)
     LC_dic[wl_id].transit_model = model
+    output_dir = input_param_dic['output_dir']
+    LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
 
-    # save plots for this wavelength... TO-DO: fix so can save plots
+
+    # save plots for this wavelength...
     if input_param_dic['visualization']:
-
+        print "visualization under developement\n"
         output_dir = input_param_dic['output_dir']
         LC_dic[wl_id].obj_mcmc.save_chain(output_dir + "/"+'mcmc_chain_'+ wl_id+'.out')
         visualize_chains.plot_single_wavelength(wl_id, LC_dic[wl_id].obj_mcmc, LC_dic[wl_id].transit_model.sample_conditional, extra_burnin_steps=0, theta_true=None,
             plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
-
-        plt.figure()
-        plt.plot(x, best_fit)
-        plt.plot(x, y, 'ko')
-        plt.xlabel("phase")
-        plt.ylabel("normalized flux")
-        plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
-        plt.close()
-        # the following two plots made on head node for now
+        #deliverables.best_fit_plot(x, y, yerr, best_fit, output_dir, wl_id)
+        # the following two plots made on head node for now, eventually will be done here
         # LC_dic[wl_id].obj_mcmc.walker_plot()
         # LC_dic[wl_id].obj_mcmc.triangle_plot()
 
@@ -140,8 +136,6 @@ if __name__ == "__main__":
 
                     # print "now rank number: %i of processor: %s is sending result to rank 0."% (rank, MPI.Get_processor_name())
                     comm.Send([LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_chain, MPI.FLOAT], dest=0, tag=11)
-                    comm.Send([LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].transit_model, MPI.FLOAT], dest=0, tag=22)
-                    comm.Send([LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_mcmc, MPI.FLOAT], dest=0, tag=33)
                     # print "send finished from rank %i"%(rank)
 
             if rank == 0:
@@ -153,29 +147,25 @@ if __name__ == "__main__":
                         # print "now rank number: %i is receiving result from rank %i."% (rank, i)
                         chain = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].obj_chain))
                         comm.Recv([chain, MPI.FLOAT], source=i, tag=11)
-                        model = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].transit_model))
-                        comm.Recv([chain, MPI.FLOAT], source=i, tag=22)
-                        obj_mcmc = np.empty(np.shape(LC_dic[LC_dic.keys()[0]].obj_mcmc))
-                        comm.Recv([obj_mcmc, MPI.FLOAT], source=i, tag=33)
-                        # print "receive finished."
                         LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_chain = chain
-                        LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].transit_model = model
-                        LC_dic[LC_dic.keys()[i+j*comm.Get_size()]].obj_mcmc = obj_mcmc
+                        # print "receive finished."
+
 
             j = j+1
 
         # master node processing plots
         if rank == 0:
             print "now rank number: %i is proceeding to post processing."%(rank)
-            if input_param_dic['visualization']:
-                # proceed with post-processing
-                # TO-DO: debug deliverables
-                output_dir = input_param_dic['output_dir'] + "/"
-                confidence = input_param_dic['confidence']  # size of confidence interval to be included in table
-                #deliverables.latex_table(LC_dic, True, confidence, output_dir + "/latex_table.out")
-                deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
-                visualize_chains.plot_all(LC_dic, extra_burnin_steps=0, theta_true=None,
-                    plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
+            # To-Do: make sure this is working on cluster
+            # if input_param_dic['visualization']:
+            #     # proceed with post-processing
+            #     # TO-DO: debug deliverables
+            #     output_dir = input_param_dic['output_dir'] + "/"
+            #     confidence = input_param_dic['confidence']  # size of confidence interval to be included in table
+            #     #deliverables.latex_table(LC_dic, True, confidence, output_dir + "/latex_table.out")
+            #     deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
+            #     visualize_chains.plot_all(LC_dic, extra_burnin_steps=0, theta_true=None,
+            #         plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
     else:
         print "no MPI. Will use single core to process all lightcurves."
         for wl_id in LC_dic.keys():
@@ -189,6 +179,8 @@ if __name__ == "__main__":
             confidence = input_param_dic['confidence']  # size of confidence interval to be included in table
             #deliverables.latex_table(LC_dic, True, confidence, output_dir + "/latex_table.out")
             deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
+            #visualize_chains.plot_all(LC_dic, extra_burnin_steps=0, theta_true=None,
+            #    plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
             visualize_chains.plot_transmission_spec(LC_dic, saving_dir=output_dir)
 
 
