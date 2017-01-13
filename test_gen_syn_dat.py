@@ -173,12 +173,12 @@ class TestSynthData(unittest.TestCase):
         gsd.write_expected_vals(fname, truth, slopes, w_level, r_level)
         data = np.loadtxt(fname,unpack=True)
 
-        #self.assertTrue(self.wl==data[0].tolist)
-        # self.assertTrue(self.radii==data[1])
-        # self.assertTrue(self.ldark[0][0]==data[2][0])
-        # self.assertTrue(self.ldark[2][1]==data[3][2])        
-        # self.assertTrue(self.w_scale==data[4])
-        # self.assertTrue(self.r_scale==data[5])
+        self.assertTrue(self.wl==[int(data[0][k]) for k in range(len(self.wl))])
+        self.assertTrue(self.radii==data[1].tolist())
+        self.assertTrue(self.ldark[0][0]==data[2][0])  
+        self.assertTrue(self.ldark[0][1]==data[3][0])      
+        self.assertTrue(self.w_scale==data[4].tolist())
+        self.assertTrue(self.r_scale==data[5].tolist())
 
         lines = open(fname).readlines()
         lines[12] = "# WL: rp: u0: u1: w_scale: r_scale:\n"
@@ -247,10 +247,10 @@ class TestSynthData(unittest.TestCase):
             pass
 
     
-    ## Tests the gen_obs_set function for white and red noise level behavior
+    ## Tests the gen_obs_set function for white saling with w_level 
     def testGen_obs_set_white_noise_scale(self):
-        dnames = ["testing_gen_obs_set_noise_1","testing_gen_obs_set_noise_2"]
-        w_levels = [0.001,0.1]
+        dnames = ["testing_whitenoise_1","testing_whitenoise_2"]
+        w_levels = [0.0001,0.5]
         r_level= 0.0
         truth = self.truth
         for k in [0,1]:
@@ -264,16 +264,15 @@ class TestSynthData(unittest.TestCase):
         wl_params = [self.radii[0], self.ldark[0][0], self.ldark[0][1]]
         true_signal = gsd.wl_channel_flux(wl_params, m, p)
 
-        #self.assertTrue(np.sum((data1-true_signal)**2.) < np.sum((data2-true_signal)**2.))
+        self.assertTrue(np.sum((data1[1]-true_signal)**2.) < np.sum((data2[1]-true_signal)**2.))
 
         for name in dnames:
             self.cleanGen_obs_set_output(name)
         pass
 
-
-    ## Checks that auxiliary measure vs. flux is somewhat linearly correlated
+    ## Tests the gen_obs_set function for white saling with w_level 
     def testGen_obs_set_red_noise_scale(self):
-        dnames = ["testing_gen_obs_set_noise_1","testing_gen_obs_set_noise_2"]
+        dnames = ["testing_rednoise_1","testing_rednoise_2"]
         w_level = 0.0
         r_levels= [0.001,0.1]
         truth = self.truth
@@ -288,9 +287,7 @@ class TestSynthData(unittest.TestCase):
         wl_params = [self.radii[0], self.ldark[0][0], self.ldark[0][1]]
         true_signal = gsd.wl_channel_flux(wl_params, m, p)
 
-        self.assertTrue(np.sum((data1-true_signal)**2.) < np.sum((data2-true_signal)**2.))
-
-        #TO-DO insert check of linear correlation here...
+        self.assertTrue(np.sum((data1[1]-true_signal)**2.) < np.sum((data2[1]-true_signal)**2.))
 
         for name in dnames:
             self.cleanGen_obs_set_output(name)
@@ -308,7 +305,7 @@ class TestSynthData(unittest.TestCase):
 
         data = np.loadtxt("testing_gen_obs_set_realistic_values/light_curves/synth_lc_500.txt",unpack=True)
         self.assertTrue(data[0][0]==-0.5)
-        #self.assertTrue(data[0][39]==-0.5+1.0/40.)
+        self.assertTrue(data[0][39]==0.475)
         self.assertTrue(np.min(data[1])>0)
         self.assertTrue(np.max(data[1])==1.0)        
         self.assertTrue(np.mean(data[2])==0.000001)  # this is hardcoded in minimum error if w level is 0 

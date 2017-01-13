@@ -122,7 +122,7 @@ def write_expected_vals(fname, truth, slopes, w_level, r_level):
         ofile.write("# " + key + " = " + str(dic[key]) + "\n")
     ofile.write("# WL: rp: u0: u1: w_scale: r_scale:\n")
     for k in range(len(radii)):
-        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\n" % (wl[k],radii[k],ldark[k][0],ldark[k][0],w_scale[k],r_scale[k]))
+        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\n" % (wl[k],radii[k],ldark[k][0],ldark[k][1],w_scale[k],r_scale[k]))
 
     return 0
 
