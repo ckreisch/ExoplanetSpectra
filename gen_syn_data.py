@@ -164,7 +164,7 @@ def gen_obs_set(dname, truth, w_level, r_level, N=300,
         # white noise to be added
         ferr =  np.zeros(N) + np.std(white_noise(w_level, N)*w_scale[k])  
         if np.mean(ferr)==0:
-            ferr = ferr + 0.0000001 
+            ferr = ferr + 0.000001 
         # scale the fwhm and sky noise correlated rednoise for that wl
         fwhm, skynoise = r_scale[k]*a_params[3], r_scale[k]*a_params[2]
         wl_a_params = np.concatenate((a_params[:2],np.array([fwhm,skynoise])))

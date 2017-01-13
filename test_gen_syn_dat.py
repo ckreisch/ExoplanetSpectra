@@ -311,7 +311,7 @@ class TestSynthData(unittest.TestCase):
         #self.assertTrue(data[0][39]==-0.5+1.0/40.)
         self.assertTrue(np.min(data[1])>0)
         self.assertTrue(np.max(data[1])==1.0)        
-        #self.assertTrue(np.mean(data[2])==0.0000001)  # this is hardcoded in minimum error if w level is 0 
+        self.assertTrue(np.mean(data[2])==0.000001)  # this is hardcoded in minimum error if w level is 0 
         self.cleanGen_obs_set_output(dname)
 
         pass
