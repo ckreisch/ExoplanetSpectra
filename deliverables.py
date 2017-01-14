@@ -1,5 +1,6 @@
 # Deliverables module to parse MCMC data into latex code
 import numpy as np
+import mcmc
 
 #table of both trans and gp/noise params for now. Code visualization later.
 def latex_table(LC_dic,visualization,confidence,filename):
@@ -8,7 +9,7 @@ def latex_table(LC_dic,visualization,confidence,filename):
                     +"This will be available in a future release."
         quantile = (100.-confidence)/2.
         try:
-            f = open("latex_tables_"+filename+".txt", "a")
+            f = open(filename, "w")
         except IOError:
             print "Cannot open file to write tables to."
             raise
@@ -51,6 +52,32 @@ def latex_table(LC_dic,visualization,confidence,filename):
         except IOError:
             print "Could not close file for some reason."
             raise
+
+def simple_table(LC_dic, filename):
+    """note that this will only work if we have flat chain"""
+    ofile = open(filename,"w")
+    ofile.write("# wl rp u0 u1 rp_e1 u1_e1 u0_e1 rp_e2 u0_e2 u1_e2 \n")
+    for wavelength_id in LC_dic.keys():
+        ps=np.percentile(LC_dic[wavelength_id].obj_chain, [16, 50, 84], axis=0)
+        medians=ps[1]
+        err_plus=ps[2]-ps[1]
+        err_minus=ps[1]-ps[0]
+        ofile.write("%s\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n" % (wavelength_id, medians[0],
+            medians[1],medians[2], err_minus[0], err_minus[1], err_minus[2], err_plus[0], 
+            err_plus[1], err_plus[2]))
+    ofile.close()
+
+def best_fit_plot(t, y, yerr, best_fit, output_dir, wl_id):
+    """ use gp.sample_conditional to plot best fit model
+         and data
+    """ 
+    plt.figure()
+    plt.plot(t, best_fit)
+    plt.plot(t, y, 'ko')
+    #plt.errorbar()
+    plt.xlabel("phase")
+    plt.ylabel("normalized flux")
+    plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
 
 if __name__ == "__main__":
     import sys

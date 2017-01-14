@@ -194,8 +194,11 @@ class TransitModel(object):
 
         if variance_new is None:
             setattr(self, "kernel_variance", self.kernel_variance)
-        elif variance_new < 0:
-            raise ValueError("Kernel_variance cannot be negative.")
+        # BL: I commented this out because this constraint is handeled by the priors
+        # it messes up emcee to add it in again here. We will have to count on your user
+        # to follow instructions and not set the prior lower than 0
+        # elif variance_new < 0.:
+        #     raise ValueError("Kernel_variance cannot be negative.")
         else:
             setattr(self, "kernel_variance", variance_new)
 
@@ -278,7 +281,7 @@ class TransitModel(object):
             if not self.kernel_gamma_prior_lower < el < self.kernel_gamma_prior_upper:
                 return -np.inf
 
-        if not self.kernel_variance_prior_lower < self.kernel_variance < self.kernel_variance_prior_upper:
+        if not self.kernel_variance_prior_lower <= self.kernel_variance < self.kernel_variance_prior_upper:
             return -np.inf
 
         return self.lnprior_base()
@@ -316,7 +319,7 @@ class TransitModel(object):
         gp = george.GP(kernel, mean=self.meanfnc)
         gp.compute(t, yerr)
 
-        sample = gp.sample_conditional(y - self.model(),t)  +  self.model()
+        sample = gp.sample_conditional(y - self.model,t)  +  self.model
 
         return sample
 
