@@ -104,14 +104,7 @@ if __name__ == "__main__":
                 rank)
             # proceed with post-processing inside this if statement
             # TO-DO: debug deliverables.latex_table()
-            output_dir = input_param_dic['output_dir'] + "/"
-            # size of confidence interval to be included in table
-            confidence = input_param_dic['confidence']
-            # deliverables.latex_table(
-            # LC_dic, True, confidence, output_dir + "latex_table.out")
-            deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
-            deliverables.plot_transmission_spec(
-                LC_dic, output_dir)
+            deliverables.post_processing_all_wl(input_param_dic, LC_dic)
 
 
     else:
@@ -123,14 +116,7 @@ if __name__ == "__main__":
         if input_param_dic['visualization']:
             # proceed with post-processing inside this if statement
             # TO-DO: debug deliverables.latex_table()
-            output_dir = input_param_dic['output_dir'] + "/"
-            # size of confidence interval to be included in table
-            confidence = input_param_dic['confidence']
-            # deliverables.latex_table(
-            # LC_dic, True, confidence, output_dir + "latex_table.out")
-            deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
-            deliverables.plot_transmission_spec(
-                LC_dic, output_dir)
+            deliverables.post_processing_all_wl(input_param_dic, LC_dic)
 
     # KY comment: it's good not to put code outside the above if-else
     # structure.
