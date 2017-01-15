@@ -29,20 +29,21 @@ import numpy as np
 
 class TestIntegration(unittest.TestCase):
     def setUp(self):
-        os.chdir("jenkins_test_out")
+        os.chdir("jenkins_test_data/jenkins_test_out")
         os.system("rm *.png")  # clean up any previous tests 
         os.system("rm *.out")       
         os.chdir("../")
-        os.system("python exospec.py jenkins_test.ini") # run main_driver
+        os.system("python exospec.py jenkins_test_data/jenkins_test.ini") # run main_driver
 
     def testOutput_names(self):
         """
+        this test needs to be run from the same directory as jenkins_test_data/
         so long as jenkins_test.ini jenkins_test_out and jenkins_test_lc are kept
         as they are, this test will show that main_driver is producing the expected
         outputs. as main driver is editted to contain different visualization output, checks
         can be added. 
         """
-        os.chdir("jenkins_test_out") 
+        os.chdir("jenkins_test_data/jenkins_test_out") 
         file_list = np.array([])      # get list of output files
         for file in glob.glob("*"):
             file_list = np.append(file_list, file)

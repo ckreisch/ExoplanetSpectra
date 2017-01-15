@@ -6,7 +6,11 @@ import TransitModel
 import mcmc
 
 
-## Definition which carries out the procedure for fitting a single wavelength
+## Definition which carries out the procedure for fitting a single wavelength.
+# This follows the steps of: initializing a TransitModel object with correct
+# data for that wavelength, initializing an mcmc object and running it,
+# saving the results of mcmc run, and making walker and triangle plots
+# for that mcmc run. 
 # @params input_param_dic A dictionary of input parameter values
 # @params LC_dic A light curve dictionary containing the wavelength data
 # @params wl_id The key for the wavelength to be fit
@@ -54,7 +58,7 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     best_fit = model.sample_conditional(median, x, y, yerr)
     LC_dic[wl_id].transit_model = model
     output_dir = input_param_dic['output_dir']
-    
+
     # create an output folder if it does not exist
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)

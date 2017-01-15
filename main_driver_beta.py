@@ -14,7 +14,6 @@ import lc_class
 from read_input import read_input
 import TransitModel
 import deliverables
-import visualize_chains
 
 # routine for fitting one wl: -------------------------------------------------
 def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
@@ -71,10 +70,8 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     if input_param_dic['visualization']:
         print "visualization under developement\n"
         output_dir = input_param_dic['output_dir']
-        visualize_chains.plot_single_wavelength(wl_id, LC_dic[wl_id].obj_mcmc, LC_dic[wl_id].transit_model.sample_conditional, extra_burnin_steps=0, theta_true=None,
-            plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
-
-        #deliverables.best_fit_plot(x, y, yerr, best_fit, output_dir, wl_id)
+        deliverables.plot_single_wavelength(wl_id, LC_dic[wl_id].obj_mcmc, LC_dic[wl_id].transit_model.sample_conditional, extra_burnin_steps=0, theta_true=None,
+            plot_transit_params=True, plot_hyper_params=True, save_as_dir=output_dir)
 
     return 0
 
@@ -166,8 +163,7 @@ if __name__ == "__main__":
                 confidence = input_param_dic['confidence']  # size of confidence interval to be included in table
                 #deliverables.latex_table(LC_dic, True, confidence, output_dir + "/latex_table.out")
                 deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
-                visualize_chains.plot_all(LC_dic, extra_burnin_steps=0, theta_true=None,
-                    plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
+                deliverables.plot_transmission_spec(LC_dic, save_as_dir=output_dir)
     else:
         print "no MPI. Will use single core to process all lightcurves."
         for wl_id in LC_dic.keys():
@@ -181,10 +177,7 @@ if __name__ == "__main__":
             confidence = input_param_dic['confidence']  # size of confidence interval to be included in table
             #deliverables.latex_table(LC_dic, True, confidence, output_dir + "/latex_table.out")
             deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
-
-            #visualize_chains.plot_all(LC_dic, extra_burnin_steps=0, theta_true=None,
-            #    plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
-            visualize_chains.plot_transmission_spec(LC_dic, saving_dir=output_dir)
+            deliverables.plot_transmission_spec(LC_dic, saving_dir=output_dir)
 
 
 
