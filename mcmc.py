@@ -256,22 +256,11 @@ class MCMC(object):
 
         if self._sampler.chain.shape[1]< extra_burnin_steps:
             print "The chain is shorter than the requested burnin. \n" \
-            "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
+            "Please run the chain for more iterations or reduce the burnin steps requested for the lightcurve plot"
             return 1
 
         samples = self._sampler.flatchain # self._sampler.chain[:, burnin_steps:, :].reshape((-1, self._dim))
 
-        plt.figure()
-        for theta in samples[np.random.randint(len(samples), size=100)]:
-            plt.plot(self._t, model(theta, self._t, self._val, self._err), color="k", alpha=0.1)
-        if theta_true:
-            plt.plot(t, model(theta_true, self._t, self._val, self._err), color="r", lw=2, alpha=0.8)
-        plt.errorbar(self._t, self._val, yerr=self._err, fmt=".k")
-        plt.xlabel("$t$")
-        plt.ylabel("flux")
-        plt.tight_layout()
-        plt.savefig(save_as_dir+"/"+save_as_name)
-        plt.close()
 
         median, err1, err2=self.get_median_and_errors()
         best_fit = model(median, self._t, self._val, self._err)
@@ -283,7 +272,7 @@ class MCMC(object):
         plt.xlabel("$t$")
         plt.ylabel("flux")
         plt.tight_layout()
-        plt.savefig(save_as_dir+"/best_fit_"+save_as_name)
+        plt.savefig(save_as_dir+"/"+save_as_name)
         plt.close()
 
         return 0
