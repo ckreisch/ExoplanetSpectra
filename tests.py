@@ -34,7 +34,7 @@ class TestIntegration(unittest.TestCase):
         os.system("rm *.png")  # clean up any previous tests 
         os.system("rm *.out")       
         os.chdir("../")
-        os.system("python main_driver_beta.py jenkins_test.ini") # run main_driver
+        os.system("python exospec.py jenkins_test.ini") # run main_driver
 
     def check_output_names(self):
         """
@@ -48,8 +48,8 @@ class TestIntegration(unittest.TestCase):
         for file in glob.glob("*"):
             file_list = np.append(file_list, file)
 
-        expected_files = ["best_fit_500.0.png", "transmission_spectrum.png",
-                          "best_fit_650.0.png" , "triangle_500.0.png",
+        expected_files = ["light_curve_500.0.png", "transmission_spectrum.png",
+                          "light_curve_650.0.png" , "triangle_500.0.png",
                            "mcmc_chain_500.0.out", "triangle_650.0.png",
                           "mcmc_chain_650.0.out",  "walkers_500.0.png",
                           "simple_table.out",    "walkers_650.0.png"]
