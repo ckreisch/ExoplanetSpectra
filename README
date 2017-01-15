@@ -8,6 +8,7 @@ docs/
 README
 
 Within src:
+    setup.py
     exospec.py
     lc_class.py
     TransitModel.py
