@@ -53,9 +53,22 @@ def latex_table(LC_dic,visualization,confidence,filename):
             print "Could not close file for some reason."
             raise
 
+## Writes the best fit transit parameters from MCMC fit to an output file.
+# Output file columns are: wavelength, radius of planet, first limb darkening
+# parameter, second limb darkening parameter, followed by lower bound of 
+# corresponding confidence intervals then upper bound of corresponding
+# confidence intervals. Note that this currently only works for the quadratic 
+# limb darkening model.
+# @param LC_dic A light curve dictionary with finished chains stored.
+# @param filename The name of the file to write the table in.
 def simple_table(LC_dic, filename):
-    """note that this will only work if we have flat chain"""
-    ofile = open(filename,"w")
+
+    try:
+        ofile = open(filename, "w")
+    except IOError:
+        print "Cannot open file to write tables to."
+        raise
+
     ofile.write("# wl rp u0 u1 rp_e1 u1_e1 u0_e1 rp_e2 u0_e2 u1_e2 \n")
     for wavelength_id in LC_dic.keys():
         ps=np.percentile(LC_dic[wavelength_id].obj_chain, [16, 50, 84], axis=0)
@@ -65,21 +78,13 @@ def simple_table(LC_dic, filename):
         ofile.write("%s\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n" % (wavelength_id, medians[0],
             medians[1],medians[2], err_minus[0], err_minus[1], err_minus[2], err_plus[0], 
             err_plus[1], err_plus[2]))
-    ofile.close()
+    try:
+        ofile.close()
+    except IOError:
+        print "Could not close file for some reason."
+        raise
 
-# TO-DO: Heather can you make this plot match the style of the others and do 
-# the matplot lib in the way that works on the cluster?
-# def best_fit_plot(t, y, yerr, best_fit, output_dir, wl_id):
-#     """ use gp.sample_conditional to plot best fit model
-#          and data
-#     """ 
-#     plt.figure()
-#     plt.plot(t, best_fit)
-#     plt.plot(t, y, 'ko')
-#     #plt.errorbar()
-#     plt.xlabel("phase")
-#     plt.ylabel("normalized flux")
-#     plt.savefig(output_dir+"/" +"best_fit_"+wl_id+".png")
+
 
 if __name__ == "__main__":
     import sys
