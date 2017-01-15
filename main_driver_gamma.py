@@ -102,9 +102,10 @@ if __name__ == "__main__":
         if rank == 0:
             print "now rank number: %i is proceeding to post processing." % (
                 rank)
-            # proceed with post-processing inside this if statement
-            # TO-DO: debug deliverables.latex_table()
-            deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+            if input_param_dic['visualization']:
+                # proceed with post-processing inside this if statement
+                # TO-DO: debug deliverables.latex_table()
+                deliverables.post_processing_all_wl(input_param_dic, LC_dic)
 
 
     else:
