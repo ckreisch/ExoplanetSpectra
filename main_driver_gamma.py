@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+
 import lc_class
 from read_input import read_input
 import deliverables
@@ -101,21 +102,12 @@ if __name__ == "__main__":
         if rank == 0:
             print "now rank number: %i is proceeding to post processing." % (
                 rank)
-            # To-Do: make sure this is working on cluster
-            # if input_param_dic['visualization']:
-            #     # proceed with post-processing
-            #     # TO-DO: debug deliverables
-            #     output_dir = input_param_dic['output_dir'] + "/"
-            # size of confidence interval to be included in table
-            #     confidence = input_param_dic['confidence']
-            # deliverables.latex_table(
-            # LC_dic, True, confidence, output_dir + "/latex_table.out")
-            # deliverables.simple_table(
-            # LC_dic, output_dir + "simple_table.out")
-            # visualize_chains.plot_all(
-            # LC_dic, extra_burnin_steps=0, theta_true=None,
-            # plot_transit_params=True, plot_hyper_params=True,
-            # saving_dir=output_dir)
+            if input_param_dic['visualization']:
+                # proceed with post-processing inside this if statement
+                # TO-DO: debug deliverables.latex_table()
+                deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+
+
     else:
         print "no MPI. Will use single core to process all lightcurves."
         for wl_id in LC_dic.keys():
@@ -124,20 +116,8 @@ if __name__ == "__main__":
 
         if input_param_dic['visualization']:
             # proceed with post-processing inside this if statement
-            # TO-DO: debug deliverables
-            output_dir = input_param_dic['output_dir'] + "/"
-            # size of confidence interval to be included in table
-            confidence = input_param_dic['confidence']
-            # deliverables.latex_table(
-            # LC_dic, True, confidence, output_dir + "/latex_table.out")
-            deliverables.simple_table(LC_dic, output_dir + "simple_table.out")
-
-            # visualize_chains.plot_all(
-            # LC_dic, extra_burnin_steps=0, theta_true=None,
-            # plot_transit_params=True,
-            # plot_hyper_params=True, saving_dir=output_dir)
-            deliverables.plot_transmission_spec(
-                LC_dic, output_dir)
+            # TO-DO: debug deliverables.latex_table()
+            deliverables.post_processing_all_wl(input_param_dic, LC_dic)
 
     # KY comment: it's good not to put code outside the above if-else
     # structure.

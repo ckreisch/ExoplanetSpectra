@@ -64,12 +64,12 @@ def latex_table(LC_dic,visualization,confidence,filename):
 # @param filename The name of the file to write the table in.
 def simple_table(LC_dic, filename):
 
-    try:
-        ofile = open(filename, "w")
-    except IOError:
-        print "Cannot open file to write tables to."
-        raise
-
+    # try:
+    #     ofile = open(filename, "w")
+    # except IOError:
+    #     print "Cannot open file to write tables to."
+    #     raise
+    ofile = open(filename, "w")
     ofile.write("# wl rp u0 u1 rp_e1 u1_e1 u0_e1 rp_e2 u0_e2 u1_e2 \n")
     for wavelength_id in LC_dic.keys():
         ps=np.percentile(LC_dic[wavelength_id].obj_chain, [16, 50, 84], axis=0)
@@ -79,11 +79,13 @@ def simple_table(LC_dic, filename):
         ofile.write("%s\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n" % (wavelength_id, medians[0],
             medians[1],medians[2], err_minus[0], err_minus[1], err_minus[2], err_plus[0],
             err_plus[1], err_plus[2]))
-    try:
-        ofile.close()
-    except IOError:
-        print "Could not close file for some reason."
-        raise
+    ofile.close()
+    # try:
+    #     ofile.close()
+    # except IOError:
+    #     print "Could not close file for some reason."
+    #     raise
+    return 0
 
 ## Produces triangle, walker and lightcurve plots for the MCMC results for a single wavelength
 # @param wl_id The wavelength being processed
@@ -141,6 +143,19 @@ def get_median_and_errors(flatchain):
     err_minus=ps[1]-ps[0]
     return median, err_plus, err_minus
 
+## Runs the post processing once all wavelength mcmc chains are finished
+# This includes saving a simple table, latex table, and transmission 
+# spectrum.
+# @param input_param_dic
+# @param LC_dic
+def post_processing_all_wl(input_param_dic, LC_dic):
+    # output_directory 
+    output_dir = input_param_dic['output_dir'] + "/"
+    # size of confidence interval to be included in table
+    confidence = input_param_dic['confidence']
+    #latex_table(LC_dic, True, confidence, output_dir + "latex_table.out")
+    simple_table(LC_dic, output_dir + "simple_table.out")
+    plot_transmission_spec(LC_dic, output_dir)
 
 if __name__ == "__main__":
     import sys

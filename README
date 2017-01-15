@@ -8,13 +8,13 @@ docs/
 README
 
 Within src:
+    setup.py
     exospec.py
     lc_class.py
     TransitModel.py
     mcmc.py
     read_input.py
     deliverables.py
-    visualize_chains.py
     fit_single_wl.py
     gen_syn_data.py
 
