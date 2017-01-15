@@ -1,7 +1,7 @@
 import numpy as np
 import os
 
-import visualize_chains
+import deliverables
 import TransitModel
 import mcmc
 # routine for fitting one wl: -------------------------------------------------
@@ -57,10 +57,9 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
 
     # if visualization is True save plots for this wavelength
     if input_param_dic['visualization']:
-        print "visualization under developement\n"
         output_dir = input_param_dic['output_dir']
-        visualize_chains.plot_single_wavelength(wl_id, LC_dic[wl_id].obj_mcmc, LC_dic[wl_id].transit_model.sample_conditional, extra_burnin_steps=0, theta_true=None,
-            plot_transit_params=True, plot_hyper_params=True, saving_dir=output_dir)
+        deliverables.plot_single_wavelength(wl_id, LC_dic[wl_id].obj_mcmc, LC_dic[wl_id].transit_model.sample_conditional, extra_burnin_steps=0, theta_true=None,
+            plot_transit_params=True, plot_hyper_params=True, save_as_dir=output_dir)
 
         #deliverables.best_fit_plot(x, y, yerr, best_fit, output_dir, wl_id)
 

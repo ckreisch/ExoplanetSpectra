@@ -1,6 +1,5 @@
 import sys
 import numpy as np
-
 import lc_class
 from read_input import read_input
 import deliverables
@@ -137,8 +136,8 @@ if __name__ == "__main__":
             # LC_dic, extra_burnin_steps=0, theta_true=None,
             # plot_transit_params=True,
             # plot_hyper_params=True, saving_dir=output_dir)
-            visualize_chains.plot_transmission_spec(
-                LC_dic, saving_dir=output_dir)
+            deliverables.plot_transmission_spec(
+                LC_dic, output_dir)
 
     # KY comment: it's good not to put code outside the above if-else
     # structure.
