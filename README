@@ -1,0 +1,38 @@
+Please see User Manual in the docs folder for further instructions on using exospec.
+
+Expected Contents upon installation:
+
+src/
+bin/ 
+docs/
+README
+
+Within src:
+    exospec.py
+    lc_class.py
+    TransitModel.py
+    mcmc.py
+    read_input.py
+    deliverables.py
+    visualize_chains.py
+    fit_single_wl.py
+    gen_syn_data.py
+
+Within bin:
+    lc_class_demo.py
+    example_data
+        example.ini
+        light_curves
+            synth_lc_500.txt
+            synth_lc_650.txt
+            synth_lc_800.txt
+            synth_lc_950.txt
+            synth_lc_1100.txt
+
+        
+
+Within docs:
+    docs.pdf
+    UserManual.pdf 
+
+

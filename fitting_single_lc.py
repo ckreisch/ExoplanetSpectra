@@ -4,7 +4,13 @@ import os
 import deliverables
 import TransitModel
 import mcmc
-# routine for fitting one wl: -------------------------------------------------
+
+
+## Definition which carries out the procedure for fitting a single wavelength
+# @params input_param_dic A dictionary of input parameter values
+# @params LC_dic A light curve dictionary containing the wavelength data
+# @params wl_id The key for the wavelength to be fit
+# @retval 0 if successful
 def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
 
     # add wavelength specific info to the parameter dictionary
@@ -48,7 +54,7 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     best_fit = model.sample_conditional(median, x, y, yerr)
     LC_dic[wl_id].transit_model = model
     output_dir = input_param_dic['output_dir']
-    # create an output folder if it does not exist... (whichever process is fastest will make it)
+    # create an output folder if it does not exist
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -61,6 +67,6 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
         deliverables.plot_single_wavelength(wl_id, LC_dic[wl_id].obj_mcmc, LC_dic[wl_id].transit_model.sample_conditional, extra_burnin_steps=0, theta_true=None,
             plot_transit_params=True, plot_hyper_params=True, save_as_dir=output_dir)
 
-        #deliverables.best_fit_plot(x, y, yerr, best_fit, output_dir, wl_id)
+
 
     return 0
