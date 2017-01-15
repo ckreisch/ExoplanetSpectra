@@ -6,8 +6,26 @@ import pandas as pd
 from time import time
 import cProfile
 
-class TransitModel(object):
+import copy_reg
+import types
 
+def _pickle_method(m):
+    if m.im_self is None:
+        return getattr, (m.im_class, m.im_func.func_name)
+    else:
+        return getattr, (m.im_self, m.im_func.func_name)
+
+copy_reg.pickle(types.MethodType, _pickle_method)    
+
+## @class TransitModel
+# Class to estimate the Transit Model with the customized kernel
+#
+# More details.
+class TransitModel(object):
+    ## The constructor. Takes the disctionary of the parameters and data to customize the
+    # object. In case some values are missed, the default one are used.
+    # @param self The object pointer
+    # @param **kwargs Accepts the dictionary of data, transit and kernel parameters
     def __init__(self, **kwargs):
 
         self.batman_default_params = {"t0": 0, "rp": -10., "u": [-1., -1., -1., -1.],
@@ -36,8 +54,8 @@ class TransitModel(object):
         self._model = None
 
         # uncomment for the Python 2 and comment the line after next
-        #for (param, default) in batman_default_params.iteritems():
-        for (param, default) in self.batman_default_params.items():
+        for (param, default) in self.batman_default_params.iteritems():
+        #for (param, default) in self.batman_default_params.items():
             setattr(self.params, param, kwargs.get(param, default))
 
         # setting the attributes of the class other then light curve parameters
@@ -70,16 +88,20 @@ class TransitModel(object):
 
         self.data_dict = dict(zip(self.t, zip(*self.errors_list)))
 
+    ## Set the parameters of the model based on the values provided.
+    # In case some values are missed, the default ones will be taken.
+    # @param self The object pointer
+    # @param dict_of_values Dictionary of the parameters to pass
     def set_values(self, dict_of_values, **kwargs):
-        """Sets the attributes. If value is not provided the default value is set"""
 
-        # uncomment for the Python 2 and comment the line after next
-        # for (param, default) in dict_of_values.iteritems():
-        for (param, default) in dict_of_values.items():
+        for (param, default) in dict_of_values.iteritems():
             setattr(self, param, kwargs.get(param, default))
 
+    ## Forms a list of the limb darkening parameters from the user input
+    # In case some values are missed, the default ones will be taken.
+    # @param self The object pointer
+    # @param **kwargs Dictionary of the parameters to pass
     def read_limb_dark_params(self, **kwargs):
-        """Forms a list of the limb darkening parameters from the user input"""
         u_names = []
         for keyword in kwargs:
             if keyword.startswith("u") and not keyword.startswith("u_"):
@@ -97,8 +119,11 @@ class TransitModel(object):
 
         setattr(self.params, 'u', set_u)
 
+    ## Collects the data about errors that was passed
+    # In case some values are missed, the default ones will be taken.
+    # @param self The object pointer
+    # @param **kwargs Dictionary of the parameters to pass
     def read_errors_data(self, **kwargs):
-        """ Collects the data about errors that was passed """
         err_names = []
         for keyword in kwargs:
             if keyword.startswith("yerr"):
@@ -123,8 +148,12 @@ class TransitModel(object):
 
         self.data_dict = dict(zip(self.t, zip(*self.errors_list)))
 
+    ## Updates the data for the given parameters
+    # @param self The object pointer
+    # @param time(=None) Time data
+    # @param obs(=None) Observations data
+    # @param **kwargs Handles arbitrary number of the errors that was passed
     def update_data(self, time=None, obs=None, **kwargs):
-        """ Updates the data for the given parameters """
 
         if time is not None:
             setattr(self, 't', time)
@@ -136,12 +165,12 @@ class TransitModel(object):
 
         self.updateTransitMode()
 
+    ## Updates the parameters of the model
+    # @param self The object pointer
+    # @param rp_new New value of the rp parameter
+    # @param u_new New list of values for the limb darkening
     def update_transit_params(self, rp_new, u_new):
-        """
-        Update the parameters of the model
-        :param rp_new: new value of the rp parameter
-        :param u_new: new list of values for the limb darkening
-        """
+
         u_prev = self.params.u
 
         if rp_new is None:
@@ -159,12 +188,11 @@ class TransitModel(object):
             self.params.u = u_new
             self.updateTransitMode()
 
+    ## Updates the hyperparameters of the kernel function
+    # @param self The object pointer
+    # @param a_new New value of the kernel_a
+    # @param gamma_new New value of the kernel_gamma
     def update_kernel_params(self, a_new=None, gamma_new=None, variance_new=None):
-        """
-        Updates the hyperparameters of the kernel function
-        :param a_new: new value of the kernel_a
-        :param gamma_new: new value of the kernel_gamma
-        """
 
         if a_new is None:
             setattr(self, "kernel_a", self.kernel_a)
@@ -183,33 +211,40 @@ class TransitModel(object):
 
         if variance_new is None:
             setattr(self, "kernel_variance", self.kernel_variance)
-        elif variance_new < 0:
-            raise ValueError("Kernel_variance cannot be negative.")
         else:
             setattr(self, "kernel_variance", variance_new)
 
-
+    ## Updates the transit model parameters
+    # @param self The object pointer
     def updateTransitMode(self):
-        """ Updates the transit model parameters """
         self.batman_model = batman.TransitModel(self.params, self.t)
         self.model = self.params
         self.model_initialized = True
 
+    ## Returns the flux values array
+    # @param self The object pointer
+    # @return Model-generated observation for the given transit parameters
     @property
     def model(self):
-        """ Returns the flux values array """
         return self._model
 
     @model.setter
     def model(self, params):
         self._model = self.batman_model.light_curve(params)
 
+    ## Mean function for the kernel meaan estimation
+    # @param self The object pointer
+    # @param t The time data
     def meanfnc(self, t):
-        """ Mean function for the kernel estimation"""
         return self.model
 
-    def kernelfnc(self, x1, x2, p):
-        """ Computes the kernel function for the arbitrary sources of errors in the observations"""
+    ## Computes the kernel function for the arbitrary sources of errors in the observations
+    # @param self The object pointer
+    # @param x1 First time coordinate
+    # @param x2 Second time coordinate
+    # @param p(=None) Kernel auxiliary parameters
+    # @return Covariance between two points in time
+    def kernelfnc(self, x1, x2, p=None):
         ksi, sig, eta = self.kernel_a, self.kernel_variance, self.kernel_gamma
         s = eta[0]*((x1[0]-x2[0])**2)
 
@@ -220,8 +255,10 @@ class TransitModel(object):
 
         return val
 
+    ## Computes the log likelihood from gaussian process
+    # @param self The object pointer
+    # @return Log likelihood of a set of observations under the Gaussian process model.
     def lnlike_gp(self):
-        """ Computes the log likelihood from gaussian process """
 
         if (self.t is None) | (self.y is None):
             raise ValueError("Data is not properly initialized. Reveived Nones.")
@@ -245,8 +282,10 @@ class TransitModel(object):
                 gp.compute(t)
                 return gp.lnlikelihood(y - self.model)
 
+    ## Checks if the batman parameters are within the predefined prior ranges
+    # @param self The object pointer
+    # @return Returns 0 in case transit parameters whithin the prior range and -inf otherwise
     def lnprior_base(self):
-        """ Checks if the batman params are within the predefined prior ranges """
 
         if not self.rp_prior_lower < self.params.rp < self.rp_prior_upper:
             return -np.inf
@@ -257,8 +296,10 @@ class TransitModel(object):
 
         return 0.0
 
+    ## Checks if the kernel parameters are within the predefined prior ranges
+    # @param self The object pointer
+    # @return Returns -inf in case parameters out of the range and 0.0 if within the prior range
     def lnprior_gp(self):
-        """Checks if the kernel params are within the predefined prior ranges"""
 
         if not self.kernel_a_prior_lower < self.kernel_a < self.kernel_a_prior_upper:
             return -np.inf
@@ -267,13 +308,15 @@ class TransitModel(object):
             if not self.kernel_gamma_prior_lower < el < self.kernel_gamma_prior_upper:
                 return -np.inf
 
-        if not self.kernel_variance_prior_lower < self.kernel_variance < self.kernel_variance_prior_upper:
+        if not self.kernel_variance_prior_lower <= self.kernel_variance < self.kernel_variance_prior_upper:
             return -np.inf
 
         return self.lnprior_base()
 
+    ## Computes the log probability of the parameters for the given data
+    # @param self The object pointer
+    # @return Log probability of the parameters
     def lnprob_gp(self):
-        """ Computes the log prob of the parameters for the given data """
 
         lp = self.lnprior_gp()
 
@@ -284,8 +327,55 @@ class TransitModel(object):
 
         return self.lnprob
 
-    def updateTransit(self, rp_new, u_new, kernel_a, kernel_gamma, kernel_sig2, **kwargs):
-        """ Enables the interaction of the TransitModel with MCMC fitter """
+    ## For a given set of parameters get predicted y values at t, and
+    # separate this into the transit signal component and the noise component
+    # @param self The object pointer
+    # @param p Parameters of the transit
+    # @param t Time data
+    # @param y Observations data
+    # @param yerr Errors data
+    # @return Predicted observations
+    def sample_conditional(self, p, t, y, yerr):
+
+        if self.params.limb_dark == 'quadratic':
+            rp_new, u0, u1, kernel_a, kernel_sig2 = p[:5]
+            u_new = [u0, u1]
+            kernel_gamma = p[5:].tolist()
+
+        if self.params.limb_dark == 'nonlinear':
+            rp_new, u0, u1, u2, u3, kernel_a, kernel_sig2 = p[:7]
+            u_new = [u0, u1, u2, u3]
+            kernel_gamma = p[7:].tolist()
+
+        self.update_transit_params(rp_new=rp_new, u_new=u_new)
+        self.update_kernel_params(a_new=kernel_a, gamma_new=kernel_gamma, variance_new=kernel_sig2)
+
+        kernel = kernels.PythonKernel(self.kernelfnc)
+        gp = george.GP(kernel, mean=self.meanfnc)
+        gp.compute(t, yerr)
+
+        sample = gp.sample_conditional(y - self.model,t)  +  self.model
+
+        return sample
+
+    ## MCMC API for the Transit Model object
+    # @param self The object pointer
+    # @param p Parameters of the transit
+    # @param t Time data
+    # @param y Observations data
+    # @param yerr Errors data
+    # @return Log probability of the chosen parameters
+    def lnprob_mcmc(self, p, t, y, yerr):
+
+        if self.params.limb_dark == 'quadratic':
+            rp_new, u0, u1, kernel_a, kernel_sig2 = p[:5]
+            u_new = [u0, u1]
+            kernel_gamma = p[5:].tolist()
+
+        if self.params.limb_dark == 'nonlinear':
+            rp_new, u0, u1, u2, u3, kernel_a, kernel_sig2 = p[:7]
+            u_new = [u0, u1, u2, u3]
+            kernel_gamma = p[7:].tolist()
 
         self.update_transit_params(rp_new=rp_new, u_new=u_new)
         self.update_kernel_params(a_new=kernel_a, gamma_new=kernel_gamma, variance_new=kernel_sig2)
