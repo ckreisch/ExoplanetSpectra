@@ -15,7 +15,6 @@ Within src:
     mcmc.py
     read_input.py
     deliverables.py
-    visualize_chains.py
     fit_single_wl.py
     gen_syn_data.py
 
