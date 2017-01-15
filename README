@@ -1,0 +1,31 @@
+Please see User Manual in the docs folder for further instructions on using exospec.
+
+Expected Contents upon installation:
+
+src/
+bin/ 
+docs/
+README
+
+Within src:
+    exospec.py
+    lc_class.py
+    TransitModel.py
+    mcmc.py
+    read_input.py
+    deliverables.py
+    fit_single_wl.py
+    gen_syn_data.py
+
+
+Within bin:
+    lc_class_demo.py
+    example_data
+        light_curves
+        example.ini
+
+Within docs:
+    docs.pdf
+    UserManual.pdf 
+
+
