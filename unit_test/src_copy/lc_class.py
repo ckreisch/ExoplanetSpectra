@@ -4,50 +4,45 @@ import math as m
 from os import listdir
 from ast import literal_eval as read
 
+# The following are some definition of user-defined exception class
 
-## @class EmptyFolder
-# Raise exception when the light curve folder is empty
 class EmptyFolder(Exception):
-    pass
-## @class IncorrectNameFormat
-# Raise when the light curve file name is not under the expected format sample_lc_<wavelength>.txt
-class IncorrectNameFormat(Exception):
-    pass
-## @class EmptyFile
-# Raise when the light curve file is empty
-class EmptyFile(Exception):
-    pass
-## @class DifferentFileSize
-# Raise when one the light curve file does not have the same size with light curve file for the lowest wavelength (this file serves as reference)
-class DifferentFileSizes(Exception):
-    pass
-## @class DifferentParamNum
-# Raise when one the light curve file does not have the same number of parameters with light curve file for the lowest wavelength (this file serves as reference)
-class DifferentParamNum(Exception):
+    """Raise when the light curve folder is empty"""
     pass
 
-## @class LightCurve
-# List all the light curve files in the indicated folder
-# if the user decided to use another wavelength resolution than the one provided with the files, the code compute the resulting number of new wavelength to be used
-# loop over the light curve files to get their file names and original wavelengths
-# if the user decided to use a new wavelength resolution, the code computes the new wavelength to be used
-# instantiate the new lc objects (with new wave_bin_size)
-# Warning: The code is not able yet to handle situation where files_num is not proportional to wave_bin_size
+class IncorrectNameFormat(Exception):
+    """Raise when the light curve file name is not under the expected format sample_lc_<wavelength>.txt"""
+    pass
+
+class EmptyFile(Exception):
+    """Raise when the light curve file is empty"""
+    pass
+
+class DifferentFileSizes(Exception):
+    """Raise when one the light curve file does not have the same size with light curve file for the lowest wavelength (this file serves as reference)"""
+    pass
+
+class DifferentParamNum(Exception):
+    """Raise when one the light curve file does not have the same number of parameters with light curve file for the lowest wavelength (this file serves as reference)"""
+    pass
+
 class LightCurve:
-    # @param PathToLC The path to the directory which contains the light curve files
-    # @param wave_bin_size The user defined new bin size for wavelengths
+
     def __init__(self, PathToLC, wave_bin_size):
 
+        # List all the light curve files in the indicated folder
         files_list = listdir(PathToLC)
         files_list.sort()
         files_num = len(files_list)
         if files_num == 0:
             raise EmptyFolder('No light curve files in indicated folder')
 
+        # if the user decided to use another wavelength resolution than the one provided with the files, the code compute the resulting number of new wavelength to be used
         new_obj_num = files_num/wave_bin_size
         wave_length = [None]*files_num
         new_wave_length = [0.0]*new_obj_num
 
+        # loop over the light curve files to get their file names and original wavelengths
         for i in range(files_num):
             file_name = files_list[i].split('.')[0]
             try:
@@ -59,6 +54,8 @@ class LightCurve:
                 raise IncorrectNameFormat('Light curve file name %s does not have the correct format\n Format should be <string>_<string>_<wavelength>' % file_name)
         wave_length.sort()
 
+        # The code is not able yet to handle situation where files_num is not proportional to wave_bin_size
+        #If the user decided to use a new wavelength resolution, the code computes the new wavelength to be used
         for i in range(new_obj_num):
             for j in range(wave_bin_size):
                 new_wave_length[i] = new_wave_length[i]\
@@ -68,6 +65,7 @@ class LightCurve:
 
         LC_dic = {}
 
+        # Instantiate the new lc objects (with new wave_bin_size)
         Path_to_files = [None]*wave_bin_size
         for i in range(new_obj_num):
             for j in range(wave_bin_size):
@@ -85,30 +83,23 @@ class LightCurve:
         self.obj_chainGP = None
         self.transit_model = None
 
-    ## Return LC_dic
-    # @returns LC_dic the dictionary that contains the light curve objects and which are references by their wavelength as keys 
     def LC_dic(self):
 
         return LC_dic
-    ## Return wave_length
-    # @returns wave_length a list containing the original wavelength of the ligth curve files
+
     def wave_length(self):
 
         return wave_length
-    ## Return new_wave_length
-    # @returns new_wave_length a list containing the new user defined wavelength of the ligth curve objects
+
     def new_wave_length(self):
 
         return new_wave_length
-    ## Stores transit_model
-    # @param transit_model
+
     def store_transit_model(self, transit_model):
 
         self.transit_model = transit_model
 
-## @class LightCurveData
-# this class is used by the class LightCurve to extract, store and process the data from the light curve files
-# @param Path_to_files A list that contains the path(s) to the file(s) that will be used to create a light curve object (multiple files can be lumped together to create a ligh curve object)
+# this is class is used by the above class LightCurve
 class LightCurveData:
 
     def __init__(self, Path_to_files):
@@ -198,45 +189,36 @@ class LightCurveData:
         self.param_num = param_num
         self.param_name = param_name
         self.param_list = av_param_list
-    ## Returns len_file
-    # @returns len_file the length of the light curve file
+
     def len_file(self):
 
         return self.len_file
-    ## Return time
-    # @returns time the time vector
+
     def time(self):
 
         return self.time
-    ## Returns flux
-    # @returns flux the flux vector
+
     def flux(self):
 
         return self.flux
-    ## Returns ferr
-    # @returns ferr the error on the flux
+
     def ferr(self):
 
         return self.ferr
-    ## Returns param_num
-    # @returns param_num the number of parameters defined in the light curve file
+
     def param_num(self):
 
         return self.param_num
-    ## Returns param_name
-    # @returns param_name a list containing the names of the parameters
+
     def param_name(self):
 
         return self.param_name
-    ## Returns param_list
-    # @returns param_list a list containing the parameters
+
     def param_list(self):
 
         return self.param_list
 
-    ## Change the time resolution of a light curve object
     # enables the user to use a new time resolution
-    # @param bin_size number of time points to lump together
     def new_time_bin(self, bin_size):
 
         time = self.time
@@ -251,9 +233,7 @@ class LightCurveData:
 
         return new_time, new_flux
 
-    ## Plot the flux against the time
     # plot the flux with a new time resolution using function new_time_bin
-    # @param bin_size number of time points to lump together
     def plot_flux_time(self, bin_size):
 
         if (bin_size == 1):
@@ -269,9 +249,7 @@ class LightCurveData:
           plt.plot(new_time, new_flux)
           plt.show()
 
-    ## Plot the flux against a parameter
-    # plot the flux againt the parameter indicated by the user
-    # @param param_index the index of the param selected by the user in param_list
+    # plot the parameter indicated by the user against time
     def plot_flux_param(self, param_index):
 
         plt.figure(1)
