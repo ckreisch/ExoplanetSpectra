@@ -2,9 +2,11 @@ import os
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+
 import batman
 
-## Initializes a Batman TransitParams object and Batman TransitModel object with quadratic limb-darkening prescription
+## Initializes a Batman TransitParams object and Batman TransitModel object 
+# with quadratic limb-darkening prescription
 # @param t_params A list of transit parameters in order: t0, per, rp, a, inc, ecc, w, u0, u1
 # @param times An array of times to sample the flux of the Batman TransitModel at
 # @returns TransitParams object, TransitModel object, flux at specified times 
@@ -27,7 +29,7 @@ def init_model(t_params, times):
 
 ## Update TransitModel object for wavlength channels radius and limb-darkening coefficents, 
 # then compute the updated flux measurements
-# @param wl_params List of wavelength-specific transit parameters in order radius: rp, limbdarkening-coefficients: u0 and u1
+# @param wl_params List of wavelength-specific transit parameters in order radius: rp, limb darkening-coefficients: u0 and u1
 # @param m batman TransitModel object
 # @param p batman TransitParameter object
 # @returns An array of flux measurements
@@ -91,15 +93,33 @@ def red_noise(a_params, slopes):
 # @param wl_params The radius and limb darkening coefficients for this wavelength
 # @returnval 0 if successful 
 # @returnval other if not successful
-def write_lc(fname, times, flux, ferr, a_params, slopes, w_level, r_level, wl_params):
-    ofile = open(fname,"w")
+def write_lc(fname, times, flux, ferr, a_params, slopes, w_level, r_level, 
+             wl_params):
+    try:
+        ofile = open(fname, "w")
+    except IOError:
+        print "Cannot open file to write tables to."
+        raise
+
     # add header with more info for testing purposes
-    ofile.write("# white scalel: %f, red scale: %f, fwhm corr. coeff.: %f, skynoise corr. coeff.: %f, position corr. coeff.: %f, airmass corr. coeff.: %f\n" % (w_level,r_level,slopes[3],slopes[2],slopes[1],slopes[0]))
-    ofile.write("# transit parameters: rp = %f, u0 = %f, u1 = %f\n" % (wl_params[0],wl_params[1],wl_params[2]))
-    ofile.write("# time (phase), flux, ferr, fwhm, skynoise, position, airmass\n")
+    ofile.write("# white scalel: %f, red scale: %f, " % (w_level,r_level))
+    ofile.write("fwhm corr.: %f skynoise corr.: %f," % (slopes[3], slopes[2]))
+    ofile.write(" position corr.: %f, airmass corr.: %f\n" % (slopes[1],slopes[0]))
+    ofile.write("# transit parameters: rp = %f," % wl_params[0])
+    ofile.write("u0 = %f, u1 = %f\n" % (wl_params[1],wl_params[2]))
+    ofile.write("# time (phase), flux, ferr, fwhm, skynoise, ")
+    ofile.write("position, airmass\n")
+    # fill in data
     for k in range(len(times)):
-        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\t%f\n" % (times[k], flux[k], ferr[k], a_params[3][k], a_params[2][k], a_params[1][k], a_params[0][k]))
-    ofile.close()
+        line = (times[k], flux[k], ferr[k], a_params[3][k], a_params[2][k], 
+                a_params[1][k], a_params[0][k])
+        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\t%f\n" % line)
+
+    try:
+        ofile.close()
+    except IOError:
+        print "Cannot close file for some reason"
+        raise
 
     return 0
 
@@ -117,12 +137,26 @@ def write_expected_vals(fname, truth, slopes, w_level, r_level):
     dic = {'airmass': airmass, 'pos' : pos, 'skynoise' : skynoise,
            'fwhm' : fwhm, 't0' : t0, 'per' : per, 'a' : a, 'inc' : inc,
            'ecc' : ecc, 'w' : w, 'w_level' : w_level, 'r_level' : r_level}
-    ofile = open(fname,"w")
+    try:
+        ofile = open(fname, "w")
+    except IOError:
+        print "Cannot open file to write tables to."
+        raise
+
+    # write header
     for key in dic.keys():
         ofile.write("# " + key + " = " + str(dic[key]) + "\n")
     ofile.write("# WL: rp: u0: u1: w_scale: r_scale:\n")
+    # fill in data
     for k in range(len(radii)):
-        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\n" % (wl[k],radii[k],ldark[k][0],ldark[k][1],w_scale[k],r_scale[k]))
+        line = (wl[k],radii[k],ldark[k][0],ldark[k][1],w_scale[k],r_scale[k])
+        ofile.write("%f\t%f\t%f\t%f\t%f\t%f\n" % line)
+
+    try:
+        ofile.close()
+    except IOError:
+        print "Cannot close file for some reason"
+        raise
 
     return 0
 
@@ -169,7 +203,8 @@ def gen_obs_set(dname, truth, w_level, r_level, N=300,
         fwhm, skynoise = r_scale[k]*a_params[3], r_scale[k]*a_params[2]
         wl_a_params = np.concatenate((a_params[:2],np.array([fwhm,skynoise])))
         # put  it all together
-        f = signal*red_noise(wl_a_params, slopes) + white_noise(w_level, N)*w_scale[k]*np.random.randn(N)
+        f = (signal*red_noise(wl_a_params, slopes) 
+            + white_noise(w_level, N)*w_scale[k]*np.random.randn(N))
         # write to a file
         fname = dname+"/light_curves/"+fileroot+"_lc_"+str(wl[k])+".txt"
         write_lc(fname, t, f, ferr, wl_a_params,
@@ -204,18 +239,28 @@ if __name__ == "__main__":
     # fractional radius of planet       
     radii = [0.05, 0.08, 0.1, 0.12, 0.15, 0.09]   
     # limb darkening coefficients for the star
-    ldark = [[0.45, 0.1],[0.55, 0.1],[0.45, 0.11],[0.35,0.16],[0.5,0.1],[0.3,0.2]]    
+    ldark = [[0.45, 0.1],[0.55, 0.1],[0.45, 0.11],[0.35,0.16],[0.5,0.1],
+             [0.3,0.2]]    
+
+    # NOTE: currently (when starspec is all 1.0 and fwhm and skyspec are all
+    # square root of 1/2) the following 5 lists have no effect on the generated
+    # synthetic data. They are present as a place holder to 
+    # allow more realistic wavelength-dependent noise scaling 
+    # with the host stars spectral type. 
+
     # flux level coming from star normalized to channel with maximum flux (to scale white noise)
     starspec = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]  # note by all being 1.0 this is currently not affecting anything 
     # fwhm of psf for that wavelength normalized to channel with maximum psf size (to scale red noise)
-    fwhm = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), 
-            np.sqrt(1./2.)]      # note by all being sqrt(1./2.) this is currently not affecting anything
+    fwhm = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), 
+            np.sqrt(1./2.), np.sqrt(1./2.)]     
     # sky flux level normalized to maximum sky flux level (to scale red noise)
-    skyspec = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), 
-               np.sqrt(1./2.)] 
+    skyspec = [np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), np.sqrt(1./2.), 
+              np.sqrt(1./2.), np.sqrt(1./2.)] 
     # convert starspec, fwhm, skyspec  to w_scale, r_scale
-    w_scale = [1./starspec[k] for k in range(len(starspec))] # brighter channels will have lower white noise levels
+    w_scale = [1./starspec[k] for k in range(len(starspec))] 
     r_scale = [np.sqrt(fwhm[k]**2.+skyspec[k]**2.) for k in range(len(fwhm))]
+
+
     # put all together into a list for easy passing to functions
     truth = [t_params, wl, radii, ldark, starspec, w_scale, r_scale]
 
