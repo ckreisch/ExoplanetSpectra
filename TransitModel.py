@@ -93,7 +93,6 @@ class TransitModel(object):
     # @param self The object pointer
     # @param dict_of_values Dictionary of the parameters to pass
     def set_values(self, dict_of_values, **kwargs):
-
         for (param, default) in dict_of_values.iteritems():
             setattr(self, param, kwargs.get(param, default))
 
@@ -211,6 +210,7 @@ class TransitModel(object):
 
         if variance_new is None:
             setattr(self, "kernel_variance", self.kernel_variance)
+
         else:
             setattr(self, "kernel_variance", variance_new)
 
@@ -336,7 +336,6 @@ class TransitModel(object):
     # @param yerr Errors data
     # @return Predicted observations
     def sample_conditional(self, p, t, y, yerr):
-
         if self.params.limb_dark == 'quadratic':
             rp_new, u0, u1, kernel_a, kernel_sig2 = p[:5]
             u_new = [u0, u1]
@@ -358,6 +357,7 @@ class TransitModel(object):
 
         return sample
 
+
     ## MCMC API for the Transit Model object
     # @param self The object pointer
     # @param p Parameters of the transit
@@ -366,7 +366,6 @@ class TransitModel(object):
     # @param yerr Errors data
     # @return Log probability of the chosen parameters
     def lnprob_mcmc(self, p, t, y, yerr):
-
         if self.params.limb_dark == 'quadratic':
             rp_new, u0, u1, kernel_a, kernel_sig2 = p[:5]
             u_new = [u0, u1]
