@@ -56,7 +56,7 @@ setup(
                     'mpi4py',
                     'emcee',
                     'george',
-                    'batman',
+                    'batman-package',
                     'corner',
                     'pandas']
 )
