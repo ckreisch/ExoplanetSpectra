@@ -12,8 +12,7 @@ Required Contents:
     exospec/
     setup.py
     LICENSE.txt     
-    README          
-    README.md       
+    README               
 
 Within exospec:    
     tests/
@@ -26,7 +25,6 @@ Within exospec:
     read_input_demo.py
     deliverables.py     
     fitting_single_lc.py    
-
 
 Within bin:
     exospec_main.py
