@@ -75,3 +75,60 @@ I'm imagining the project will entail a few parts:
 4) give user different options for modeling noise (this will be most work perhaps, there are 2 or 3 different ways I have seen people treat noise that seem worth including)
 
 5) make nice plots: characterize the MCMC runs, light curve data overlaid with best fit light curve, transmission spectrum with errors
+# Build/ Install
+ExoSpec runs with Python 2.7. 
+
+#Pre-Requisites
+Before installing ExoSpec, you must install the following packages:
+
+-Eigen3- 
+
+On linux: 
+```
+sudo apt-get install libeigen3-dev
+```
+On mac: 
+```
+brew install eigen
+```
+On Windows: the developers of george say they did not test george on Windows, so it may not work but you can still try. We have not tested ExoSpec on Windows
+
+-OpenMPI-
+
+On linux: 
+```
+sudo apt-get install openmpi-bin openmpi-common openssh-client openssh-server libopenmpi1.3 libopenmpi-dbg libopenmpi-dev
+```
+On mac: 
+```
+brew install openmpi
+```
+
+#Installation
+
+To install ExoSpec run
+```
+python setup.py install
+```
+
+Batman issues: If after running the setup.py file you receive and error from batman, you can install it from the source file instead. Download the stable release at https://pypi.python.org/pypi/batman-package/, and then run 
+```
+sudo python setup.py install
+```
+in the batman directory.
+
+# Tests
+
+To test that the code built correctly, cd to the tests folder and run the tests.py file:
+```
+cd exospec/tests
+python tests.py
+```
+
+# Known Issues (v0.1)
+- Running 
+```
+python setup.py tests
+``` 
+ does not run the test suite. This needs to be further investigated.
+- Running tests.py with Jenkins on adroit throws an MPI error. We are currently working with David Luet to resolve this.

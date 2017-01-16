@@ -71,7 +71,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Class to run <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run M...">MCMC</a> to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run M...">MCMC</a>) and corner (to produce triangle plots)  
+<p>Class to run <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce diagnostic plots and statistics Uses emcee (to run MCMC) a...">MCMC</a> to fit curve and produce diagnostic plots and statistics Uses emcee (to run <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce diagnostic plots and statistics Uses emcee (to run MCMC) a...">MCMC</a>) and corner (to produce triangle plots)  
 </p>
 <div class="dynheader">
 Inheritance diagram for exospec.mcmc.MCMC:</div>
@@ -88,13 +88,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aae17f42d9fa567e61df69f7c808aa931"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor.  <a href="#aae17f42d9fa567e61df69f7c808aa931">More...</a><br /></td></tr>
 <tr class="separator:aae17f42d9fa567e61df69f7c808aa931"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af103863b006ff9225432bdc8b2e90d81"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html#af103863b006ff9225432bdc8b2e90d81">run</a> (self, pos, burnin_steps, production_run_steps)</td></tr>
-<tr class="memdesc:af103863b006ff9225432bdc8b2e90d81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run M...">MCMC</a> should run emcee given a log probability function result is the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run M...">MCMC</a> chains which are saved as an object attribute.  <a href="#af103863b006ff9225432bdc8b2e90d81">More...</a><br /></td></tr>
+<tr class="memdesc:af103863b006ff9225432bdc8b2e90d81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce diagnostic plots and statistics Uses emcee (to run MCMC) a...">MCMC</a> should run emcee given a log probability function result is the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce diagnostic plots and statistics Uses emcee (to run MCMC) a...">MCMC</a> chains which are saved as an object attribute.  <a href="#af103863b006ff9225432bdc8b2e90d81">More...</a><br /></td></tr>
 <tr class="separator:af103863b006ff9225432bdc8b2e90d81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad20ecaec3fc481c3ab87ad7c4c0439bc"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html#ad20ecaec3fc481c3ab87ad7c4c0439bc">save_chain</a> (self, filename)</td></tr>
 <tr class="memdesc:ad20ecaec3fc481c3ab87ad7c4c0439bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves the chain as a numpy array.  <a href="#ad20ecaec3fc481c3ab87ad7c4c0439bc">More...</a><br /></td></tr>
 <tr class="separator:ad20ecaec3fc481c3ab87ad7c4c0439bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afec10cdfb36657e6e1c013bbd563bd71"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html#afec10cdfb36657e6e1c013bbd563bd71">get_mean_acceptance_fraction</a> (self)</td></tr>
-<tr class="memdesc:afec10cdfb36657e6e1c013bbd563bd71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to access the mean acceptance fraction, which should be around 1/2.  <a href="#afec10cdfb36657e6e1c013bbd563bd71">More...</a><br /></td></tr>
+<tr class="memdesc:afec10cdfb36657e6e1c013bbd563bd71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows the user to access the mean acceptance fraction The mean acceptance fractions should be between about 0.25 and 0.5.  <a href="#afec10cdfb36657e6e1c013bbd563bd71">More...</a><br /></td></tr>
 <tr class="separator:afec10cdfb36657e6e1c013bbd563bd71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fe8d9326590fe7cc875fa5118eaa617"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html#a7fe8d9326590fe7cc875fa5118eaa617">get_median_and_errors</a> (self)</td></tr>
 <tr class="memdesc:a7fe8d9326590fe7cc875fa5118eaa617"><td class="mdescLeft">&#160;</td><td class="mdescRight">Best fit parameters and 1 sigma errors.  <a href="#a7fe8d9326590fe7cc875fa5118eaa617">More...</a><br /></td></tr>
@@ -180,14 +180,14 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>The object pointer </td></tr>
-    <tr><td class="paramname">t</td><td>A numpy array of the independent variable for the data to be fitted </td></tr>
-    <tr><td class="paramname">val</td><td>A numpy array of the dependent variable for the data to be fitted </td></tr>
+    <tr><td class="paramname">t</td><td>A numpy array of the independent variable for the data </td></tr>
+    <tr><td class="paramname">val</td><td>A numpy array of the dependent variable for the data </td></tr>
     <tr><td class="paramname">err</td><td>A numpy array of the errors on the dependent variable </td></tr>
-    <tr><td class="paramname">ln_prob_fn</td><td>The log probability function to be sampled by the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run M...">MCMC</a> chain </td></tr>
-    <tr><td class="paramname">transit_params</td><td>A list of strings giving the names of the curve's parameter's </td></tr>
-    <tr><td class="paramname">hyper_params</td><td>A list of strings giving the names of noise parameters </td></tr>
-    <tr><td class="paramname">num_walkers</td><td>Integer giving the number of walkers for the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run M...">MCMC</a> run </td></tr>
-    <tr><td class="paramname">num_threads</td><td>An integer giving the number of threads to use on each core </td></tr>
+    <tr><td class="paramname">ln_prob_fn</td><td>The log probability function to be sampled </td></tr>
+    <tr><td class="paramname">transit_params</td><td>A list of the names of the curve's parameters </td></tr>
+    <tr><td class="paramname">hyper_params</td><td>A list of the names of noise parameters </td></tr>
+    <tr><td class="paramname">num_walkers</td><td>Integer giving the number of walkers for the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce diagnostic plots and statistics Uses emcee (to run MCMC) a...">MCMC</a> run </td></tr>
+    <tr><td class="paramname">num_threads</td><td>Integer giving the number of threads to use per core </td></tr>
   </table>
   </dd>
 </dl>
@@ -306,7 +306,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run M...">MCMC</a> chains </p><dl class="params"><dt>Parameters</dt><dd>
+<p>These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce diagnostic plots and statistics Uses emcee (to run MCMC) a...">MCMC</a> chains </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>The object pointer </td></tr>
     <tr><td class="paramname">model</td><td>A function that returns the lightcurve shape as a function of the light curve parameters and time </td></tr>
@@ -407,14 +407,14 @@ Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>The object pointer </td></tr>
-    <tr><td class="paramname">filename</td><td>The filename including path where the chains should be saved </td></tr>
+    <tr><td class="paramname">filename</td><td>The filename including path where the chains will be saved </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
     <tr><td class="paramname">0</td><td>if successful </td></tr>
-    <tr><td class="paramname">1</td><td>if an IO error occurs </td></tr>
+    <tr><td class="paramname">1</td><td>if an IO error occurs or if the chain is empty </td></tr>
   </table>
   </dd>
 </dl>
@@ -476,11 +476,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run M...">MCMC</a> chains </p><dl class="params"><dt>Parameters</dt><dd>
+<p>These plots are useful for visualization but should not cause the code to crash, as the main purpose of the code is to create and save the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce diagnostic plots and statistics Uses emcee (to run MCMC) a...">MCMC</a> chains. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>The object pointer </td></tr>
     <tr><td class="paramname">extra_burnin_steps</td><td>Number of steps (in addition to burnin_steps from run) at the start of each chain to neglect </td></tr>
-    <tr><td class="paramname">theta_true</td><td>Numpy array of true parameter values if known (used for test data) </td></tr>
+    <tr><td class="paramname">theta_true</td><td>Numpy array of true parameter values for the parameters to be plotted (only used for test data) </td></tr>
     <tr><td class="paramname">plot_transit_params</td><td>Boolean value specifying whether or not to plot the transit parameters </td></tr>
     <tr><td class="paramname">plot_hyper_params</td><td>Boolean value specifying whether or not to plot the hyper parameters </td></tr>
     <tr><td class="paramname">save_as_dir</td><td>Directory where plot should be saved. Default is current working Directory </td></tr>
@@ -553,7 +553,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run M...">MCMC</a> chains </p><dl class="params"><dt>Parameters</dt><dd>
+<p>These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce diagnostic plots and statistics Uses emcee (to run MCMC) a...">MCMC</a> chains </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>The object pointer </td></tr>
     <tr><td class="paramname">extra_burnin_steps</td><td>Number of steps (in addition to burnin_steps from run) at the start of each chain to neglect </td></tr>

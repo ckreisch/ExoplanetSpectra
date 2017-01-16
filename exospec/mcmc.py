@@ -5,19 +5,19 @@ from matplotlib.ticker import MaxNLocator
 import time
 
 ## @class MCMC
-# Class to run MCMC to fit curve and produce basic diagnostic plots and statistics
+# Class to run MCMC to fit curve and produce diagnostic plots and statistics
 # Uses emcee (to run MCMC) and corner (to produce triangle plots)
 class MCMC(object):
     ## The constructor
     # @param self The object pointer
-    # @param t A numpy array of the independent variable for the data to be fitted
-    # @param val A numpy array of the dependent variable for the data to be fitted
+    # @param t A numpy array of the independent variable for the data
+    # @param val A numpy array of the dependent variable for the data
     # @param err A numpy array of the errors on the dependent variable
-    # @param ln_prob_fn The log probability function to be sampled by the MCMC chain
-    # @param transit_params A list of strings giving the names of the curve's parameter's
-    # @param hyper_params A list of strings giving the names of noise parameters
+    # @param ln_prob_fn The log probability function to be sampled
+    # @param transit_params A list of the names of the curve's parameters
+    # @param hyper_params A list of the names of noise parameters
     # @param num_walkers Integer giving the number of walkers for the MCMC run
-    # @param num_threads An integer giving the number of threads to use on each core
+    # @param num_threads Integer giving the number of threads to use per core
     def __init__(self, t, val, err, ln_prob_fn, transit_params, hyper_params, num_walkers, num_threads):
         self._t=t
         self._val=val
@@ -65,9 +65,9 @@ class MCMC(object):
 
     ## Saves the chain as a numpy array
     # @param self The object pointer
-    # @param filename The filename including path where the chains should be saved
+    # @param filename The filename including path where the chains will be saved
     # @retval 0 if successful
-    # @retval 1 if an IO error occurs
+    # @retval 1 if an IO error occurs or if the chain is empty
     def save_chain(self, filename):
         if self._sampler.chain.shape[1]==0:
             print "Unable to save chain \n"\
@@ -82,7 +82,8 @@ class MCMC(object):
             return 1
         return 0
 
-    ## Allows the user to access the mean acceptance fraction, which should be around 1/2
+    ## Allows the user to access the mean acceptance fraction
+    #The mean acceptance fractions should be between about 0.25 and 0.5
     # @param self The object pointer
     # @returns Mean acceptance fraction
     def get_mean_acceptance_fraction(self):
@@ -100,11 +101,11 @@ class MCMC(object):
 
     ## Makes a triangle plot
     #If an error is encountered the function returns 1 but does not raise an exception.
-    #These plots are useful for visualization but should not cause the code to crash, as the
-    #main purpose is to create and save the MCMC chains
+    #These plots are useful for visualization but should not cause the code to crash,
+    #as the main purpose of the code is to create and save the MCMC chains.
     # @param self The object pointer
     # @param extra_burnin_steps Number of steps (in addition to burnin_steps from run) at the start of each chain to neglect
-    # @param theta_true Numpy array of true parameter values if known (used for test data)
+    # @param theta_true Numpy array of true parameter values for the parameters to be plotted (only used for test data)
     # @param plot_transit_params Boolean value specifying whether or not to plot the transit parameters
     # @param plot_hyper_params Boolean value specifying whether or not to plot the hyper parameters
     # @param save_as_dir Directory where plot should be saved. Default is current working Directory
