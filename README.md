@@ -1,80 +1,53 @@
-Jenkins current build status: [![Build Status](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)
+# ExoSpec
 
-# ExoplanetSpectra
-Design project to extract exoplanet transmission spectra from multi-wavelength light curves.
+Welcome to ExoSpec version 0.1, a simple parallelized python 
+tool for extracting exoplanet transmission spectra from 
+noisey multi-wavelength light curves.
+authors: Brianna Lacy, Christina Kreisch, Heather Prince, 
+Polina Kanel, Julien de Lanversin, Blake Yang
+url: https://github.com/ckreisch/ExoplanetSpectra
+email: blacy@princeton.edu
 
-#Classes we plan to use:
- - Noise (with derived classes WhiteNoise, RedNoise)
- - LightCurve (reading in and using/plotting light curve datafile)
- - Model (use batman to get model curves for transit model parameters)
- - Decorrelator (remove correlated noise) - maybe derived classes for atmosphere and instrument
- - MCFitter (do fit using batman and emcee)
+Required Contents:
+```
+    docs/ 
+    bin/ 
+    exospec/
+    setup.py
+    LICENSE.txt     
+    README               
+```
 
-#Main steps for our project:
+Within exospec: 
+```
+    tests/
+    out/  
+    __init__.py   
+    TransitModel.py     
+    lc_class.py     
+    read_input.py
+    mcmc.py         
+    read_input_demo.py
+    deliverables.py     
+    fitting_single_lc.py  
+    ```
 
-1. Generate simulated data:
-    - light curves for a transit at different frequencies from batman (existing code)
-    - noise (white noise, red correlated noise derived classes)
-    * inputs: noise amplitude, correlated noise parameters
-    * outputs: datafile with noisy intensity vs time for a variety of different wavelengths
-    * use classes Noise and Model (to generate theoretical light curve and add noise)
+Within bin:
+```
+    exospec_main.py
+    lc_class_demo.py
+    short_example_lc/
+    full_example_lc/
+    short_example.ini
+    full_example.ini
+    ```
 
-2. Decorrelate:
-    - try to fit and remove correlations with observed parameters
-    - possibly deal with atmosphere and telescope in separate ways
-    * inputs: noisy light curves datafile from step 1 (or real data), observed parameters file (things that might be causing correlated noise, eg psf shape and width, detector temperature, pointing etc)
-    * outputs: produce light curve that ideally only has white noise and very small red noise residuals left
-    * uses classes Decorrelator and LightCurve
+Within docs:
+```
+    docs.pdf
+    UserManual.pdf 
+    ```
 
-3. Fit:
-    - use emcee and batman to fit transit parameters (depth, limb darkening parameters, central time)
-    * inputs: decorrelated light curves
-    * outputs: best fit transit parameters and uncertainties for each wavelength
-    * uses classes MCFitter, Model and LightCurve
-
-4. Visualize output
-    - effective size vs wavelength (due to atmospheric effects being wavelength dependent)
-
-#Functionality to add later once everything is working:
-Binning:
-    - allow user to specify binning in wavelength and time to reduce error bars on fitted parameters
-    - do once we have everything else working
-    - this would probably just produce different datafiles with binned lightcurves and use the same code as above
-
-Additional methods for treating noise eg Gaussian processes
-
-User friendliness:
-    - make parts 2 and 3 easy to use for people wanting to fit their light curves
-
-#Background
-A little background on transmission spectroscopy of exoplanets:
-
-A transit occurs when a planet passes in front of its host star. This leaves a tell-tale dip in the light curve of the star as the planet blocks out part of the star's surface/light. The depth of that dip is proportional to the ratio of the area of planet to the area of the star. (see attached image showing cartoon light curve as planet transits star)
-
-If you consider a planet with a significant atmosphere, then the planet's apparent radius will actually vary with wavelength of light. At wavelengths where the atmosphere is highly absorptive you have a larger radius and at wavelengths where the atmosphere is not absorbing you have a smaller radius. A transmission spectrum is simply a measure of the planet's apparent radius as a function of wavelength. This can allow you to back out what molecules are present in the planets atmosphere.  A nice video showing change of planet radius with wavelength can be found at: http://www.exoclimes.com/topics/transmission-spectroscopy/
-
-These people have some pretty videos as well: https://svs.gsfc.nasa.gov/11428
-
-I have some multi-wavelength data from a ground-based transit of an exoplanet which I have been wrestling with to get nice light curves. Our package would be a tool for the next step of actually fitting light curves to the data. The motivation to do it in python is really just because that is a popular language among the astronomical community. We could potentially publish the tool for others to apply to their own projects.
-
-There are already some very nice python packages available that will do most of the hard work:
-generates transit light curves given parameters of your system: http://astro.uchicago.edu/~kreidberg/batman/
-run MCMC chains: http://dan.iel.fm/emcee/current/
-implement gaussian processes to model correlated noise: http://dan.iel.fm/george/current/
-
-We could take these tools and piece them together with a nice interface for the user.
-
-I'm imagining the project will entail a few parts:
-
-1) generate some synthetic "data"  (this can be done with the batman python package, the creative part will be adding in noise that mimics annoyances of atmosphere/ground-based observing)
-
-2) come up with convenient way for user to bin their data both temporally and by wavelength
-
-3) allow user to fit different parameters as they desire (e.g. all parameters for white light curve, or just planet radius and limb-darkening coefficients for different wavelength bins)
-
-4) give user different options for modeling noise (this will be most work perhaps, there are 2 or 3 different ways I have seen people treat noise that seem worth including)
-
-5) make nice plots: characterize the MCMC runs, light curve data overlaid with best fit light curve, transmission spectrum with errors
 # Build/ Install
 ExoSpec runs with Python 2.7. 
 
@@ -85,11 +58,11 @@ Before installing ExoSpec, you must install the following packages:
 
 On linux: 
 ```
-sudo apt-get install libeigen3-dev
+$ sudo apt-get install libeigen3-dev
 ```
 On mac: 
 ```
-brew install eigen
+$ brew install eigen
 ```
 On Windows: the developers of george say they did not test george on Windows, so it may not work but you can still try. We have not tested ExoSpec on Windows
 
@@ -97,23 +70,23 @@ On Windows: the developers of george say they did not test george on Windows, so
 
 On linux: 
 ```
-sudo apt-get install openmpi-bin openmpi-common openssh-client openssh-server libopenmpi1.3 libopenmpi-dbg libopenmpi-dev
+$ sudo apt-get install openmpi-bin openmpi-common openssh-client openssh-server libopenmpi1.3 libopenmpi-dbg libopenmpi-dev
 ```
 On mac: 
 ```
-brew install openmpi
+$ brew install openmpi
 ```
 
 #Installation
 
 To install ExoSpec run
 ```
-python setup.py install
+$ python setup.py install
 ```
 
 Batman issues: If after running the setup.py file you receive and error from batman, you can install it from the source file instead. Download the stable release at https://pypi.python.org/pypi/batman-package/, and then run 
 ```
-sudo python setup.py install
+$ sudo python setup.py install
 ```
 in the batman directory.
 
@@ -121,15 +94,28 @@ in the batman directory.
 
 To test that the code built correctly, cd to the tests folder and run the tests.py file:
 ```
-cd exospec/tests
-python tests.py
+$ cd exospec/tests
+$ python tests.py
 ```
+
+# Usage
+To run exospec on the two example files included, go into bin/
+and simply run:
+```
+$ python exospec_main.py short_example.ini
+$ python exospec_main.py full_example.ini
+```
+
+Please see the user manual in the docs/ folder for more
+detailed instructions on using exospec with other data.
 
 # Known Issues (v0.1)
 - Running 
 ```
-python setup.py tests
+$ python setup.py tests
 ``` 
  does not run the test suite. This needs to be further investigated.
 - Running tests.py with Jenkins on adroit throws an MPI error. We are currently working with David Luet to resolve this.
 - We need to add further tests to catch user input errors, such as typing nthreads = 4m instead of nthreads = 4. Currently we have the most basic tests set up.
+
+Jenkins current build status: [![Build Status](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)](https://jenkins.princeton.edu/buildStatus/icon?job=ckreisch/ExoplanetSpectra)
