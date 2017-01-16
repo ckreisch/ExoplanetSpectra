@@ -1,5 +1,4 @@
 import emcee
-import corner
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
@@ -125,6 +124,11 @@ class MCMC(object):
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
+        try:
+            import corner
+        except ImportError:
+            print "Unable to import module corner for triangle plots (see http://corner.readthedocs.io)"
+            return 1
 
         if plot_transit_params and plot_hyper_params:
             samples = self._sampler.flatchain[extra_burnin_steps:,:]
