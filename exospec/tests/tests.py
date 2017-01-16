@@ -24,12 +24,13 @@ class TestIntegration(unittest.TestCase):
         for filename in self.expected_files:
             os.system("rm "+filename)
         os.chdir(self.output_to_test_dir)
-        os.system("python exospec_main_develop.py " + self.input_file_path) # run main_driver
+        os.system("python ../../bin/exospec_main.py " + self.input_file_path) # run main_driver
 
     def testOutput_names(self):
         """
         this test needs to be run from the same directory as jenkins_test_data/.
-        it will test exospec_main_develop.py which must also be in the same directory.
+        it assumes that the test script is in exospec/tests while the main driver is
+        in bin/ and bin/ and exospec/ are in same level
         so long as jenkins_test.ini jenkins_test_out and jenkins_test_lc are kept
         as they are, this test will show that main_driver is producing the expected
         outputs. as main driver is editted to contain different visualization output, checks
