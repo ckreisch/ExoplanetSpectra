@@ -40,7 +40,7 @@ class TestIntegration(unittest.TestCase):
         os.system("rm *.png")  # clean up any previous tests
         os.system("rm *.out")
         os.chdir("../")
-        os.system("python exospec.py jenkins_test.ini") # run main_driver
+        os.system("python exospec_main.py jenkins_test.ini") # run main_driver
 
     def testOutput_names(self):
         """
