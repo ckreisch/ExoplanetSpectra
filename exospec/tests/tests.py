@@ -1,3 +1,5 @@
+# Program created to do systematic tests with Jenkins
+# ! /usr/bin/env python
 import unittest
 
 # Find the different unit test scripts and run them
@@ -12,4 +14,3 @@ from test_exospec_main import TestIntegration
 
 if __name__ == '__main__':
     unittest.main()
-
