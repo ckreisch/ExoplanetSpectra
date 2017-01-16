@@ -71,8 +71,8 @@ if __name__ == "__main__":
                         rank != 0 and i+j*comm.Get_size() < len(LC_dic)):
                     print "now rank number: %i of processor: %s" % (
                         rank, MPI.Get_processor_name()) + \
-                     "is processing channel centered on: %s microns" % (
-                        LC_dic.keys()[j*comm.Get_size()])
+                     " is processing channel centered on: %s microns" % (
+                        LC_dic.keys()[i+j*comm.Get_size()])
                     fsl.run_mcmc_single_wl(
                         input_param_dic, LC_dic,
                         LC_dic.keys()[i+j*comm.Get_size()])
@@ -85,7 +85,7 @@ if __name__ == "__main__":
             if rank == 0:
                 print "now rank number: %i of processor: %s" % (
                     rank, MPI.Get_processor_name()) + \
-                 "is processing channel centered on: %s microns" % (
+                 " is processing channel centered on: %s microns" % (
                     LC_dic.keys()[j*comm.Get_size()])
                 fsl.run_mcmc_single_wl(
                     input_param_dic, LC_dic, LC_dic.keys()[j*comm.Get_size()])
@@ -107,7 +107,8 @@ if __name__ == "__main__":
                 rank)
             if input_param_dic['visualization']:
                 # proceed with post-processing inside this if statement
-                exospec.deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+                exospec.deliverables.post_processing_all_wl(
+                    input_param_dic, LC_dic)
 
     else:
         print "no MPI. Will use single core to process all lightcurves."
@@ -117,7 +118,8 @@ if __name__ == "__main__":
 
         if input_param_dic['visualization']:
             # proceed with post-processing inside this if statement
-            exospec.deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+            exospec.deliverables.post_processing_all_wl(
+                input_param_dic, LC_dic)
 
     # KY comment: it's good not to put code outside the above if-else
     # structure.
