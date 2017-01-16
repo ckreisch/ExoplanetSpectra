@@ -17,7 +17,7 @@ class IncorrectNameFormat(Exception):
 # Raise when the light curve file is empty
 class EmptyFile(Exception):
     pass
-## @class DifferentFileSize
+## @class DifferentFileSizes
 # Raise when one the light curve file does not have the same size with light curve file for the lowest wavelength (this file serves as reference)
 class DifferentFileSizes(Exception):
     pass
@@ -86,7 +86,7 @@ class LightCurve:
         self.transit_model = None
 
     ## Return LC_dic
-    # @returns LC_dic the dictionary that contains the light curve objects and which are references by their wavelength as keys 
+    # @returns LC_dic the dictionary that contains the light curve objects and which are references by their wavelength as keys
     def LC_dic(self):
 
         return LC_dic
@@ -134,7 +134,7 @@ class LightCurveData:
         if len_file == 0:
             raise EmptyFile('Light curve file %s only contains comments' % Path_to_files[0])
 
-       
+
         param_num = len(line[1].split())-3
         param_name = line[0].split()[4:]
         param_list = np.zeros((param_num, len_file-1))

@@ -4,8 +4,7 @@ var indexSectionsWithContent =
   1: "deilmnrt",
   2: "def",
   3: "_fgiklmnprstuw",
-  4: "i",
-  5: "e"
+  4: "e"
 };
 
 var indexSectionNames =
@@ -14,8 +13,7 @@ var indexSectionNames =
   1: "classes",
   2: "files",
   3: "functions",
-  4: "variables",
-  5: "pages"
+  4: "pages"
 };
 
 var indexSectionLabels =
@@ -24,7 +22,6 @@ var indexSectionLabels =
   1: "Classes",
   2: "Files",
   3: "Functions",
-  4: "Variables",
-  5: "Pages"
+  4: "Pages"
 };
 
