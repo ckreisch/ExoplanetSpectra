@@ -82,6 +82,7 @@ ExoSpec runs with Python 2.7.
 Before installing ExoSpec, you must install the following packages:
 
 -Eigen3- 
+
 On linux: 
 ```
 sudo apt-get install libeigen3-dev
@@ -93,6 +94,7 @@ brew install eigen
 On Windows: the developers of george say they did not test george on Windows, so it may not work but you can still try. We have not tested ExoSpec on Windows
 
 -OpenMPI-
+
 On linux: 
 ```
 sudo apt-get install openmpi-bin openmpi-common openssh-client openssh-server libopenmpi1.3 libopenmpi-dbg libopenmpi-dev
