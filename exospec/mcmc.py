@@ -1,5 +1,4 @@
 import emcee
-import corner
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
@@ -111,7 +110,7 @@ class MCMC(object):
     # @param save_as_name Name under which plot should be saved
     # @retval 0 if successful
     # @retval 1 on failure
-    def triangle_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="triangle.png", steps_max_cutoff=None):
+    def triangle_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="triangle.png"):
         #makes triangle plot
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         if self._sampler.chain.shape[1]==0:
@@ -125,21 +124,24 @@ class MCMC(object):
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
-        if not(steps_max_cutoff):
-            steps_max_cutoff=self._sampler.chain.shape[1]
+        try:
+            import corner
+        except ImportError:
+            print "Unable to import module corner for triangle plots (see http://corner.readthedocs.io)"
+            return 1
 
         if plot_transit_params and plot_hyper_params:
-            samples = self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,:]
+            samples = self._sampler.flatchain[extra_burnin_steps:,:]
             fig = corner.corner(samples, labels=self._all_params, truths=theta_true)
         elif plot_transit_params:
-            samples = self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff, 0:len(self._transit_params)]
+            samples = self._sampler.flatchain[extra_burnin_steps:, 0:len(self._transit_params)]
             fig = corner.corner(samples, labels=self._transit_params, truths=theta_true)    #check theta true shape!
         elif plot_hyper_params:
             if len(self._hyper_params)==0:
                 print "You do not have any hyper parameters to plot. "\
                 "Try plotting your transit parameters by setting plot_transit_params=True"
                 return 1
-            samples = self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff, len(self._transit_params):]
+            samples = self._sampler.flatchain[extra_burnin_steps:, len(self._transit_params):]
             fig = corner.corner(samples, labels=self._hyper_params, truths=theta_true)    #check theta true shape!
         else:
             print "Either plot_transit_params or plot_hyper_params must be true"
@@ -159,7 +161,7 @@ class MCMC(object):
     # @param save_as_name Name under which plot should be saved
     # @retval 0 if successful
     # @retval 1 on failure
-    def walker_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="walkers.png", steps_max_cutoff=None):
+    def walker_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="walkers.png"):
         #makes a walker plot and histogram
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         #check theta_true!!
@@ -175,25 +177,22 @@ class MCMC(object):
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
-        if not(steps_max_cutoff):
-            steps_max_cutoff=self._sampler.chain.shape[1]
-
         if plot_transit_params and plot_hyper_params:
             params=self._all_params
-            samples_flat=self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,:]
-            samples=self._sampler.chain[:, extra_burnin_steps:steps_max_cutoff, :]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:,:]
+            samples=self._sampler.chain[:, extra_burnin_steps:, :]
         elif plot_transit_params:
             params=self._transit_params
-            samples_flat=self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,0:len(self._transit_params)]
-            samples=self._sampler.chain[:, extra_burnin_steps:steps_max_cutoff, 0:len(self._transit_params)]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:,0:len(self._transit_params)]
+            samples=self._sampler.chain[:, extra_burnin_steps:, 0:len(self._transit_params)]
         elif plot_hyper_params:
             if len(self._hyper_params)==0:
                 print "You do not have any hyper parameters to plot. "\
                 "Try plotting your transit parameters by setting plot_transit_params=True"
                 return 1
             params=self._hyper_params
-            samples_flat=self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,len(self._transit_params):]
-            samples=self._sampler.chain[:, extra_burnin_steps:steps_max_cutoff, len(self._transit_params):]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:,len(self._transit_params):]
+            samples=self._sampler.chain[:, extra_burnin_steps:, len(self._transit_params):]
         else:
             print "Either plot_transit_params or plot_hyper_params must be true"
             return 1
