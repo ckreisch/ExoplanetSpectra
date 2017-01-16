@@ -28,8 +28,8 @@ def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_af240e8deac4470da704239926ea5682
 \begin{DoxyCompactList}\small\item\em Makes a triangle plot If an error is encountered the function returns 1 but does not raise an exception. \end{DoxyCompactList}\item 
 def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_a741c2882baef53c1fa19b2c086ec8261}{walker\+\_\+plot} (self, extra\+\_\+burnin\+\_\+steps=0, theta\+\_\+true=None, plot\+\_\+transit\+\_\+params=True, plot\+\_\+hyper\+\_\+params=True, save\+\_\+as\+\_\+dir=\char`\"{}.\char`\"{}, save\+\_\+as\+\_\+name=\char`\"{}walkers.\+png\char`\"{})
 \begin{DoxyCompactList}\small\item\em Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception. \end{DoxyCompactList}\item 
-def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_ab2c5cc870e2b384534404f3bc667e039}{light\+\_\+curve\+\_\+plot} (self, model, extra\+\_\+burnin\+\_\+steps=0, theta\+\_\+true=None, plot\+\_\+transit\+\_\+params=True, plot\+\_\+hyper\+\_\+params=True, save\+\_\+as\+\_\+dir=\char`\"{}.\char`\"{}, save\+\_\+as\+\_\+name=\char`\"{}light\+\_\+curve\char`\"{})
-\begin{DoxyCompactList}\small\item\em Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception. \end{DoxyCompactList}\end{DoxyCompactItemize}
+def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_a4eef4b5f8fd95075890dfaf74d624c11}{light\+\_\+curve\+\_\+plot} (self, model, extra\+\_\+burnin\+\_\+steps=0, theta\+\_\+true=None, save\+\_\+as\+\_\+dir=\char`\"{}.\char`\"{}, save\+\_\+as\+\_\+name=\char`\"{}light\+\_\+curve\char`\"{})
+\begin{DoxyCompactList}\small\item\em Plots the best-\/fit curve and the data points with errors If the true parameters are given then the true curve is also plotted If an error is encountered the function returns 1 but does not raise an exception. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -91,17 +91,17 @@ Mean acceptance fraction
 \begin{DoxyReturn}{Returns}
 Three numpy arrays giving the median and one sigma errors for each parameter 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classexospec_1_1mcmc_1_1_m_c_m_c_ab2c5cc870e2b384534404f3bc667e039}\label{classexospec_1_1mcmc_1_1_m_c_m_c_ab2c5cc870e2b384534404f3bc667e039}} 
+\mbox{\Hypertarget{classexospec_1_1mcmc_1_1_m_c_m_c_a4eef4b5f8fd95075890dfaf74d624c11}\label{classexospec_1_1mcmc_1_1_m_c_m_c_a4eef4b5f8fd95075890dfaf74d624c11}} 
 \index{exospec\+::mcmc\+::\+M\+C\+MC@{exospec\+::mcmc\+::\+M\+C\+MC}!light\+\_\+curve\+\_\+plot@{light\+\_\+curve\+\_\+plot}}
 \index{light\+\_\+curve\+\_\+plot@{light\+\_\+curve\+\_\+plot}!exospec\+::mcmc\+::\+M\+C\+MC@{exospec\+::mcmc\+::\+M\+C\+MC}}
 \subsubsection{\texorpdfstring{light\+\_\+curve\+\_\+plot()}{light\_curve\_plot()}}
-{\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+light\+\_\+curve\+\_\+plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{extra\+\_\+burnin\+\_\+steps = {\ttfamily 0},  }\item[{}]{theta\+\_\+true = {\ttfamily None},  }\item[{}]{plot\+\_\+transit\+\_\+params = {\ttfamily True},  }\item[{}]{plot\+\_\+hyper\+\_\+params = {\ttfamily True},  }\item[{}]{save\+\_\+as\+\_\+dir = {\ttfamily \char`\"{}.\char`\"{}},  }\item[{}]{save\+\_\+as\+\_\+name = {\ttfamily \char`\"{}light\+\_\+curve\char`\"{}} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+light\+\_\+curve\+\_\+plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{extra\+\_\+burnin\+\_\+steps = {\ttfamily 0},  }\item[{}]{theta\+\_\+true = {\ttfamily None},  }\item[{}]{save\+\_\+as\+\_\+dir = {\ttfamily \char`\"{}.\char`\"{}},  }\item[{}]{save\+\_\+as\+\_\+name = {\ttfamily \char`\"{}light\+\_\+curve\char`\"{}} }\end{DoxyParamCaption})}
 
 These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains 
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
-{\em model} & A function that returns the lightcurve shape as a function of the light curve parameters and time \\
+{\em model} & A function that returns the lightcurve shape given (parameters, t, val, err) \\
 \hline
 {\em extra\+\_\+burnin\+\_\+steps} & Number of steps (in addition to burnin\+\_\+steps from run) at the start of each chain to neglect \\
 \hline

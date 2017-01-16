@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  16 JAN 2017 14:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  16 JAN 2017 15:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1223,6 +1223,17 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 12.9599pt on input line 1.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 12.9599pt on input line 1.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 2.
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+LaTeX Font Info:    Try loading font information for TS1+phv on input line 9.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1phv.fd
+File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
+)
+LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 9.
 ) [1
 
 ] [2
@@ -1248,7 +1259,7 @@ Chapter 4.
 ]
 Chapter 5.
 (./classexospec_1_1lc__class_1_1_different_file_sizes.tex
-<classexospec_1_1lc__class_1_1_different_file_sizes.pdf, id=565, 501.875pt x 18
+<classexospec_1_1lc__class_1_1_different_file_sizes.pdf, id=568, 501.875pt x 18
 1.67876pt>
 File: classexospec_1_1lc__class_1_1_different_file_sizes.pdf Graphic file (type
  pdf)
@@ -1256,16 +1267,9 @@ File: classexospec_1_1lc__class_1_1_different_file_sizes.pdf Graphic file (type
 Package pdftex.def Info: classexospec_1_1lc__class_1_1_different_file_sizes.pdf
  used on input line 11.
 (pdftex.def)             Requested size: 157.19547pt x 56.9055pt.
-LaTeX Font Info:    Try loading font information for TS1+phv on input line 18.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1phv.fd
-File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
-)
-LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
-(Font)              scaled to size 8.99994pt on input line 18.
 )
 (./classexospec_1_1lc__class_1_1_different_param_num.tex
-<classexospec_1_1lc__class_1_1_different_param_num.pdf, id=566, 501.875pt x 173
+<classexospec_1_1lc__class_1_1_different_param_num.pdf, id=569, 501.875pt x 173
 .80936pt>
 File: classexospec_1_1lc__class_1_1_different_param_num.pdf Graphic file (type 
 pdf)
@@ -1275,7 +1279,7 @@ used on input line 11.
 (pdftex.def)             Requested size: 164.30974pt x 56.9055pt.
 )
 (./classexospec_1_1read__input_1_1_empty_file.tex
-<classexospec_1_1read__input_1_1_empty_file.pdf, id=567, 501.875pt x 211.31949p
+<classexospec_1_1read__input_1_1_empty_file.pdf, id=570, 501.875pt x 211.31949p
 t>
 File: classexospec_1_1read__input_1_1_empty_file.pdf Graphic file (type pdf)
  <use classexospec_1_1read__input_1_1_empty_file.pdf>
@@ -1285,7 +1289,7 @@ Package pdftex.def Info: classexospec_1_1read__input_1_1_empty_file.pdf used on
  [9 <./classexospec_1_1lc__class_1_1_different_file_sizes.pdf> <./classexospec_
 1_1lc__class_1_1_different_param_num.pdf>]) (./classexospec_1_1lc__class_1_1_em
 pty_file.tex
-<classexospec_1_1lc__class_1_1_empty_file.pdf, id=584, 501.875pt x 228.12227pt>
+<classexospec_1_1lc__class_1_1_empty_file.pdf, id=587, 501.875pt x 228.12227pt>
 File: classexospec_1_1lc__class_1_1_empty_file.pdf Graphic file (type pdf)
 <use classexospec_1_1lc__class_1_1_empty_file.pdf>
 Package pdftex.def Info: classexospec_1_1lc__class_1_1_empty_file.pdf used on i
@@ -1293,7 +1297,7 @@ nput line 11.
 (pdftex.def)             Requested size: 125.19275pt x 56.9055pt.
 )
 (./classexospec_1_1lc__class_1_1_empty_folder.tex
-<classexospec_1_1lc__class_1_1_empty_folder.pdf, id=585, 501.875pt x 209.11124p
+<classexospec_1_1lc__class_1_1_empty_folder.pdf, id=588, 501.875pt x 209.11124p
 t>
 File: classexospec_1_1lc__class_1_1_empty_folder.pdf Graphic file (type pdf)
  <use classexospec_1_1lc__class_1_1_empty_folder.pdf>
@@ -1302,7 +1306,7 @@ Package pdftex.def Info: classexospec_1_1lc__class_1_1_empty_folder.pdf used on
 (pdftex.def)             Requested size: 136.57251pt x 56.9055pt.
 )
 (./classexospec_1_1lc__class_1_1_incorrect_name_format.tex
-<classexospec_1_1lc__class_1_1_incorrect_name_format.pdf, id=586, 501.875pt x 1
+<classexospec_1_1lc__class_1_1_incorrect_name_format.pdf, id=589, 501.875pt x 1
 65.2273pt>
 File: classexospec_1_1lc__class_1_1_incorrect_name_format.pdf Graphic file (typ
 e pdf)
@@ -1334,11 +1338,6 @@ LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 8.99994pt on input line 61.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 7.19995pt on input line 62.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 62.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-)
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
 (Font)              Font shape `T1/pcr/m/sl' tried instead on input line 62.
  [11 <./classexospec_1_1lc__class_1_1_incorrect_name_format.pdf>]
@@ -1394,7 +1393,7 @@ Underfull \hbox (badness 10000) detected at line 162
  []
 
 ) (./classexospec_1_1mcmc_1_1_m_c_m_c.tex
-<classexospec_1_1mcmc_1_1_m_c_m_c.pdf, id=697, 501.875pt x 273.1304pt>
+<classexospec_1_1mcmc_1_1_m_c_m_c.pdf, id=699, 501.875pt x 273.1304pt>
 File: classexospec_1_1mcmc_1_1_m_c_m_c.pdf Graphic file (type pdf)
 
 <use classexospec_1_1mcmc_1_1_m_c_m_c.pdf>
@@ -1421,7 +1420,7 @@ Underfull \hbox (badness 10000) detected at line 143
  []
 
 [19] [20]) (./classexospec_1_1read__input_1_1_no_input.tex
-<classexospec_1_1read__input_1_1_no_input.pdf, id=763, 501.875pt x 225.5627pt>
+<classexospec_1_1read__input_1_1_no_input.pdf, id=765, 501.875pt x 225.5627pt>
 File: classexospec_1_1read__input_1_1_no_input.pdf Graphic file (type pdf)
 
 <use classexospec_1_1read__input_1_1_no_input.pdf>
@@ -1436,7 +1435,7 @@ Underfull \hbox (badness 10000) detected at line 34
  []
 
 ) (./classexospec_1_1_transit_model_1_1_transit_model.tex
-<classexospec_1_1_transit_model_1_1_transit_model.pdf, id=778, 501.875pt x 181.
+<classexospec_1_1_transit_model_1_1_transit_model.pdf, id=780, 501.875pt x 181.
 67876pt>
 File: classexospec_1_1_transit_model_1_1_transit_model.pdf Graphic file (type p
 df)
@@ -1517,11 +1516,11 @@ Package rerunfilecheck Info: File `refman.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 176.
  ) 
 Here is how much of TeX's memory you used:
- 15395 strings out of 493014
- 233748 string characters out of 6133351
- 328046 words of memory out of 5000000
- 18341 multiletter control sequences out of 15000+600000
- 61872 words of font info for 69 fonts, out of 8000000 for 9000
+ 15398 strings out of 493014
+ 233790 string characters out of 6133351
+ 328045 words of memory out of 5000000
+ 18343 multiletter control sequences out of 15000+600000
+ 62493 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  53i,15n,92p,1048b,636s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{fitting__single__lc_8py_a0b2cf40b83c8a2c501e9000f
@@ -1556,10 +1555,10 @@ fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
 ype1/urw/helvetic/uhvb8ac.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/u
 rw/helvetic/uhvr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/helv
 etic/uhvro8a.pfb>
-Output written on refman.pdf (44 pages, 199119 bytes).
+Output written on refman.pdf (44 pages, 201503 bytes).
 PDF statistics:
- 1201 PDF objects out of 1440 (max. 8388607)
- 1113 compressed objects within 12 object streams
+ 1203 PDF objects out of 1440 (max. 8388607)
+ 1115 compressed objects within 12 object streams
  316 named destinations out of 1000 (max. 500000)
  742 words of extra memory for PDF output out of 10000 (max. 10000000)
 

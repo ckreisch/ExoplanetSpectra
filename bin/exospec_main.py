@@ -1,12 +1,31 @@
 ## @mainpage ExoSpec
+#
 # @section intro_sec Introduction
 # Exospec is a python tool for fitting your multi-wavelength transit light-curves
 #It can accept an arbitrary number of wavelength channels and an arbitrary number of auxiliary
 #measurements. Currently the fitting has two Gaussian Process kernel options: the kernel outlined
 #in Gibson 2011 which incorporates auxiliary measurements made over the course of transit
 #observation and a more general squared exponential.
+#The latest version is available at https://github.com/ckreisch/ExoplanetSpectra/.
+#
 #@section install_sec Installation
-#ExoSpec uses numpy and matplotlib, as well as the Python packages batman, emcee, corner, pandas and george.
+#Dependencies: In addition to standard Python libraries, ExoSpec requires the following packages to run: numpy, scipy, matplotlib, virtualenv, mpi4py, emcee, george, batman-package, corner, and pandas. These packages are automatically installed when installing ExoSpec. To run tests with the setup.py file, the nose package is also required and installs automatically.
+#
+#Runs with Python version 2.7.
+#
+# - Before installing ExoSpec, dependencies for george and mpi4py must be installed since these dependencies are not Python packages. You must install the following:
+#       - Eigen3:
+#               - On linux: sudo apt-get install libeigen3-dev
+#               - On mac: brew install eigen
+#               - On Windows: the developers of george say they did not test george on Windows, so it may not work but you can still try. We have not tested ExoSpec on Windows
+#       - OpenMPI:
+#               - On linux: sudo apt-get install openmpi-bin openmpi-common openssh-client openssh-server libopenmpi1.3 libopenmpi-dbg libopenmpi-dev
+#               - On mac: brew install openmpi
+#       - Batman issues: If after moving to step 1 and running the setup.py file you receive an error from batman, you can install it from the source file instead
+#               - Download the stable release here, and then run sudo python setup.py install
+# - To install ExoSpec, download (https://github.com/ckreisch/ExoplanetSpectra/) and unpack the source file. Then run python setup.py install and all dependencies and packages will be built.
+# - A suite of tests are included in exospec/tests/
+
 
 ##@file
 # Fits the transits for multiple wavelengths to produce the transmission spectrum

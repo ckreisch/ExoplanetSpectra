@@ -105,9 +105,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a741c2882baef53c1fa19b2c086ec8261"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html#a741c2882baef53c1fa19b2c086ec8261">walker_plot</a> (self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=&quot;.&quot;, save_as_name=&quot;walkers.png&quot;)</td></tr>
 <tr class="memdesc:a741c2882baef53c1fa19b2c086ec8261"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception.  <a href="#a741c2882baef53c1fa19b2c086ec8261">More...</a><br /></td></tr>
 <tr class="separator:a741c2882baef53c1fa19b2c086ec8261"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2c5cc870e2b384534404f3bc667e039"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html#ab2c5cc870e2b384534404f3bc667e039">light_curve_plot</a> (self, model, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=&quot;.&quot;, save_as_name=&quot;light_curve&quot;)</td></tr>
-<tr class="memdesc:ab2c5cc870e2b384534404f3bc667e039"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception.  <a href="#ab2c5cc870e2b384534404f3bc667e039">More...</a><br /></td></tr>
-<tr class="separator:ab2c5cc870e2b384534404f3bc667e039"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eef4b5f8fd95075890dfaf74d624c11"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html#a4eef4b5f8fd95075890dfaf74d624c11">light_curve_plot</a> (self, model, extra_burnin_steps=0, theta_true=None, save_as_dir=&quot;.&quot;, save_as_name=&quot;light_curve&quot;)</td></tr>
+<tr class="memdesc:a4eef4b5f8fd95075890dfaf74d624c11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plots the best-fit curve and the data points with errors If the true parameters are given then the true curve is also plotted If an error is encountered the function returns 1 but does not raise an exception.  <a href="#a4eef4b5f8fd95075890dfaf74d624c11">More...</a><br /></td></tr>
+<tr class="separator:a4eef4b5f8fd95075890dfaf74d624c11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aae17f42d9fa567e61df69f7c808aa931"></a>
@@ -245,8 +245,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab2c5cc870e2b384534404f3bc667e039"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2c5cc870e2b384534404f3bc667e039">&#9670;&nbsp;</a></span>light_curve_plot()</h2>
+<a id="a4eef4b5f8fd95075890dfaf74d624c11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4eef4b5f8fd95075890dfaf74d624c11">&#9670;&nbsp;</a></span>light_curve_plot()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -279,18 +279,6 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>plot_transit_params</em> = <code>True</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>plot_hyper_params</em> = <code>True</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
           <td class="paramname"><em>save_as_dir</em> = <code>&quot;.&quot;</code>, </td>
         </tr>
         <tr>
@@ -309,7 +297,7 @@ Public Member Functions</h2></td></tr>
 <p>These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the <a class="el" href="classexospec_1_1mcmc_1_1_m_c_m_c.html" title="Class to run MCMC to fit curve and produce diagnostic plots and statistics Uses emcee (to run MCMC) a...">MCMC</a> chains </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>The object pointer </td></tr>
-    <tr><td class="paramname">model</td><td>A function that returns the lightcurve shape as a function of the light curve parameters and time </td></tr>
+    <tr><td class="paramname">model</td><td>A function that returns the lightcurve shape given (parameters, t, val, err) </td></tr>
     <tr><td class="paramname">extra_burnin_steps</td><td>Number of steps (in addition to burnin_steps from run) at the start of each chain to neglect </td></tr>
     <tr><td class="paramname">theta_true</td><td>Numpy array of true parameter values if known (used for test data) </td></tr>
     <tr><td class="paramname">plot_transit_params</td><td>Boolean value specifying whether or not to plot the transit parameters </td></tr>
