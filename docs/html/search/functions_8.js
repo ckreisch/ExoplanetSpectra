@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['update_5fdata',['update_data',['../classexospec_1_1_transit_model_1_1_transit_model.html#a282c211d47894b6b9849fd4bd254b696',1,'exospec::TransitModel::TransitModel']]],
-  ['update_5fkernel_5fparams',['update_kernel_params',['../classexospec_1_1_transit_model_1_1_transit_model.html#a13b851f80d01379553c454f576c79ae5',1,'exospec::TransitModel::TransitModel']]],
-  ['update_5ftransit_5fparams',['update_transit_params',['../classexospec_1_1_transit_model_1_1_transit_model.html#a52dd74eef56c0dbb71cb662f684b6182',1,'exospec::TransitModel::TransitModel']]],
-  ['updatetransitmode',['updateTransitMode',['../classexospec_1_1_transit_model_1_1_transit_model.html#abd4eed9477412e6eb684570c3372984b',1,'exospec::TransitModel::TransitModel']]]
+  ['param_5fdic',['param_dic',['../classexospec_1_1read__input_1_1read__input.html#a3b21e8723a95f914bb6c329ba68c3d86',1,'exospec::read_input::read_input']]],
+  ['param_5flist',['param_list',['../classexospec_1_1lc__class_1_1_light_curve_data.html#ab383d2dc1788a08a0336cb694f01c906',1,'exospec::lc_class::LightCurveData']]],
+  ['param_5fname',['param_name',['../classexospec_1_1lc__class_1_1_light_curve_data.html#a515e685cc89aae396dc37212cff2e94b',1,'exospec::lc_class::LightCurveData']]],
+  ['param_5fnum',['param_num',['../classexospec_1_1lc__class_1_1_light_curve_data.html#a352d1d2bd0496d7117546a29b2c7cb34',1,'exospec::lc_class::LightCurveData']]],
+  ['plot_5fflux_5fparam',['plot_flux_param',['../classexospec_1_1lc__class_1_1_light_curve_data.html#a917ef7c0956874d2c9c1696c02305ef5',1,'exospec::lc_class::LightCurveData']]],
+  ['plot_5fflux_5ftime',['plot_flux_time',['../classexospec_1_1lc__class_1_1_light_curve_data.html#a3e63540e9bb38ce3415d27527e8c6ba9',1,'exospec::lc_class::LightCurveData']]]
 ];

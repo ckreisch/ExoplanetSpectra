@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['noinput',['NoInput',['../classexospec_1_1read__input_1_1_no_input.html',1,'exospec::read_input']]]
+  ['mcmc',['MCMC',['../classexospec_1_1mcmc_1_1_m_c_m_c.html',1,'exospec::mcmc']]],
+  ['meanfnc',['meanfnc',['../classexospec_1_1_transit_model_1_1_transit_model.html#a4c2121aaf3b3a170e9f0ec0c18911608',1,'exospec::TransitModel::TransitModel']]],
+  ['model',['model',['../classexospec_1_1_transit_model_1_1_transit_model.html#abba00977f8fb6ff65f89e2f3e7037ea9',1,'exospec::TransitModel::TransitModel']]]
 ];

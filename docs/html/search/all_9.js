@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['read_5ferrors_5fdata',['read_errors_data',['../classexospec_1_1_transit_model_1_1_transit_model.html#a0cc09d939ecb7742b40e33ca870e73ad',1,'exospec::TransitModel::TransitModel']]],
-  ['read_5finput',['read_input',['../classexospec_1_1read__input_1_1read__input.html',1,'exospec::read_input']]],
-  ['read_5flimb_5fdark_5fparams',['read_limb_dark_params',['../classexospec_1_1_transit_model_1_1_transit_model.html#ae9e15083b2e989276c67122e8effdc8a',1,'exospec::TransitModel::TransitModel']]],
-  ['run',['run',['../classexospec_1_1mcmc_1_1_m_c_m_c.html#af103863b006ff9225432bdc8b2e90d81',1,'exospec::mcmc::MCMC']]]
+  ['new_5ftime_5fbin',['new_time_bin',['../classexospec_1_1lc__class_1_1_light_curve_data.html#ad09684789cb0431662a673f72aef7ac8',1,'exospec::lc_class::LightCurveData']]],
+  ['new_5fwave_5flength',['new_wave_length',['../classexospec_1_1lc__class_1_1_light_curve.html#a8af62f3180b7d965c9d02ad92b1f0089',1,'exospec::lc_class::LightCurve']]],
+  ['noinput',['NoInput',['../classexospec_1_1read__input_1_1_no_input.html',1,'exospec::read_input']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['triangle_5fplot',['triangle_plot',['../classexospec_1_1mcmc_1_1_m_c_m_c.html#af240e8deac4470da704239926ea56822',1,'exospec::mcmc::MCMC']]]
+  ['new_5ftime_5fbin',['new_time_bin',['../classexospec_1_1lc__class_1_1_light_curve_data.html#ad09684789cb0431662a673f72aef7ac8',1,'exospec::lc_class::LightCurveData']]],
+  ['new_5fwave_5flength',['new_wave_length',['../classexospec_1_1lc__class_1_1_light_curve.html#a8af62f3180b7d965c9d02ad92b1f0089',1,'exospec::lc_class::LightCurve']]]
 ];
