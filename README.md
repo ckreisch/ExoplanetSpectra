@@ -30,7 +30,7 @@ Within exospec:
     read_input_demo.py
     deliverables.py     
     fitting_single_lc.py  
-    ```
+```
 
 Within bin:
 ```
@@ -40,13 +40,13 @@ Within bin:
     full_example_lc/
     short_example.ini
     full_example.ini
-    ```
+```
 
 Within docs:
 ```
     docs.pdf
     UserManual.pdf 
-    ```
+```
 
 # Build/ Install
 ExoSpec runs with Python 2.7. 
