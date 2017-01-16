@@ -3,17 +3,20 @@ import re
 import numpy as np
 from lc_class import LightCurve
 
+## @class EmptyFile
+# Raise exception when the input file is empty or only has comments
 class EmptyFile(Exception):
-    """Raise when the input file is empty or only has comments"""
     pass
-
+## @class NoInput
+# Raise exception when the input entry is not properly set
 class NoInput(Exception):
-    """Raise when no input is found for a parameter"""
     pass
 
+## @class read_input
+# reads the input file and stores the input entries
 class read_input:
 
-
+  # @param input_file path to the input file
   def __init__(self, input_file):
 
     # check the size of the iput file
@@ -73,11 +76,12 @@ class read_input:
         param_dic[params_name[i]] = param_elt
 
     self.param_dic = param_dic
-
+  ## Returns the parameters dictionary
+  # @returns param_dic the parameters dictionary
   def param_dic(self):
 
         return param_dic
-
+  ## Check if the string contains a float
   def is_float(self, string):
 
         try:
