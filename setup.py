@@ -1,5 +1,6 @@
 #CK note: to be changed as code progresses
-from setuptools import setup #,find_packages
+from setuptools import setup
+from setuptools import find_packages
 #from codecs import open
 #from os import path
 
@@ -8,7 +9,7 @@ from setuptools import setup #,find_packages
 #with open(path.join(here,'docs/README.txt'), encoding = 'utf-8') as f:
 #    long_description = f.read()
 
-#From: https://docs.python.org/2/distutils/setupscript.html
+# From: https://docs.python.org/2/distutils/setupscript.html
 # patch distutils if it can't cope with the "classifiers" or
 # "download_url" keywords
 from sys import version
@@ -18,7 +19,7 @@ if version < '2.2.3':
     DistributionMetadata.download_url = None
 
 setup(
-    name='ExoplanetSpectra',
+    name='ExoSpec',
     version='0.1',
     description='Extract exoplanet transmission spectra from multi-wavelength light curves',
     #long_description = long_description,
@@ -27,7 +28,7 @@ setup(
     author_email = 'blacy@princeton.edu',
     license='GNU GENERAL PUBLIC LICENSE', #should we change? is this line redundant?
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Other Environment',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
@@ -44,29 +45,18 @@ setup(
         'Topic :: Scientific/Engineering :: Astronomy'
         ],
     #keywords = 'Convex Optimization SDP',
-    #test_suite =  'nose.collector',
-    #tests_require = ['nose'],
-    #packages=find_packages(exclude = ['contrib','docs','tests*']), #TO SET LATER
-    #scripts=['bin/points.py','bin/alignment.py'],
+    test_suite =  'nose.collector',
+    tests_require = ['nose'],
+    packages=find_packages(exclude = ['contrib','docs','tests*']),
+    scripts=['bin/exospec_main.py','bin/lc_class_demo.py'],
     install_requires=['numpy',
                     'scipy',
                     'matplotlib',
-                    'os',
-                    'math',
-                    'time',
-                    're',
-                    'ast',
-                    'itertools',
-                    'decimal',
-                    'pylab',
-                    'unittest',
-                    'glob',
+                    'virtualenv',
                     'mpi4py',
                     'emcee',
                     'george',
-                    'batman',
-                    'corner']
-    #move some of above into extras_requires ?
-
-
+                    'batman-package',
+                    'corner',
+                    'pandas']
 )
