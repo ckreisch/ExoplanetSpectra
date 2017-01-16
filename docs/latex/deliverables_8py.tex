@@ -1,5 +1,5 @@
-\hypertarget{deliverables_8py}{}\section{/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/exospec/deliverables.py File Reference}
-\label{deliverables_8py}\index{/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/exospec/deliverables.\+py@{/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/exospec/deliverables.\+py}}
+\hypertarget{deliverables_8py}{}\section{deliverables.\+py File Reference}
+\label{deliverables_8py}\index{deliverables.\+py@{deliverables.\+py}}
 
 
 Deliverables module to parse M\+C\+MC data into latex code and plots.  
@@ -22,21 +22,12 @@ def \hyperlink{deliverables_8py_a3ba725b694ba15346524e50adf3adc08}{exospec.\+del
 \begin{DoxyCompactList}\small\item\em Runs the post processing once all wavelength mcmc chains are finished This includes saving a simple table, latex table, and transmission spectrum. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Deliverables module to parse M\+C\+MC data into latex code and plots. 
-
-
-
 \subsection{Function Documentation}
 \mbox{\Hypertarget{deliverables_8py_file_a919fcbbd20e85dc4ebd6bf958bf837c4}\label{deliverables_8py_file_a919fcbbd20e85dc4ebd6bf958bf837c4}} 
 \index{deliverables.\+py@{deliverables.\+py}!get\+\_\+median\+\_\+and\+\_\+errors@{get\+\_\+median\+\_\+and\+\_\+errors}}
 \index{get\+\_\+median\+\_\+and\+\_\+errors@{get\+\_\+median\+\_\+and\+\_\+errors}!deliverables.\+py@{deliverables.\+py}}
 \subsubsection{\texorpdfstring{get\+\_\+median\+\_\+and\+\_\+errors()}{get\_median\_and\_errors()}}
 {\footnotesize\ttfamily def exospec.\+deliverables.\+get\+\_\+median\+\_\+and\+\_\+errors (\begin{DoxyParamCaption}\item[{}]{flatchain }\end{DoxyParamCaption})}
-
-
-
-Obtains the median parameter values and 1 sigma errors from the M\+C\+MC flatchain. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -55,10 +46,6 @@ err\+\_\+minus Array of lower error for each parameter
 \index{latex\+\_\+table@{latex\+\_\+table}!deliverables.\+py@{deliverables.\+py}}
 \subsubsection{\texorpdfstring{latex\+\_\+table()}{latex\_table()}}
 {\footnotesize\ttfamily def exospec.\+deliverables.\+latex\+\_\+table (\begin{DoxyParamCaption}\item[{}]{L\+C\+\_\+dic,  }\item[{}]{transit\+\_\+params,  }\item[{}]{hyper\+\_\+params,  }\item[{}]{separate\+\_\+flag,  }\item[{}]{confidence,  }\item[{}]{filename }\end{DoxyParamCaption})}
-
-
-
-Writes the best fit transit \& hyper parameters from the M\+C\+MC fit as a latex table. 
 
 Rows correspond to the light curve with a specified wavelength, and each column corresponds to a given parameter. The use has an option of outputting a single table with transit and hyper parameters, or outputting two separate tables. 
 \begin{DoxyParams}{Parameters}
@@ -80,10 +67,6 @@ Rows correspond to the light curve with a specified wavelength, and each column 
 \index{plot\+\_\+single\+\_\+wavelength@{plot\+\_\+single\+\_\+wavelength}!deliverables.\+py@{deliverables.\+py}}
 \subsubsection{\texorpdfstring{plot\+\_\+single\+\_\+wavelength()}{plot\_single\_wavelength()}}
 {\footnotesize\ttfamily def exospec.\+deliverables.\+plot\+\_\+single\+\_\+wavelength (\begin{DoxyParamCaption}\item[{}]{wl\+\_\+id,  }\item[{}]{mcmc\+\_\+obj,  }\item[{}]{model,  }\item[{}]{extra\+\_\+burnin\+\_\+steps = {\ttfamily 0},  }\item[{}]{theta\+\_\+true = {\ttfamily None},  }\item[{}]{plot\+\_\+transit\+\_\+params = {\ttfamily True},  }\item[{}]{plot\+\_\+hyper\+\_\+params = {\ttfamily True},  }\item[{}]{save\+\_\+as\+\_\+dir = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
-
-
-
-Produces triangle, walker and lightcurve plots for the M\+C\+MC results for a single wavelength. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -111,10 +94,6 @@ Produces triangle, walker and lightcurve plots for the M\+C\+MC results for a si
 {\footnotesize\ttfamily def exospec.\+deliverables.\+plot\+\_\+transmission\+\_\+spec (\begin{DoxyParamCaption}\item[{}]{L\+C\+\_\+dic,  }\item[{}]{save\+\_\+as\+\_\+dir = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
 
 
-
-Produces a plot of the best-\/fit radius as a function of wavelengths. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em L\+C\+\_\+dic} & A lightcurve dictionary with a lightcurve object for each wavelengths \\
 \hline
@@ -128,10 +107,6 @@ Produces a plot of the best-\/fit radius as a function of wavelengths.
 {\footnotesize\ttfamily def exospec.\+deliverables.\+post\+\_\+processing\+\_\+all\+\_\+wl (\begin{DoxyParamCaption}\item[{}]{input\+\_\+param\+\_\+dic,  }\item[{}]{L\+C\+\_\+dic }\end{DoxyParamCaption})}
 
 
-
-Runs the post processing once all wavelength mcmc chains are finished This includes saving a simple table, latex table, and transmission spectrum. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em input\+\_\+param\+\_\+dic} & \\
 \hline
@@ -143,10 +118,6 @@ Runs the post processing once all wavelength mcmc chains are finished This inclu
 \index{simple\+\_\+table@{simple\+\_\+table}!deliverables.\+py@{deliverables.\+py}}
 \subsubsection{\texorpdfstring{simple\+\_\+table()}{simple\_table()}}
 {\footnotesize\ttfamily def exospec.\+deliverables.\+simple\+\_\+table (\begin{DoxyParamCaption}\item[{}]{L\+C\+\_\+dic,  }\item[{}]{filename }\end{DoxyParamCaption})}
-
-
-
-Writes the best fit transit parameters from M\+C\+MC fit to an output file. 
 
 Output file columns are\+: wavelength, radius of planet, first limb darkening parameter, second limb darkening parameter, followed by lower bound of corresponding confidence intervals then upper bound of corresponding confidence intervals. Note that this currently only works for the quadratic limb darkening model. 
 \begin{DoxyParams}{Parameters}

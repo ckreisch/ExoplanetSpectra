@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ExoSpec: /Users/heatherp/Documents/Courses/Computational/Project/ExoplanetSpectra/bin/exospec_main.py File Reference</title>
+<title>ExoSpec: exospec_main.py File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,8 +75,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a41dd44f8bae40489c9f69cb5697950e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="exospec__main_8py.html#a41dd44f8bae40489c9f69cb5697950e2">exospec_main.input_file</a> = read_input(sys.argv[1])</td></tr>
-<tr class="memdesc:a41dd44f8bae40489c9f69cb5697950e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">main Reads from the user's input file.  <a href="exospec__main_8py.html#a41dd44f8bae40489c9f69cb5697950e2">More...</a><br /></td></tr>
+<tr class="memitem:a41dd44f8bae40489c9f69cb5697950e2"><td class="memItemLeft" align="right" valign="top"><a id="a41dd44f8bae40489c9f69cb5697950e2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>exospec_main.input_file</b> = read_input(sys.argv[1])</td></tr>
 <tr class="separator:a41dd44f8bae40489c9f69cb5697950e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4d8ce84ffc96dc4a84f05b7edc590ff"><td class="memItemLeft" align="right" valign="top"><a id="ac4d8ce84ffc96dc4a84f05b7edc590ff"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>exospec_main.input_param_dic</b> = input_file.param_dic</td></tr>
@@ -126,9 +126,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>exospec_main.j</b> = 0
 &#160;</td><td class="memItemRight" valign="bottom"><b>exospec_main.obj_chain</b></td></tr>
 <tr class="separator:a51fd0e68b45e5488160cbf7d7dfbac9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Fits the transits for multiple wavelengths to produce the transmission spectrum. </p>
-</div><h2 class="groupheader">Variable Documentation</h2>
+<h2 class="groupheader">Variable Documentation</h2>
 <a id="file_ad163da7d5ed5da51b99dd6ed5bbefe10"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#file_ad163da7d5ed5da51b99dd6ed5bbefe10">&#9670;&nbsp;</a></span>chain</h2>
 
@@ -141,23 +139,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>exospec_main.j</b> = 0
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;=  np.empty(</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;                            np.shape(LC_dic[LC_dic.keys()[0]].obj_chain))</div></div><!-- fragment -->
-</div>
-</div>
-<a id="file_a41dd44f8bae40489c9f69cb5697950e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#file_a41dd44f8bae40489c9f69cb5697950e2">&#9670;&nbsp;</a></span>input_file</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">exospec_main.input_file = read_input(sys.argv[1])</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>main Reads from the user's input file. </p>
-<p>Performs the MCMC fit for each wavelength, saving the chains. Plots and saves the transmission spectrum. </p>
-
 </div>
 </div>
 </div><!-- contents -->

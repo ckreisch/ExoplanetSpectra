@@ -1,5 +1,5 @@
-\hypertarget{exospec__main_8py}{}\section{/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/bin/exospec\+\_\+main.py File Reference}
-\label{exospec__main_8py}\index{/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/bin/exospec\+\_\+main.\+py@{/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/bin/exospec\+\_\+main.\+py}}
+\hypertarget{exospec__main_8py}{}\section{exospec\+\_\+main.\+py File Reference}
+\label{exospec__main_8py}\index{exospec\+\_\+main.\+py@{exospec\+\_\+main.\+py}}
 
 
 Fits the transits for multiple wavelengths to produce the transmission spectrum.  
@@ -8,8 +8,9 @@ Fits the transits for multiple wavelengths to produce the transmission spectrum.
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{exospec__main_8py_a41dd44f8bae40489c9f69cb5697950e2}{exospec\+\_\+main.\+input\+\_\+file} = read\+\_\+input(sys.\+argv\mbox{[}1\mbox{]})
-\begin{DoxyCompactList}\small\item\em main Reads from the user\textquotesingle{}s input file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{exospec__main_8py_a41dd44f8bae40489c9f69cb5697950e2}\label{exospec__main_8py_a41dd44f8bae40489c9f69cb5697950e2}} 
+{\bfseries exospec\+\_\+main.\+input\+\_\+file} = read\+\_\+input(sys.\+argv\mbox{[}1\mbox{]})
+\item 
 \mbox{\Hypertarget{exospec__main_8py_ac4d8ce84ffc96dc4a84f05b7edc590ff}\label{exospec__main_8py_ac4d8ce84ffc96dc4a84f05b7edc590ff}} 
 {\bfseries exospec\+\_\+main.\+input\+\_\+param\+\_\+dic} = input\+\_\+file.\+param\+\_\+dic
 \item 
@@ -59,11 +60,6 @@ int {\bfseries exospec\+\_\+main.\+j} = 0
 \end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Fits the transits for multiple wavelengths to produce the transmission spectrum. 
-
-
-
 \subsection{Variable Documentation}
 \mbox{\Hypertarget{exospec__main_8py_file_ad163da7d5ed5da51b99dd6ed5bbefe10}\label{exospec__main_8py_file_ad163da7d5ed5da51b99dd6ed5bbefe10}} 
 \index{exospec\+\_\+main.\+py@{exospec\+\_\+main.\+py}!chain@{chain}}
@@ -76,14 +72,3 @@ Fits the transits for multiple wavelengths to produce the transmission spectrum.
 1 =  np.empty(
 2                             np.shape(LC\_dic[LC\_dic.keys()[0]].obj\_chain))
 \end{DoxyCode}
-\mbox{\Hypertarget{exospec__main_8py_file_a41dd44f8bae40489c9f69cb5697950e2}\label{exospec__main_8py_file_a41dd44f8bae40489c9f69cb5697950e2}} 
-\index{exospec\+\_\+main.\+py@{exospec\+\_\+main.\+py}!input\+\_\+file@{input\+\_\+file}}
-\index{input\+\_\+file@{input\+\_\+file}!exospec\+\_\+main.\+py@{exospec\+\_\+main.\+py}}
-\subsubsection{\texorpdfstring{input\+\_\+file}{input\_file}}
-{\footnotesize\ttfamily exospec\+\_\+main.\+input\+\_\+file = read\+\_\+input(sys.\+argv\mbox{[}1\mbox{]})}
-
-
-
-main Reads from the user\textquotesingle{}s input file. 
-
-Performs the M\+C\+MC fit for each wavelength, saving the chains. Plots and saves the transmission spectrum. 

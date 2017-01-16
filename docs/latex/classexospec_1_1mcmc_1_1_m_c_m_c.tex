@@ -32,19 +32,12 @@ def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_ab2c5cc870e2b384534404f3bc667e03
 \begin{DoxyCompactList}\small\item\em Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\subsection{Detailed Description}
-Class to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC}) and corner (to produce triangle plots) 
-
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classexospec_1_1mcmc_1_1_m_c_m_c_aae17f42d9fa567e61df69f7c808aa931}\label{classexospec_1_1mcmc_1_1_m_c_m_c_aae17f42d9fa567e61df69f7c808aa931}} 
 \index{exospec\+::mcmc\+::\+M\+C\+MC@{exospec\+::mcmc\+::\+M\+C\+MC}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
 \index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!exospec\+::mcmc\+::\+M\+C\+MC@{exospec\+::mcmc\+::\+M\+C\+MC}}
 \subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
 {\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{t,  }\item[{}]{val,  }\item[{}]{err,  }\item[{}]{ln\+\_\+prob\+\_\+fn,  }\item[{}]{transit\+\_\+params,  }\item[{}]{hyper\+\_\+params,  }\item[{}]{num\+\_\+walkers,  }\item[{}]{num\+\_\+threads }\end{DoxyParamCaption})}
-
-
-
-The constructor. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -77,10 +70,6 @@ The constructor.
 {\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+get\+\_\+mean\+\_\+acceptance\+\_\+fraction (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
 
 
-
-Allows the user to access the mean acceptance fraction, which should be around 1/2. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -95,10 +84,6 @@ Mean acceptance fraction
 {\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+get\+\_\+median\+\_\+and\+\_\+errors (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
 
 
-
-Best fit parameters and 1 sigma errors. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -111,10 +96,6 @@ Three numpy arrays giving the median and one sigma errors for each parameter
 \index{light\+\_\+curve\+\_\+plot@{light\+\_\+curve\+\_\+plot}!exospec\+::mcmc\+::\+M\+C\+MC@{exospec\+::mcmc\+::\+M\+C\+MC}}
 \subsubsection{\texorpdfstring{light\+\_\+curve\+\_\+plot()}{light\_curve\_plot()}}
 {\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+light\+\_\+curve\+\_\+plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{extra\+\_\+burnin\+\_\+steps = {\ttfamily 0},  }\item[{}]{theta\+\_\+true = {\ttfamily None},  }\item[{}]{plot\+\_\+transit\+\_\+params = {\ttfamily True},  }\item[{}]{plot\+\_\+hyper\+\_\+params = {\ttfamily True},  }\item[{}]{save\+\_\+as\+\_\+dir = {\ttfamily \char`\"{}.\char`\"{}},  }\item[{}]{save\+\_\+as\+\_\+name = {\ttfamily \char`\"{}light\+\_\+curve\char`\"{}} }\end{DoxyParamCaption})}
-
-
-
-Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception. 
 
 These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains 
 \begin{DoxyParams}{Parameters}
@@ -149,10 +130,6 @@ These plots are useful for visualization but should not cause the code to crash,
 {\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+run (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{pos,  }\item[{}]{burnin\+\_\+steps,  }\item[{}]{production\+\_\+run\+\_\+steps }\end{DoxyParamCaption})}
 
 
-
-Runs the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} should run emcee given a log probability function result is the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains which are saved as an object attribute. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -173,10 +150,6 @@ A 2D numpy array with all the samples for each of the transit and hyper paramete
 {\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+save\+\_\+chain (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{filename }\end{DoxyParamCaption})}
 
 
-
-Saves the chain as a numpy array. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -195,10 +168,6 @@ Saves the chain as a numpy array.
 \index{triangle\+\_\+plot@{triangle\+\_\+plot}!exospec\+::mcmc\+::\+M\+C\+MC@{exospec\+::mcmc\+::\+M\+C\+MC}}
 \subsubsection{\texorpdfstring{triangle\+\_\+plot()}{triangle\_plot()}}
 {\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+triangle\+\_\+plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{extra\+\_\+burnin\+\_\+steps = {\ttfamily 0},  }\item[{}]{theta\+\_\+true = {\ttfamily None},  }\item[{}]{plot\+\_\+transit\+\_\+params = {\ttfamily True},  }\item[{}]{plot\+\_\+hyper\+\_\+params = {\ttfamily True},  }\item[{}]{save\+\_\+as\+\_\+dir = {\ttfamily \char`\"{}.\char`\"{}},  }\item[{}]{save\+\_\+as\+\_\+name = {\ttfamily \char`\"{}triangle.png\char`\"{}} }\end{DoxyParamCaption})}
-
-
-
-Makes a triangle plot If an error is encountered the function returns 1 but does not raise an exception. 
 
 These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains 
 \begin{DoxyParams}{Parameters}
@@ -230,10 +199,6 @@ These plots are useful for visualization but should not cause the code to crash,
 \subsubsection{\texorpdfstring{walker\+\_\+plot()}{walker\_plot()}}
 {\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+walker\+\_\+plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{extra\+\_\+burnin\+\_\+steps = {\ttfamily 0},  }\item[{}]{theta\+\_\+true = {\ttfamily None},  }\item[{}]{plot\+\_\+transit\+\_\+params = {\ttfamily True},  }\item[{}]{plot\+\_\+hyper\+\_\+params = {\ttfamily True},  }\item[{}]{save\+\_\+as\+\_\+dir = {\ttfamily \char`\"{}.\char`\"{}},  }\item[{}]{save\+\_\+as\+\_\+name = {\ttfamily \char`\"{}walkers.png\char`\"{}} }\end{DoxyParamCaption})}
 
-
-
-Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception. 
-
 These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains 
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
@@ -262,4 +227,4 @@ These plots are useful for visualization but should not cause the code to crash,
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/exospec/mcmc.\+py\end{DoxyCompactItemize}
+mcmc.\+py\end{DoxyCompactItemize}

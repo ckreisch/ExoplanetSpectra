@@ -22,10 +22,6 @@ import exospec.fitting_single_lc as fsl
 #import fitting_single_lc as fsl
 
 # -----------------------------------------------------------------------------
-## main
-# Reads from the user's input file.
-# Performs the MCMC fit for each wavelength, saving the chains.
-# Plots and saves the transmission spectrum.
 if __name__ == "__main__":
 
     # Read from user input file -----------------------------------------------
