@@ -48,7 +48,7 @@ setup(
     test_suite =  'nose.collector',
     tests_require = ['nose'],
     packages=find_packages(exclude = ['contrib','docs','tests*']),
-    scripts=['bin/exospec_main.py','bin/lc_class_demo.py','bin/run_test_data_suite.py'],
+    scripts=['bin/exospec_main.py','bin/lc_class_demo.py'],
     install_requires=['numpy',
                     'scipy',
                     'matplotlib',

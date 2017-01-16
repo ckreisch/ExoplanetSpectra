@@ -1,5 +1,4 @@
 import emcee
-import corner
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
@@ -7,8 +6,7 @@ import time
 
 ## @class MCMC
 # Class to run MCMC to fit curve and produce basic diagnostic plots and statistics
-#
-# More details.
+# Uses emcee (to run MCMC) and corner (to produce triangle plots)
 class MCMC(object):
     ## The constructor
     # @param self The object pointer
@@ -32,7 +30,6 @@ class MCMC(object):
         self._nwalkers=num_walkers
         self._nthreads=num_threads
         self._sampler = emcee.EnsembleSampler(self._nwalkers, self._dim, self._ln_prob_fn, args=(self._t, self._val, self._err), threads=self._nthreads)
-
 
 
     ## Runs the MCMC
@@ -73,11 +70,11 @@ class MCMC(object):
     # @retval 1 if an IO error occurs
     def save_chain(self, filename):
         if self._sampler.chain.shape[1]==0:
-            print "The Markov chain is empty. Run MCMC using \n" \
+            print "Unable to save chain \n"\
+            "The Markov chain is empty. Run MCMC using \n" \
             "object_name.run(starting_positions, burnin_steps, production_run_steps) \n" \
             "to sample the posterior distribution before saving"
             return 1
-
         try:
             np.savetxt(filename, self._sampler.flatchain)
         except IOError:
@@ -102,6 +99,9 @@ class MCMC(object):
         return median, err_plus, err_minus
 
     ## Makes a triangle plot
+    #If an error is encountered the function returns 1 but does not raise an exception.
+    #These plots are useful for visualization but should not cause the code to crash, as the
+    #main purpose is to create and save the MCMC chains
     # @param self The object pointer
     # @param extra_burnin_steps Number of steps (in addition to burnin_steps from run) at the start of each chain to neglect
     # @param theta_true Numpy array of true parameter values if known (used for test data)
@@ -111,35 +111,42 @@ class MCMC(object):
     # @param save_as_name Name under which plot should be saved
     # @retval 0 if successful
     # @retval 1 on failure
-    def triangle_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="triangle.png", steps_max_cutoff=None):
+    def triangle_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="triangle.png"):
         #makes triangle plot
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         if self._sampler.chain.shape[1]==0:
-            print "The Markov chain is empty. Run MCMC using \n" \
+            print "Triangle plot unsuccessful: \n"\
+            "The Markov chain is empty. Run MCMC using \n" \
             "object_name.run(starting_positions, burnin_steps, production_run_steps) \n" \
             "to sample the posterior distribution before plotting"
             return 1
 
         if self._sampler.chain.shape[1]<extra_burnin_steps:
-            print "The chain is shorter than the requested burnin. \n" \
+            print "Triangle plot unsuccessful: \n"\
+            "The chain is shorter than the requested burnin. \n" \
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
-        if not(steps_max_cutoff):
-            steps_max_cutoff=self._sampler.chain.shape[1]
+        try:
+            import corner
+        except ImportError:
+            print "Triangle plot unsuccessful: \n"\
+            "Unable to import module corner for triangle plots (see http://corner.readthedocs.io)"
+            return 1
 
         if plot_transit_params and plot_hyper_params:
-            samples = self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,:]
+            samples = self._sampler.flatchain[extra_burnin_steps:,:]
             fig = corner.corner(samples, labels=self._all_params, truths=theta_true)
         elif plot_transit_params:
-            samples = self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff, 0:len(self._transit_params)]
+            samples = self._sampler.flatchain[extra_burnin_steps:, 0:len(self._transit_params)]
             fig = corner.corner(samples, labels=self._transit_params, truths=theta_true)    #check theta true shape!
         elif plot_hyper_params:
             if len(self._hyper_params)==0:
-                print "You do not have any hyper parameters to plot. "\
+                print "Triangle plot unsuccessful: \n"\
+                "You do not have any hyper parameters to plot. \n"\
                 "Try plotting your transit parameters by setting plot_transit_params=True"
                 return 1
-            samples = self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff, len(self._transit_params):]
+            samples = self._sampler.flatchain[extra_burnin_steps:, len(self._transit_params):]
             fig = corner.corner(samples, labels=self._hyper_params, truths=theta_true)    #check theta true shape!
         else:
             print "Either plot_transit_params or plot_hyper_params must be true"
@@ -150,6 +157,9 @@ class MCMC(object):
         return 0
 
     ## Plots the chains of each walker and a histogram showing how each parameter was sampled
+    #If an error is encountered the function returns 1 but does not raise an exception.
+    #These plots are useful for visualization but should not cause the code to crash, as the
+    #main purpose is to create and save the MCMC chains
     # @param self The object pointer
     # @param extra_burnin_steps Number of steps (in addition to burnin_steps from run) at the start of each chain to neglect
     # @param theta_true Numpy array of true parameter values if known (used for test data)
@@ -159,41 +169,41 @@ class MCMC(object):
     # @param save_as_name Name under which plot should be saved
     # @retval 0 if successful
     # @retval 1 on failure
-    def walker_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="walkers.png", steps_max_cutoff=None):
+    def walker_plot(self, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="walkers.png"):
         #makes a walker plot and histogram
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         #check theta_true!!
 
         if self._sampler.chain.shape[1]==0:
-            print "The Markov chain is empty. Run MCMC using \n" \
+            print "Walker plot unsuccessful: \n"\
+            "The Markov chain is empty. Run MCMC using \n" \
             "object_name.run(starting_positions, burnin_steps, production_run_steps) \n" \
             "to sample the posterior distribution before plotting"
             return 1
 
         if self._sampler.chain.shape[1]<extra_burnin_steps:
-            print "The chain is shorter than the requested burnin. \n" \
+            print "Walker plot unsuccessful: \n"\
+            "The chain is shorter than the requested burnin. \n" \
             "Please run the chain for more iterations or reduce the burnin steps requested for the plot"
             return 1
 
-        if not(steps_max_cutoff):
-            steps_max_cutoff=self._sampler.chain.shape[1]
-
         if plot_transit_params and plot_hyper_params:
             params=self._all_params
-            samples_flat=self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,:]
-            samples=self._sampler.chain[:, extra_burnin_steps:steps_max_cutoff, :]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:,:]
+            samples=self._sampler.chain[:, extra_burnin_steps:, :]
         elif plot_transit_params:
             params=self._transit_params
-            samples_flat=self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,0:len(self._transit_params)]
-            samples=self._sampler.chain[:, extra_burnin_steps:steps_max_cutoff, 0:len(self._transit_params)]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:,0:len(self._transit_params)]
+            samples=self._sampler.chain[:, extra_burnin_steps:, 0:len(self._transit_params)]
         elif plot_hyper_params:
             if len(self._hyper_params)==0:
-                print "You do not have any hyper parameters to plot. "\
+                print "Walker plot unsuccessful: \n"\
+                "You do not have any hyper parameters to plot. \n"\
                 "Try plotting your transit parameters by setting plot_transit_params=True"
                 return 1
             params=self._hyper_params
-            samples_flat=self._sampler.flatchain[extra_burnin_steps:steps_max_cutoff,len(self._transit_params):]
-            samples=self._sampler.chain[:, extra_burnin_steps:steps_max_cutoff, len(self._transit_params):]
+            samples_flat=self._sampler.flatchain[extra_burnin_steps:,len(self._transit_params):]
+            samples=self._sampler.chain[:, extra_burnin_steps:, len(self._transit_params):]
         else:
             print "Either plot_transit_params or plot_hyper_params must be true"
             return 1
@@ -234,6 +244,9 @@ class MCMC(object):
         return 0
 
     ## Plots the chains of each walker and a histogram showing how each parameter was sampled
+    #If an error is encountered the function returns 1 but does not raise an exception.
+    #These plots are useful for visualization but should not cause the code to crash, as the
+    #main purpose is to create and save the MCMC chains
     # @param self The object pointer
     # @param model A function that returns the lightcurve shape as a function of the light curve parameters and time
     # @param extra_burnin_steps Number of steps (in addition to burnin_steps from run) at the start of each chain to neglect
@@ -249,13 +262,15 @@ class MCMC(object):
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         #model is a function that takes an array of parameters and an array of times and evaluates the model
         if self._sampler.chain.shape[1]==0:
-            print "The Markov chain is empty. Run MCMC using \n" \
+            print "Light curve plot unsuccessful: \n"\
+            "The Markov chain is empty. Run MCMC using \n" \
             "object_name.run(starting_positions, burnin_steps, production_run_steps) \n" \
             "to sample the posterior distribution before plotting"
             return 1
 
         if self._sampler.chain.shape[1]< extra_burnin_steps:
-            print "The chain is shorter than the requested burnin. \n" \
+            print "Light curve plot unsuccessful: \n"\
+            "The chain is shorter than the requested burnin. \n" \
             "Please run the chain for more iterations or reduce the burnin steps requested for the lightcurve plot"
             return 1
 

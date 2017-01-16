@@ -1,3 +1,15 @@
+## @mainpage ExoSpec
+# @section intro_sec Introduction
+# Exospec is a python tool for fitting your multi-wavelength transit light-curves
+#It can accept an arbitrary number of wavelength channels and an arbitrary number of auxiliary
+#measurements. Currently the fitting has two Gaussian Process kernel options: the kernel outlined
+#in Gibson 2011 which incorporates auxiliary measurements made over the course of transit
+#observation and a more general squared exponential.
+#@section install_sec Installation
+#ExoSpec uses numpy and matplotlib, as well as the Python packages batman, emcee, corner, pandas and george.
+
+##@file
+# Fits the transits for multiple wavelengths to produce the transmission spectrum
 import sys
 import numpy as np
 
@@ -10,6 +22,10 @@ import exospec.fitting_single_lc as fsl
 #import fitting_single_lc as fsl
 
 # -----------------------------------------------------------------------------
+## main
+# Reads from the user's input file.
+# Performs the MCMC fit for each wavelength, saving the chains.
+# Plots and saves the transmission spectrum.
 if __name__ == "__main__":
 
     # Read from user input file -----------------------------------------------
@@ -71,8 +87,8 @@ if __name__ == "__main__":
                         rank != 0 and i+j*comm.Get_size() < len(LC_dic)):
                     print "now rank number: %i of processor: %s" % (
                         rank, MPI.Get_processor_name()) + \
-                     "is processing channel centered on: %s microns" % (
-                        LC_dic.keys()[j*comm.Get_size()])
+                     " is processing channel centered on: %s microns" % (
+                        LC_dic.keys()[i+j*comm.Get_size()])
                     fsl.run_mcmc_single_wl(
                         input_param_dic, LC_dic,
                         LC_dic.keys()[i+j*comm.Get_size()])
@@ -85,7 +101,7 @@ if __name__ == "__main__":
             if rank == 0:
                 print "now rank number: %i of processor: %s" % (
                     rank, MPI.Get_processor_name()) + \
-                 "is processing channel centered on: %s microns" % (
+                 " is processing channel centered on: %s microns" % (
                     LC_dic.keys()[j*comm.Get_size()])
                 fsl.run_mcmc_single_wl(
                     input_param_dic, LC_dic, LC_dic.keys()[j*comm.Get_size()])
@@ -107,7 +123,8 @@ if __name__ == "__main__":
                 rank)
             if input_param_dic['visualization']:
                 # proceed with post-processing inside this if statement
-                exospec.deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+                exospec.deliverables.post_processing_all_wl(
+                    input_param_dic, LC_dic)
 
     else:
         print "no MPI. Will use single core to process all lightcurves."
@@ -117,7 +134,8 @@ if __name__ == "__main__":
 
         if input_param_dic['visualization']:
             # proceed with post-processing inside this if statement
-            exospec.deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+            exospec.deliverables.post_processing_all_wl(
+                input_param_dic, LC_dic)
 
     # KY comment: it's good not to put code outside the above if-else
     # structure.
