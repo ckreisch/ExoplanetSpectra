@@ -4,14 +4,7 @@ import unittest
 import numpy as np
 import george
 from george import kernels
-import os
-import sys
-import inspect
-dir_current = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-dir_up = os.path.dirname(dir_current)
-sys.path.append(dir_up)
-
-from exospec.TransitModel import TransitModel
+from TransitModel import TransitModel
 import time
 
 class TestFunctions(unittest.TestCase):
@@ -222,7 +215,7 @@ class TestFunctions(unittest.TestCase):
         kernel_gamma1 = [self.test_transit.kernel_gamma_prior_upper + 0.1, 1., 1., 1.]
         kernel_gamma2 = [self.test_transit.kernel_gamma_prior_upper - 0.1, 1., 1., 1.]
 
-        kernel_variance1 = 0.
+        kernel_variance1 = -0.1
         kernel_variance2 = 4.
 
         self.test_transit.update_kernel_params(kernel_a1, kernel_gamma1, kernel_variance1)
@@ -251,7 +244,7 @@ class TestFunctions(unittest.TestCase):
 
         kernel_a = 1.
         kernel_gamma = [self.test_transit.kernel_gamma_prior_upper - 0.1, 1., 1., 1.]
-        kernel_variance1 = 0.
+        kernel_variance1 = -0.1
         kernel_variance2 = 1.
 
         rp_current1 = self.test_transit.rp_prior_upper+0.1
