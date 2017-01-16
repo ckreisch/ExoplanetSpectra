@@ -2,7 +2,7 @@
 \label{classexospec_1_1mcmc_1_1_m_c_m_c}\index{exospec.\+mcmc.\+M\+C\+MC@{exospec.\+mcmc.\+M\+C\+MC}}
 
 
-Class to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC}) and corner (to produce triangle plots)  
+Class to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} to fit curve and produce diagnostic plots and statistics Uses emcee (to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC}) and corner (to produce triangle plots)  
 
 
 Inheritance diagram for exospec.\+mcmc.\+M\+C\+MC\+:\begin{figure}[H]
@@ -21,7 +21,7 @@ def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_af103863b006ff9225432bdc8b2e90d8
 def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_ad20ecaec3fc481c3ab87ad7c4c0439bc}{save\+\_\+chain} (self, filename)
 \begin{DoxyCompactList}\small\item\em Saves the chain as a numpy array. \end{DoxyCompactList}\item 
 def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_afec10cdfb36657e6e1c013bbd563bd71}{get\+\_\+mean\+\_\+acceptance\+\_\+fraction} (self)
-\begin{DoxyCompactList}\small\item\em Allows the user to access the mean acceptance fraction, which should be around 1/2. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Allows the user to access the mean acceptance fraction The mean acceptance fractions should be between about 0.\+25 and 0.\+5. \end{DoxyCompactList}\item 
 def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_a7fe8d9326590fe7cc875fa5118eaa617}{get\+\_\+median\+\_\+and\+\_\+errors} (self)
 \begin{DoxyCompactList}\small\item\em Best fit parameters and 1 sigma errors. \end{DoxyCompactList}\item 
 def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_af240e8deac4470da704239926ea56822}{triangle\+\_\+plot} (self, extra\+\_\+burnin\+\_\+steps=0, theta\+\_\+true=None, plot\+\_\+transit\+\_\+params=True, plot\+\_\+hyper\+\_\+params=True, save\+\_\+as\+\_\+dir=\char`\"{}.\char`\"{}, save\+\_\+as\+\_\+name=\char`\"{}triangle.\+png\char`\"{})
@@ -43,21 +43,21 @@ def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_ab2c5cc870e2b384534404f3bc667e03
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
-{\em t} & A numpy array of the independent variable for the data to be fitted \\
+{\em t} & A numpy array of the independent variable for the data \\
 \hline
-{\em val} & A numpy array of the dependent variable for the data to be fitted \\
+{\em val} & A numpy array of the dependent variable for the data \\
 \hline
 {\em err} & A numpy array of the errors on the dependent variable \\
 \hline
-{\em ln\+\_\+prob\+\_\+fn} & The log probability function to be sampled by the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chain \\
+{\em ln\+\_\+prob\+\_\+fn} & The log probability function to be sampled \\
 \hline
-{\em transit\+\_\+params} & A list of strings giving the names of the curve\textquotesingle{}s parameter\textquotesingle{}s \\
+{\em transit\+\_\+params} & A list of the names of the curve\textquotesingle{}s parameters \\
 \hline
-{\em hyper\+\_\+params} & A list of strings giving the names of noise parameters \\
+{\em hyper\+\_\+params} & A list of the names of noise parameters \\
 \hline
 {\em num\+\_\+walkers} & Integer giving the number of walkers for the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} run \\
 \hline
-{\em num\+\_\+threads} & An integer giving the number of threads to use on each core \\
+{\em num\+\_\+threads} & Integer giving the number of threads to use per core \\
 \hline
 \end{DoxyParams}
 
@@ -153,14 +153,14 @@ A 2D numpy array with all the samples for each of the transit and hyper paramete
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
-{\em filename} & The filename including path where the chains should be saved \\
+{\em filename} & The filename including path where the chains will be saved \\
 \hline
 \end{DoxyParams}
 
 \begin{DoxyRetVals}{Return values}
 {\em 0} & if successful \\
 \hline
-{\em 1} & if an IO error occurs \\
+{\em 1} & if an IO error occurs or if the chain is empty \\
 \hline
 \end{DoxyRetVals}
 \mbox{\Hypertarget{classexospec_1_1mcmc_1_1_m_c_m_c_af240e8deac4470da704239926ea56822}\label{classexospec_1_1mcmc_1_1_m_c_m_c_af240e8deac4470da704239926ea56822}} 
@@ -169,13 +169,13 @@ A 2D numpy array with all the samples for each of the transit and hyper paramete
 \subsubsection{\texorpdfstring{triangle\+\_\+plot()}{triangle\_plot()}}
 {\footnotesize\ttfamily def exospec.\+mcmc.\+M\+C\+M\+C.\+triangle\+\_\+plot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{extra\+\_\+burnin\+\_\+steps = {\ttfamily 0},  }\item[{}]{theta\+\_\+true = {\ttfamily None},  }\item[{}]{plot\+\_\+transit\+\_\+params = {\ttfamily True},  }\item[{}]{plot\+\_\+hyper\+\_\+params = {\ttfamily True},  }\item[{}]{save\+\_\+as\+\_\+dir = {\ttfamily \char`\"{}.\char`\"{}},  }\item[{}]{save\+\_\+as\+\_\+name = {\ttfamily \char`\"{}triangle.png\char`\"{}} }\end{DoxyParamCaption})}
 
-These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains 
+These plots are useful for visualization but should not cause the code to crash, as the main purpose of the code is to create and save the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains. 
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
 {\em extra\+\_\+burnin\+\_\+steps} & Number of steps (in addition to burnin\+\_\+steps from run) at the start of each chain to neglect \\
 \hline
-{\em theta\+\_\+true} & Numpy array of true parameter values if known (used for test data) \\
+{\em theta\+\_\+true} & Numpy array of true parameter values for the parameters to be plotted (only used for test data) \\
 \hline
 {\em plot\+\_\+transit\+\_\+params} & Boolean value specifying whether or not to plot the transit parameters \\
 \hline
