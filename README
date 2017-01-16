@@ -1,38 +1,73 @@
-Please see User Manual in the docs folder for further instructions on using exospec.
+Welcome to ExoSpec version 0.1, a simple parallelized python 
+tool for extracting exoplanet transmission spectra from 
+noisey multi-wavelength light curves.
+authors: Brianna Lacy, Christina Kreisch, Heather Prince, 
+Polina Kanel, Julien de Lanversin, Blake Yang
+url: https://github.com/ckreisch/ExoplanetSpectra
+email: blacy@princeton.edu
 
-Expected Contents upon installation:
-
-src/
-bin/ 
-docs/
-README
-
-Within src:
+Required Contents:
+    docs/ 
+    bin/ 
+    exospec/
     setup.py
-    exospec.py
-    lc_class.py
-    TransitModel.py
-    mcmc.py
+    LICENSE.txt     
+    README          
+    README.md       
+
+Within exospec:    
+    tests/
+    out/  
+    __init__.py   
+    TransitModel.py     
+    lc_class.py     
     read_input.py
-    deliverables.py
-    fit_single_wl.py
-    gen_syn_data.py
+    mcmc.py         
+    read_input_demo.py
+    deliverables.py     
+    fitting_single_lc.py    
+
 
 Within bin:
+    exospec_main.py
     lc_class_demo.py
-    example_data
-        example.ini
-        light_curves
-            synth_lc_500.txt
-            synth_lc_650.txt
-            synth_lc_800.txt
-            synth_lc_950.txt
-            synth_lc_1100.txt
-
-        
+    short_example_lc/
+    full_example_lc/
+    short_example.ini
+    full_example.ini
 
 Within docs:
     docs.pdf
     UserManual.pdf 
+
+Dependencies: 
+In addition to standard Python libraries, ExoSpec requires the 
+following packages to run: numpy, scipy, matplotlib, virtualenv, 
+mpi4py, emcee, george, batman-package, corner, and pandas. These 
+packages are automatically installed when installing ExoSpec. 
+To run tests with the setup.py file, the nose package is also 
+required and installs automatically.
+
+Before installing ExoSpec, dependencies for george and mpi4py 
+must be installed since these dependencies are not Python packages:
+Eigen3 and OpenMPI. See the user manual within the docs/ folder 
+for more detailed instructions.
+
+Installation:
+To install ExoSpec, first install Eigen3 and OpenMPI. Then download 
+and unpack the source file. Finally run:
+$ python setup.py install 
+All python dependencies and packages will be built.
+
+Usage:
+To run exospec on the two example files included, go into bin/
+and simply run:
+$ python exospec_main.py short_example.ini
+$ python exospec_main.py full_example.ini
+
+Please see the user manual in the docs/ folder for more
+detailed instructions on using exospec with other data.
+
+
 
 
