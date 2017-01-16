@@ -2,6 +2,8 @@ import sys
 import numpy as np
 
 import exospec
+from exospec.read_input import read_input
+import exospec.fitting_single_lc as fsl
 #import lc_class
 #from read_input import read_input
 #import deliverables
@@ -41,7 +43,7 @@ if __name__ == "__main__":
 
     # if user wants to combine wavelength channels
     wave_bin_size = input_param_dic['wave_bin_size']
-    LC = lc_class.LightCurve(lc_path, wave_bin_size)
+    LC = exospec.lc_class.LightCurve(lc_path, wave_bin_size)
 
     # dictionary of light curve for each wavelength
     LC_dic = LC.LC_dic
@@ -106,8 +108,8 @@ if __name__ == "__main__":
             if input_param_dic['visualization']:
                 # proceed with post-processing inside this if statement
                 # TO-DO: debug deliverables.latex_table()
-                deliverables.post_processing_all_wl(input_param_dic, LC_dic)
-                deliverables.latex_table(LC_dic,input_param_dic[\
+                exospec.deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+                exospec.deliverables.latex_table(LC_dic,input_param_dic[\
                 'transit_par_names'],input_param_dic['gp_hyper_par_names'],\
                 visualization,input_param_dic['separate_flag'],confidence,\
                 input_param_dic['output_dir'])
@@ -122,8 +124,8 @@ if __name__ == "__main__":
         if input_param_dic['visualization']:
             # proceed with post-processing inside this if statement
             # TO-DO: debug deliverables.latex_table()
-            deliverables.post_processing_all_wl(input_param_dic, LC_dic)
-            deliverables.latex_table(LC_dic,input_param_dic[\
+            exospec.deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+            exospec.deliverables.latex_table(LC_dic,input_param_dic[\
             'transit_par_names'],input_param_dic['gp_hyper_par_names'],\
             visualization,input_param_dic['separate_flag'],confidence,\
             input_param_dic['output_dir'])
