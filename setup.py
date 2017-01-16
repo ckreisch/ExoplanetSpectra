@@ -1,13 +1,5 @@
-#CK note: to be changed as code progresses
 from setuptools import setup
 from setuptools import find_packages
-#from codecs import open
-#from os import path
-
-#here = path.abspath(path.dirname(__file__))
-
-#with open(path.join(here,'docs/README.txt'), encoding = 'utf-8') as f:
-#    long_description = f.read()
 
 # From: https://docs.python.org/2/distutils/setupscript.html
 # patch distutils if it can't cope with the "classifiers" or
@@ -26,7 +18,7 @@ setup(
     url = 'https://github.com/ckreisch/ExoplanetSpectra',
     author = 'Brianna Lacy, Christina Kreisch, Heather Prince, Polina Kanel, Julien de Lanversin, Blake Yang',
     author_email = 'blacy@princeton.edu',
-    license='GNU GENERAL PUBLIC LICENSE', #should we change? is this line redundant?
+    license='GNU GENERAL PUBLIC LICENSE',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Other Environment',
@@ -44,7 +36,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Topic :: Scientific/Engineering :: Astronomy'
         ],
-    #keywords = 'Convex Optimization SDP',
+    keywords = 'Exoplanet spectrum fitter',
     test_suite =  'nose.collector',
     tests_require = ['nose'],
     packages=find_packages(exclude = ['contrib','docs','tests*']),
