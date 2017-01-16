@@ -244,12 +244,13 @@ class MCMC(object):
 
         return 0
 
-    ## Plots the chains of each walker and a histogram showing how each parameter was sampled
+    ## Plots the best-fit curve and the data points with errors
+    #If the true parameters are given then the true curve is also plotted
     #If an error is encountered the function returns 1 but does not raise an exception.
     #These plots are useful for visualization but should not cause the code to crash, as the
     #main purpose is to create and save the MCMC chains
     # @param self The object pointer
-    # @param model A function that returns the lightcurve shape as a function of the light curve parameters and time
+    # @param model A function that returns the lightcurve shape given (parameters, t, val, err)
     # @param extra_burnin_steps Number of steps (in addition to burnin_steps from run) at the start of each chain to neglect
     # @param theta_true Numpy array of true parameter values if known (used for test data)
     # @param plot_transit_params Boolean value specifying whether or not to plot the transit parameters
@@ -258,8 +259,7 @@ class MCMC(object):
     # @param save_as_name Name under which plot should be saved
     # @retval 0 if successful
     # @retval 1 on failure
-    def light_curve_plot(self, model, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=".", save_as_name="light_curve"):
-        # Plot some samples onto the data.
+    def light_curve_plot(self, model, extra_burnin_steps=0, theta_true=None, save_as_dir=".", save_as_name="light_curve"):
         #burnin_steps here means how many steps we discard when showing our plots. It doesn't have to match the burnin_steps argument to run
         #model is a function that takes an array of parameters and an array of times and evaluates the model
         if self._sampler.chain.shape[1]==0:
@@ -281,10 +281,12 @@ class MCMC(object):
         median, err1, err2=self.get_median_and_errors()
         best_fit = model(median, self._t, self._val, self._err)
         plt.figure()
-        plt.plot(self._t, best_fit)
         if theta_true:
-            plt.plot(t, model(theta_true, self._t, self._val, self._err), color="r", lw=2, alpha=0.8)
-        plt.errorbar(self._t, self._val, yerr=self._err, fmt=".k")
+            plt.plot(self._t, model(theta_true, self._t, self._val, self._err), color="r", lw=2, alpha=0.8, label="true curve")
+        plt.plot(self._t, best_fit, label="best fit")
+        plt.errorbar(self._t, self._val, yerr=self._err, fmt=".k", label="data")
+        if theta_true:
+            plt.legend()
         plt.xlabel("$t$")
         plt.ylabel("flux")
         plt.tight_layout()

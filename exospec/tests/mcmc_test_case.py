@@ -37,8 +37,9 @@ def lnprob(theta, x, y, yerr):
         return -np.inf
     return lp + lnlike(theta, x, y, yerr)
 
-def model_fn(theta, x):
-    m, b, lnf = theta
+def model_fn(theta, x, y, yerr):    #to match TransitModel.sample_conditional
+    m=theta[0]
+    b=theta[1]
     model = m * x + b
     return model
 
