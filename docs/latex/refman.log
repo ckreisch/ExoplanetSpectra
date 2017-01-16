@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  16 JAN 2017 11:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  16 JAN 2017 12:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1189,18 +1189,36 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 8.99994pt on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <7> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 6.29996pt on input line 1.
 
 [1
 
-])
+] [2]
+Underfull \hbox (badness 10000) in paragraph at lines 84--84
+ [][] [][][]\T1/phv/m/n/10 /[]Users/heatherp/[]Documents/[]Courses/[]Computatio
+nal/[]Project/[]Exoplanet[]Spectra/bin/exospec[]_[] 
+ []
+
+
+Overfull \hbox (15.86386pt too wide) in paragraph at lines 89--89
+ [][] [][][]\T1/phv/m/n/10 /[]Users/heatherp/[]Documents/[]Courses/[]Computatio
+nal/[]Project/[]Exoplanet[]Spectra/exospec/deliverables.py 
+ []
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 98--98
+ [][] [][][]\T1/phv/m/n/10 /[]Users/heatherp/[]Documents/[]Courses/[]Computatio
+nal/[]Project/[]Exoplanet[]Spectra/exospec/fitting[]_[] 
+ []
+
+)
 \tf@toc=\write5
 \openout5 = `refman.toc'.
 
-LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <7> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 136.
-LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 6.29996pt on input line 136.
- [2]
+ [4]
 Package hyperref Info: Option `pageanchor' set `true' on input line 138.
 
 Chapter 1.
@@ -1212,7 +1230,9 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 18.66588pt on input line 141.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 18.66588pt on input line 141.
-(./hierarchy.tex
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 6.29996pt on input line 141.
+(./index.tex
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
@@ -1226,15 +1246,47 @@ LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 
 ]
 Chapter 2.
-(./annotated.tex) [3] [4
+(./hierarchy.tex) [3] [4
 
 ]
 Chapter 3.
-(./classexospec_1_1lc__class_1_1_different_file_sizes.tex
-LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 6.29996pt on input line 1.
+(./annotated.tex
+Underfull \hbox (badness 1436) in paragraph at lines 9--9
+ \T1/phv/m/n/10 Raise when the light curve file name is not un-der the ex-pecte
+d for-mat sample[]_[]lc[]_[] 
+ []
 
-<classexospec_1_1lc__class_1_1_different_file_sizes.pdf, id=370, 501.875pt x 18
+) [5] [6
+
+]
+Chapter 4.
+(./files.tex
+Underfull \hbox (badness 10000) in paragraph at lines 5--5
+ [][] \T1/phv/m/n/10 /[]Users/heatherp/[]Documents/[]Courses/[]Computational/[]
+Project/[]Exoplanet[]Spectra/exospec/[][]fitting[]_[]single[]_[] 
+ []
+
+) [7] [8
+
+]
+Chapter 5.
+(./class_different_file_size.tex
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 10.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 10.79993pt on input line 10.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 10.79993pt on input line 10.
+LaTeX Font Info:    Try loading font information for TS1+phv on input line 15.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1phv.fd
+File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
+)
+LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 15.
+)
+(./classexospec_1_1lc__class_1_1_different_file_sizes.tex
+<classexospec_1_1lc__class_1_1_different_file_sizes.pdf, id=649, 501.875pt x 18
 1.67876pt>
 File: classexospec_1_1lc__class_1_1_different_file_sizes.pdf Graphic file (type
  pdf)
@@ -1242,146 +1294,174 @@ File: classexospec_1_1lc__class_1_1_different_file_sizes.pdf Graphic file (type
 Package pdftex.def Info: classexospec_1_1lc__class_1_1_different_file_sizes.pdf
  used on input line 6.
 (pdftex.def)             Requested size: 157.19547pt x 56.9055pt.
-LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 11.
-LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 10.79993pt on input line 11.
-LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 10.79993pt on input line 11.
-LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 7.19995pt on input line 12.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 12.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-)
-Overfull \hbox (231.15633pt too wide) in paragraph at lines 12--12
-[]\T1/pcr/m/n/8 Raise when one the light curve file does not have the same size
- with light curve file for the lowest wavelength (this file serves as reference
-) 
- []
-
-LaTeX Font Info:    Try loading font information for TS1+phv on input line 17.
-(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/ts1phv.fd
-File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
-)
-LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
-(Font)              scaled to size 8.99994pt on input line 17.
 )
 (./classexospec_1_1lc__class_1_1_different_param_num.tex
-<classexospec_1_1lc__class_1_1_different_param_num.pdf, id=371, 501.875pt x 173
+<classexospec_1_1lc__class_1_1_different_param_num.pdf, id=650, 501.875pt x 173
 .80936pt>
 File: classexospec_1_1lc__class_1_1_different_param_num.pdf Graphic file (type 
 pdf)
  <use classexospec_1_1lc__class_1_1_different_param_num.pdf>
 Package pdftex.def Info: classexospec_1_1lc__class_1_1_different_param_num.pdf 
-used on input line 6.
+used on input line 11.
 (pdftex.def)             Requested size: 164.30974pt x 56.9055pt.
-
-Overfull \hbox (307.95638pt too wide) in paragraph at lines 12--12
-[]\T1/pcr/m/n/8 Raise when one the light curve file does not have the same numb
-er of parameters with light curve file for the lowest wavelength (this file ser
-ves as reference) 
- []
-
-) (./classexospec_1_1read__input_1_1_empty_file.tex
-<classexospec_1_1read__input_1_1_empty_file.pdf, id=372, 501.875pt x 211.31949p
+ [9 <./classexospec_1_1lc__class_1_1_different_file_sizes.pdf>])
+(./classexospec_1_1read__input_1_1_empty_file.tex
+<classexospec_1_1read__input_1_1_empty_file.pdf, id=661, 501.875pt x 211.31949p
 t>
 File: classexospec_1_1read__input_1_1_empty_file.pdf Graphic file (type pdf)
  <use classexospec_1_1read__input_1_1_empty_file.pdf>
 Package pdftex.def Info: classexospec_1_1read__input_1_1_empty_file.pdf used on
- input line 6.
+ input line 11.
 (pdftex.def)             Requested size: 135.14813pt x 56.9055pt.
- [5 <./classexospec_1_1lc__class_1_1_different_file_sizes.pdf> <./classexospec_
-1_1lc__class_1_1_different_param_num.pdf>]) (./classexospec_1_1lc__class_1_1_em
-pty_file.tex
-<classexospec_1_1lc__class_1_1_empty_file.pdf, id=390, 501.875pt x 228.12227pt>
+)
+(./classexospec_1_1lc__class_1_1_empty_file.tex
+<classexospec_1_1lc__class_1_1_empty_file.pdf, id=662, 501.875pt x 228.12227pt>
 File: classexospec_1_1lc__class_1_1_empty_file.pdf Graphic file (type pdf)
 <use classexospec_1_1lc__class_1_1_empty_file.pdf>
 Package pdftex.def Info: classexospec_1_1lc__class_1_1_empty_file.pdf used on i
-nput line 6.
+nput line 11.
 (pdftex.def)             Requested size: 125.19275pt x 56.9055pt.
-)
-(./classexospec_1_1lc__class_1_1_empty_folder.tex
-<classexospec_1_1lc__class_1_1_empty_folder.pdf, id=391, 501.875pt x 209.11124p
+ [10 <./classexospec_1_1lc__class_1_1_different_param_num.pdf> <./classexospec_
+1_1read__input_1_1_empty_file.pdf>]) (./classexospec_1_1lc__class_1_1_empty_fol
+der.tex
+<classexospec_1_1lc__class_1_1_empty_folder.pdf, id=679, 501.875pt x 209.11124p
 t>
 File: classexospec_1_1lc__class_1_1_empty_folder.pdf Graphic file (type pdf)
  <use classexospec_1_1lc__class_1_1_empty_folder.pdf>
 Package pdftex.def Info: classexospec_1_1lc__class_1_1_empty_folder.pdf used on
- input line 6.
+ input line 11.
 (pdftex.def)             Requested size: 136.57251pt x 56.9055pt.
- [6 <./classexospec_1_1read__input_1_1_empty_file.pdf> <./classexospec_1_1lc__c
-lass_1_1_empty_file.pdf>]) (./classexospec_1_1lc__class_1_1_incorrect_name_form
-at.tex
-<classexospec_1_1lc__class_1_1_incorrect_name_format.pdf, id=408, 501.875pt x 1
+)
+(./classexospec_1_1lc__class_1_1_incorrect_name_format.tex
+<classexospec_1_1lc__class_1_1_incorrect_name_format.pdf, id=680, 501.875pt x 1
 65.2273pt>
 File: classexospec_1_1lc__class_1_1_incorrect_name_format.pdf Graphic file (typ
 e pdf)
  <use classexospec_1_1lc__class_1_1_incorrect_name_format.pdf>
 Package pdftex.def Info: classexospec_1_1lc__class_1_1_incorrect_name_format.pd
-f used on input line 6.
+f used on input line 11.
 (pdftex.def)             Requested size: 172.84839pt x 56.9055pt.
+
+[11 <./classexospec_1_1lc__class_1_1_empty_file.pdf> <./classexospec_1_1lc__cla
+ss_1_1_empty_folder.pdf> <./classexospec_1_1lc__class_1_1_incorrect_name_format
+.pdf>]) (./classexospec_1_1lc__class_1_1_light_curve.tex
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.09995pt on input line 15.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 15.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 15.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 15.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 6.29996pt on input line 15.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 8.99994pt on input line 64.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 7.19995pt on input line 65.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 65.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-(./classexospec_1_1lc__class_1_1_light_curve.tex [7 <./classexospec_1_1lc__clas
-s_1_1_empty_folder.pdf> <./classexospec_1_1lc__class_1_1_incorrect_name_format.
-pdf>]) (./classexospec_1_1lc__class_1_1_light_curve_data.tex)
-(./classexospec_1_1mcmc_1_1_m_c_m_c.tex
-<classexospec_1_1mcmc_1_1_m_c_m_c.pdf, id=433, 501.875pt x 273.1304pt>
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 65.
+ [12]
+Underfull \hbox (badness 10000) detected at line 71
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 84
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 91.
+[13]
+Underfull \hbox (badness 10000) detected at line 112
+[][][]
+ []
+
+) (./classexospec_1_1lc__class_1_1_light_curve_data.tex [14]
+Underfull \hbox (badness 10000) detected at line 81
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 94
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 107
+[][][]
+ []
+
+[15]
+Underfull \hbox (badness 10000) detected at line 135
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 148
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 161
+[][][]
+ []
+
+[16]
+Underfull \hbox (badness 10000) detected at line 204
+[][][]
+ []
+
+) (./classexospec_1_1mcmc_1_1_m_c_m_c.tex
+<classexospec_1_1mcmc_1_1_m_c_m_c.pdf, id=786, 501.875pt x 273.1304pt>
 File: classexospec_1_1mcmc_1_1_m_c_m_c.pdf Graphic file (type pdf)
 
 <use classexospec_1_1mcmc_1_1_m_c_m_c.pdf>
 Package pdftex.def Info: classexospec_1_1mcmc_1_1_m_c_m_c.pdf used on input lin
 e 11.
 (pdftex.def)             Requested size: 104.56213pt x 56.9055pt.
- [8]
-LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 8.09995pt on input line 18.
-LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 18.
-LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 8.09995pt on input line 18.
-LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 20.
-LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 6.29996pt on input line 20.
-LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 8.99994pt on input line 42.
-LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 43.
-LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 43.
- [9 <./classexospec_1_1mcmc_1_1_m_c_m_c.pdf>]
+ [17 <./classexospec_1_1mcmc_1_1_m_c_m_c.pdf>] [18]
 Underfull \hbox (badness 10000) detected at line 88
 [][][]
  []
 
-[10]
+[19]
 Underfull \hbox (badness 10000) detected at line 106
 [][][]
  []
 
-[11]
+[20]
 Underfull \hbox (badness 10000) detected at line 166
 [][][]
  []
 
-
+[21] [22]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [12]
-[13]) (./classexospec_1_1read__input_1_1_no_input.tex
-<classexospec_1_1read__input_1_1_no_input.pdf, id=544, 501.875pt x 225.5627pt>
+ [23])
+(./classexospec_1_1read__input_1_1_no_input.tex
+<classexospec_1_1read__input_1_1_no_input.pdf, id=869, 501.875pt x 225.5627pt>
 File: classexospec_1_1read__input_1_1_no_input.pdf Graphic file (type pdf)
 
 <use classexospec_1_1read__input_1_1_no_input.pdf>
 Package pdftex.def Info: classexospec_1_1read__input_1_1_no_input.pdf used on i
-nput line 6.
+nput line 11.
 (pdftex.def)             Requested size: 126.60947pt x 56.9055pt.
 )
-(./classexospec_1_1read__input_1_1read__input.tex)
-(./classexospec_1_1_transit_model_1_1_transit_model.tex [14 <./classexospec_1_1
-read__input_1_1_no_input.pdf>]
-<classexospec_1_1_transit_model_1_1_transit_model.pdf, id=561, 501.875pt x 181.
+(./classexospec_1_1read__input_1_1read__input.tex [24 <./classexospec_1_1read__
+input_1_1_no_input.pdf>]
+Underfull \hbox (badness 10000) detected at line 41
+[][][]
+ []
+
+) (./classexospec_1_1_transit_model_1_1_transit_model.tex
+<classexospec_1_1_transit_model_1_1_transit_model.pdf, id=888, 501.875pt x 181.
 67876pt>
 File: classexospec_1_1_transit_model_1_1_transit_model.pdf Graphic file (type p
 df)
@@ -1389,17 +1469,17 @@ df)
 Package pdftex.def Info: classexospec_1_1_transit_model_1_1_transit_model.pdf u
 sed on input line 11.
 (pdftex.def)             Requested size: 157.19547pt x 56.9055pt.
- [15 <./classexospec_1_1_transit_model_1_1_transit_model.pdf>] [16]
+ [25 <./classexospec_1_1_transit_model_1_1_transit_model.pdf>] [26]
 Underfull \hbox (badness 10000) detected at line 151
 [][][]
  []
 
-
+[27]
 Underfull \hbox (badness 10000) detected at line 169
 [][][]
  []
 
-[17]
+
 Underfull \hbox (badness 10000) detected at line 187
 [][][]
  []
@@ -1409,63 +1489,166 @@ Underfull \hbox (badness 10000) detected at line 205
 [][][]
  []
 
-
+[28] [29]
 Underfull \hbox (badness 10000) detected at line 223
 [][][]
  []
 
-[18]
+
 Underfull \hbox (badness 10000) detected at line 249
 [][][]
  []
 
-[19]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [30]
 Underfull \hbox (badness 10000) detected at line 284
 [][][]
  []
 
-[20]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [31]
 Underfull \hbox (badness 10000) detected at line 344
 [][][]
  []
 
-[21] [22]) [23] [24
+[32] [33]) [34]
+Chapter 6.
+(./exospec__main_8py.tex
+Overfull \hbox (40.90355pt too wide) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 /[]Users/heatherp/[]Documents/[]Courses/[]Computational/[]P
+roject/[]Exoplanet[]Spectra/bin/exospec[]
+ []
 
-] (./refman.ind [25
+LaTeX Font Info:    Font shape `TS1/phv/m/it' in size <9> not available
+(Font)              Font shape `TS1/phv/m/sl' tried instead on input line 12.
+LaTeX Font Info:    Font shape `TS1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 12.
+[35
+
+]) (./deliverables_8py.tex
+Overfull \hbox (92.54724pt too wide) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 /[]Users/heatherp/[]Documents/[]Courses/[]Computational/[]P
+roject/[]Exoplanet[]Spectra/exospec/deliverables.py
+ []
+
+[36]
+Underfull \hbox (badness 10000) detected at line 46
+[][][]
+ []
 
 
-])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 168.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 168.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 22.16548pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[37] [38]) (./fitting__single__lc_8py.tex
+Overfull \hbox (54.47232pt too wide) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 /[]Users/heatherp/[]Documents/[]Courses/[]Computational/[]P
+roject/[]Exoplanet[]Spectra/exospec/fitting[]
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 34.16548pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[39]) [40] (./refman.ind
+Underfull \hbox (badness 10000) in paragraph at lines 3--5
+[]\T1/phv/m/n/10 /[]Users/heatherp/[]Documents/[]Courses/[]Computational/[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3--5
+\T1/phv/m/n/10 Project/[]Exoplanet[]Spectra/bin/exospec[]_[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--7
+[]\T1/phv/m/n/10 /[]Users/heatherp/[]Documents/[]Courses/[]Computational/[]
+ []
+
+
+Overfull \hbox (15.94998pt too wide) in paragraph at lines 5--7
+\T1/phv/m/n/10 Project/[]Exoplanet[]Spectra/exospec/deliverables.[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--9
+[]\T1/phv/m/n/10 /[]Users/heatherp/[]Documents/[]Courses/[]Computational/[]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--9
+\T1/phv/m/n/10 Project/[]Exoplanet[]Spectra/exospec/fitting[]_[]
+ []
+
+[41
+
+
+
+] [42])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 177.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 177.
  (./refman.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 168.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 168.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 177.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 177.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: 31D3FFDCC3789FC0113E0BB5931AA6B0;12598.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 168.
+(rerunfilecheck)             Checksum: 264BDB7B3CE5B5A0C96F4AE5B6788982;22871.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 177.
  ) 
 Here is how much of TeX's memory you used:
- 15214 strings out of 493014
- 228910 string characters out of 6133351
- 323842 words of memory out of 5000000
- 18268 multiletter control sequences out of 15000+600000
- 61573 words of font info for 68 fonts, out of 8000000 for 9000
+ 15437 strings out of 493014
+ 234522 string characters out of 6133351
+ 329793 words of memory out of 5000000
+ 18359 multiletter control sequences out of 15000+600000
+ 62223 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,16n,92p,1048b,632s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/tex
-live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/t
-exmf-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/local/texlive/2016/texmf-di
-st/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2016/texmf-dist/font
-s/type1/urw/helvetic/uhvb8ac.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
-1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/h
-elvetic/uhvro8a.pfb>
-Output written on refman.pdf (29 pages, 163366 bytes).
+ 53i,16n,92p,1469b,634s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{fitting__single__lc_8py_a0b2cf40b83c8a2c501e9000f
+6798860e} has been referenced but does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{deliverables_8py_a3ba725b694ba15346524e50adf3adc08}
+ has been referenced but does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{deliverables_8py_a919fcbbd20e85dc4ebd6bf958bf837c4}
+ has been referenced but does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{deliverables_8py_a97cde0af899aaa0d25194a3dac772562}
+ has been referenced but does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{deliverables_8py_ae4114e7cb20a012c6230e34599c010ff}
+ has been referenced but does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{deliverables_8py_a5ff1ee698b66fbc6e520cfefff41f758}
+ has been referenced but does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{deliverables_8py_a5f8bf00216c9516d2b4dff5a0224cde9}
+ has been referenced but does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{exospec__main_8py_a41dd44f8bae40489c9f69cb5697950e2
+} has been referenced but does not exist, replaced by a fixed one
+
+{/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texl
+ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texliv
+e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2016/texm
+f-dist/fonts/type1/urw/courier/ucrro8a.pfb></usr/local/texlive/2016/texmf-dist/
+fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
+ype1/urw/helvetic/uhvb8ac.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/u
+rw/helvetic/uhvr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/helv
+etic/uhvro8a.pfb>
+Output written on refman.pdf (48 pages, 208412 bytes).
 PDF statistics:
- 831 PDF objects out of 1000 (max. 8388607)
- 761 compressed objects within 8 object streams
- 220 named destinations out of 1000 (max. 500000)
- 494 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1319 PDF objects out of 1440 (max. 8388607)
+ 1224 compressed objects within 13 object streams
+ 337 named destinations out of 1000 (max. 500000)
+ 862 words of extra memory for PDF output out of 10000 (max. 10000000)
 

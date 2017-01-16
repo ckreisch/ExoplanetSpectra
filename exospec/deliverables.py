@@ -1,3 +1,4 @@
+## @file
 # Deliverables module to parse MCMC data into latex code and plots
 import numpy as np
 import mcmc

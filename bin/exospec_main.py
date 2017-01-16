@@ -1,3 +1,15 @@
+## @mainpage ExoSpec
+# @section intro_sec Introduction
+# Exospec is a python tool for fitting your multi-wavelength transit light-curves
+#It can accept an arbitrary number of wavelength channels and an arbitrary number of auxiliary
+#measurements. Currently the fitting has two Gaussian Process kernel options: the kernel outlined
+#in Gibson 2011 which incorporates auxiliary measurements made over the course of transit
+#observation and a more general squared exponential.
+#@section install_sec Installation
+#ExoSpec uses numpy and matplotlib, as well as the Python packages batman, emcee, corner, pandas and george.
+
+##@file
+# Fits the transits for multiple wavelengths to produce the transmission spectrum
 import sys
 import numpy as np
 
@@ -10,6 +22,10 @@ import exospec.fitting_single_lc as fsl
 #import fitting_single_lc as fsl
 
 # -----------------------------------------------------------------------------
+## main
+# Reads from the user's input file.
+# Performs the MCMC fit for each wavelength, saving the chains.
+# Plots and saves the transmission spectrum.
 if __name__ == "__main__":
 
     # Read from user input file -----------------------------------------------
