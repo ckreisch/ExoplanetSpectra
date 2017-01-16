@@ -1,10 +1,11 @@
 import sys
 import numpy as np
 
-import lc_class
-from read_input import read_input
-import deliverables
-import fitting_single_lc as fsl
+import exospec
+#import lc_class
+#from read_input import read_input
+#import deliverables
+#import fitting_single_lc as fsl
 
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":

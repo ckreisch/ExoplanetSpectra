@@ -1,15 +1,21 @@
 import unittest
 import os
 from os import listdir
-from lc_class import LightCurve
-from lc_class import EmptyFolder
-from lc_class import IncorrectNameFormat
-from lc_class import EmptyFile
-from lc_class import DifferentFileSizes
+import sys
+import inspect
+dir_current = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+dir_up = os.path.dirname(dir_current)
+sys.path.append(dir_up)
+
+from exospec.lc_class import LightCurve
+from exospec.lc_class import EmptyFolder
+from exospec.lc_class import IncorrectNameFormat
+from exospec.lc_class import EmptyFile
+from exospec.lc_class import DifferentFileSizes
 
 class test_lc_class(unittest.TestCase):
 
-    def testEmptyFolder(self):  
+    def testEmptyFolder(self):
 
         os.system("mkdir empty_folder")
         with self.assertRaises(EmptyFolder):
@@ -17,7 +23,7 @@ class test_lc_class(unittest.TestCase):
         os.system("rmdir empty_folder")
 
     def testIncorrectNameFormat1(self):
-        
+
         os.system("mkdir folder_with_problems")
         os.system("> folder_with_problems/bad_file_name")
         with self.assertRaises(IncorrectNameFormat):
@@ -55,7 +61,7 @@ class test_lc_class(unittest.TestCase):
         with self.assertRaises(DifferentFileSizes):
             LC = LightCurve('folder_with_problems2', 1)
         os.system("rm -r folder_with_problems2")
-   
+
 
 if __name__ == "__main__":
 

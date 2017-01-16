@@ -1,8 +1,14 @@
 import unittest
 import os
-from read_input import read_input
-from read_input import EmptyFile
-from read_input import NoInput
+import sys
+import inspect
+dir_current = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+dir_up = os.path.dirname(dir_current)
+sys.path.append(dir_up)
+
+from exospec.read_input import read_input
+from exospec.read_input import EmptyFile
+from exospec.read_input import NoInput
 
 class test_read_input(unittest.TestCase):
 
@@ -42,7 +48,4 @@ class test_read_input(unittest.TestCase):
 
 if __name__ == "__main__":
 
-    unittest.main()    
-   
-
-
+    unittest.main()
