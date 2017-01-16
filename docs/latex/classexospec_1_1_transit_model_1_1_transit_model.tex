@@ -1,0 +1,442 @@
+\hypertarget{classexospec_1_1_transit_model_1_1_transit_model}{}\section{exospec.\+Transit\+Model.\+Transit\+Model Class Reference}
+\label{classexospec_1_1_transit_model_1_1_transit_model}\index{exospec.\+Transit\+Model.\+Transit\+Model@{exospec.\+Transit\+Model.\+Transit\+Model}}
+
+
+Class to estimate the Transit Model with the customized kernel.  
+
+
+Inheritance diagram for exospec.\+Transit\+Model.\+Transit\+Model\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classexospec_1_1_transit_model_1_1_transit_model}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a8e145f1b5965295abcc770f0e72a41b8}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, kwargs)
+\begin{DoxyCompactList}\small\item\em The constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a1b5933b7cc1aebd32d34beb3df63859a}{set\+\_\+values} (self, dict\+\_\+of\+\_\+values, kwargs)
+\begin{DoxyCompactList}\small\item\em Set the parameters of the model based on the values provided. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_ae9e15083b2e989276c67122e8effdc8a}{read\+\_\+limb\+\_\+dark\+\_\+params} (self, kwargs)
+\begin{DoxyCompactList}\small\item\em Forms a list of the limb darkening parameters from the user input In case some values are missed, the default ones will be taken. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a0cc09d939ecb7742b40e33ca870e73ad}{read\+\_\+errors\+\_\+data} (self, kwargs)
+\begin{DoxyCompactList}\small\item\em Collects the data about errors that was passed In case some values are missed, the default ones will be taken. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a282c211d47894b6b9849fd4bd254b696}{update\+\_\+data} (self, time=None, obs=None, kwargs)
+\begin{DoxyCompactList}\small\item\em Updates the data for the given parameters. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a52dd74eef56c0dbb71cb662f684b6182}{update\+\_\+transit\+\_\+params} (self, rp\+\_\+new, u\+\_\+new)
+\begin{DoxyCompactList}\small\item\em Updates the parameters of the model. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a13b851f80d01379553c454f576c79ae5}{update\+\_\+kernel\+\_\+params} (self, a\+\_\+new=None, gamma\+\_\+new=None, variance\+\_\+new=None)
+\begin{DoxyCompactList}\small\item\em Updates the hyperparameters of the kernel function. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_abd4eed9477412e6eb684570c3372984b}{update\+Transit\+Mode} (self)
+\begin{DoxyCompactList}\small\item\em Updates the transit model parameters. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_abba00977f8fb6ff65f89e2f3e7037ea9}{model} (self)
+\begin{DoxyCompactList}\small\item\em Returns the flux values array. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a1a51a8b175518601892d180c83354592}\label{classexospec_1_1_transit_model_1_1_transit_model_a1a51a8b175518601892d180c83354592}} 
+def {\bfseries model} (self, params)
+\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a4c2121aaf3b3a170e9f0ec0c18911608}{meanfnc} (self, t)
+\begin{DoxyCompactList}\small\item\em Mean function for the kernel meaan estimation. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a4e41db96fc3b1b134bfce74aad263b50}{kernelfnc} (self, x1, x2, p=None)
+\begin{DoxyCompactList}\small\item\em Computes the kernel function for the arbitrary sources of errors in the observations. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a6ff23ea2dfc11348b0ad560c66485be2}{lnlike\+\_\+gp} (self)
+\begin{DoxyCompactList}\small\item\em Computes the log likelihood from gaussian process. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a16ee8da5be7114208af70aa3408615f6}{lnprior\+\_\+base} (self)
+\begin{DoxyCompactList}\small\item\em Checks if the batman parameters are within the predefined prior ranges. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a2c0c838bfee6bdeac30082ebc6cc9517}{lnprior\+\_\+gp} (self)
+\begin{DoxyCompactList}\small\item\em Checks if the kernel parameters are within the predefined prior ranges. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_aa791197371e843567a9fdb8565abf154}{lnprob\+\_\+gp} (self)
+\begin{DoxyCompactList}\small\item\em Computes the log probability of the parameters for the given data. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a3a01d6ec61e2e9e95b6d2fd389c0d577}{sample\+\_\+conditional} (self, p, t, y, yerr)
+\begin{DoxyCompactList}\small\item\em For a given set of parameters get predicted y values at t, and separate this into the transit signal component and the noise component. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a11a124a9e7257c0faa6a3577454fa670}{lnprob\+\_\+mcmc} (self, p, t, y, yerr)
+\begin{DoxyCompactList}\small\item\em M\+C\+MC A\+PI for the Transit Model object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a437d43dd1471162d2ee2a3a18c7158d9}\label{classexospec_1_1_transit_model_1_1_transit_model_a437d43dd1471162d2ee2a3a18c7158d9}} 
+{\bfseries batman\+\_\+default\+\_\+params}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a2f80140a13096c5f78fe2d09648f5660}\label{classexospec_1_1_transit_model_1_1_transit_model_a2f80140a13096c5f78fe2d09648f5660}} 
+{\bfseries transit\+\_\+default\+\_\+priors}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_ac176c32c71d21399f652496af15213f4}\label{classexospec_1_1_transit_model_1_1_transit_model_ac176c32c71d21399f652496af15213f4}} 
+{\bfseries kernel\+\_\+default\+\_\+params}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a0beb9b7e26c101e5797dc80116612c00}\label{classexospec_1_1_transit_model_1_1_transit_model_a0beb9b7e26c101e5797dc80116612c00}} 
+{\bfseries kernel\+\_\+default\+\_\+priors}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a86c6ecad90c34b29aa1b32350c26e65d}\label{classexospec_1_1_transit_model_1_1_transit_model_a86c6ecad90c34b29aa1b32350c26e65d}} 
+{\bfseries data\+\_\+defaults}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a2e732d47223899b73e671909eb0800d4}\label{classexospec_1_1_transit_model_1_1_transit_model_a2e732d47223899b73e671909eb0800d4}} 
+{\bfseries n\+\_\+errors}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a6a11957fb6cf5302099a3ef97f63b3bd}\label{classexospec_1_1_transit_model_1_1_transit_model_a6a11957fb6cf5302099a3ef97f63b3bd}} 
+{\bfseries err\+\_\+names}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a83d1ba0f875e2b62d22cbfbd79cede25}\label{classexospec_1_1_transit_model_1_1_transit_model_a83d1ba0f875e2b62d22cbfbd79cede25}} 
+{\bfseries errors\+\_\+list}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_aa9763ce5105ea17195c2fbe84f6262d1}\label{classexospec_1_1_transit_model_1_1_transit_model_aa9763ce5105ea17195c2fbe84f6262d1}} 
+{\bfseries params}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a8b65c942ed9dcba9fee8b8acbd375cbc}\label{classexospec_1_1_transit_model_1_1_transit_model_a8b65c942ed9dcba9fee8b8acbd375cbc}} 
+{\bfseries batman\+\_\+model}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_aa95ce17554f42e897a72baa6e17496d0}\label{classexospec_1_1_transit_model_1_1_transit_model_aa95ce17554f42e897a72baa6e17496d0}} 
+{\bfseries model}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a0e156dc433419b4b8647ad2746427a7c}\label{classexospec_1_1_transit_model_1_1_transit_model_a0e156dc433419b4b8647ad2746427a7c}} 
+{\bfseries data\+\_\+dict}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a6f260ff899915ec7ed640308c05dab5e}\label{classexospec_1_1_transit_model_1_1_transit_model_a6f260ff899915ec7ed640308c05dab5e}} 
+{\bfseries model\+\_\+initialized}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a454db430fc4a7443d3d68d3ef45d6d37}\label{classexospec_1_1_transit_model_1_1_transit_model_a454db430fc4a7443d3d68d3ef45d6d37}} 
+{\bfseries kernel\+\_\+type}
+\item 
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a6b1f393a39f1ab768746334cde5d2a47}\label{classexospec_1_1_transit_model_1_1_transit_model_a6b1f393a39f1ab768746334cde5d2a47}} 
+{\bfseries lnprob}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class to estimate the Transit Model with the customized kernel. 
+
+More details. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a8e145f1b5965295abcc770f0e72a41b8}\label{classexospec_1_1_transit_model_1_1_transit_model_a8e145f1b5965295abcc770f0e72a41b8}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+The constructor. 
+
+Takes the disctionary of the parameters and data to customize the object. In case some values are missed, the default one are used. 
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em $\ast$$\ast$kwargs} & Accepts the dictionary of data, transit and kernel parameters \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a4e41db96fc3b1b134bfce74aad263b50}\label{classexospec_1_1_transit_model_1_1_transit_model_a4e41db96fc3b1b134bfce74aad263b50}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!kernelfnc@{kernelfnc}}
+\index{kernelfnc@{kernelfnc}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{kernelfnc()}{kernelfnc()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+kernelfnc (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{x1,  }\item[{}]{x2,  }\item[{}]{p = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Computes the kernel function for the arbitrary sources of errors in the observations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em x1} & First time coordinate \\
+\hline
+{\em x2} & Second time coordinate \\
+\hline
+{\em p(=\+None)} & Kernel auxiliary parameters \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Covariance between two points in time 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a6ff23ea2dfc11348b0ad560c66485be2}\label{classexospec_1_1_transit_model_1_1_transit_model_a6ff23ea2dfc11348b0ad560c66485be2}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!lnlike\+\_\+gp@{lnlike\+\_\+gp}}
+\index{lnlike\+\_\+gp@{lnlike\+\_\+gp}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{lnlike\+\_\+gp()}{lnlike\_gp()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnlike\+\_\+gp (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Computes the log likelihood from gaussian process. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Log likelihood of a set of observations under the Gaussian process model. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a16ee8da5be7114208af70aa3408615f6}\label{classexospec_1_1_transit_model_1_1_transit_model_a16ee8da5be7114208af70aa3408615f6}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!lnprior\+\_\+base@{lnprior\+\_\+base}}
+\index{lnprior\+\_\+base@{lnprior\+\_\+base}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{lnprior\+\_\+base()}{lnprior\_base()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnprior\+\_\+base (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Checks if the batman parameters are within the predefined prior ranges. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 0 in case transit parameters whithin the prior range and -\/inf otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a2c0c838bfee6bdeac30082ebc6cc9517}\label{classexospec_1_1_transit_model_1_1_transit_model_a2c0c838bfee6bdeac30082ebc6cc9517}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!lnprior\+\_\+gp@{lnprior\+\_\+gp}}
+\index{lnprior\+\_\+gp@{lnprior\+\_\+gp}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{lnprior\+\_\+gp()}{lnprior\_gp()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnprior\+\_\+gp (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Checks if the kernel parameters are within the predefined prior ranges. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns -\/inf in case parameters out of the range and 0.\+0 if within the prior range 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_aa791197371e843567a9fdb8565abf154}\label{classexospec_1_1_transit_model_1_1_transit_model_aa791197371e843567a9fdb8565abf154}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!lnprob\+\_\+gp@{lnprob\+\_\+gp}}
+\index{lnprob\+\_\+gp@{lnprob\+\_\+gp}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{lnprob\+\_\+gp()}{lnprob\_gp()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnprob\+\_\+gp (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Computes the log probability of the parameters for the given data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Log probability of the parameters 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a11a124a9e7257c0faa6a3577454fa670}\label{classexospec_1_1_transit_model_1_1_transit_model_a11a124a9e7257c0faa6a3577454fa670}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!lnprob\+\_\+mcmc@{lnprob\+\_\+mcmc}}
+\index{lnprob\+\_\+mcmc@{lnprob\+\_\+mcmc}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{lnprob\+\_\+mcmc()}{lnprob\_mcmc()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnprob\+\_\+mcmc (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{p,  }\item[{}]{t,  }\item[{}]{y,  }\item[{}]{yerr }\end{DoxyParamCaption})}
+
+
+
+M\+C\+MC A\+PI for the Transit Model object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em p} & Parameters of the transit \\
+\hline
+{\em t} & Time data \\
+\hline
+{\em y} & Observations data \\
+\hline
+{\em yerr} & Errors data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Log probability of the chosen parameters 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a4c2121aaf3b3a170e9f0ec0c18911608}\label{classexospec_1_1_transit_model_1_1_transit_model_a4c2121aaf3b3a170e9f0ec0c18911608}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!meanfnc@{meanfnc}}
+\index{meanfnc@{meanfnc}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{meanfnc()}{meanfnc()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+meanfnc (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{t }\end{DoxyParamCaption})}
+
+
+
+Mean function for the kernel meaan estimation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em t} & The time data \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_abba00977f8fb6ff65f89e2f3e7037ea9}\label{classexospec_1_1_transit_model_1_1_transit_model_abba00977f8fb6ff65f89e2f3e7037ea9}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!model@{model}}
+\index{model@{model}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{model()}{model()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+model (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Returns the flux values array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Model-\/generated observation for the given transit parameters 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a0cc09d939ecb7742b40e33ca870e73ad}\label{classexospec_1_1_transit_model_1_1_transit_model_a0cc09d939ecb7742b40e33ca870e73ad}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!read\+\_\+errors\+\_\+data@{read\+\_\+errors\+\_\+data}}
+\index{read\+\_\+errors\+\_\+data@{read\+\_\+errors\+\_\+data}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{read\+\_\+errors\+\_\+data()}{read\_errors\_data()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+read\+\_\+errors\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Collects the data about errors that was passed In case some values are missed, the default ones will be taken. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em $\ast$$\ast$kwargs} & Dictionary of the parameters to pass \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_ae9e15083b2e989276c67122e8effdc8a}\label{classexospec_1_1_transit_model_1_1_transit_model_ae9e15083b2e989276c67122e8effdc8a}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!read\+\_\+limb\+\_\+dark\+\_\+params@{read\+\_\+limb\+\_\+dark\+\_\+params}}
+\index{read\+\_\+limb\+\_\+dark\+\_\+params@{read\+\_\+limb\+\_\+dark\+\_\+params}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{read\+\_\+limb\+\_\+dark\+\_\+params()}{read\_limb\_dark\_params()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+read\+\_\+limb\+\_\+dark\+\_\+params (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Forms a list of the limb darkening parameters from the user input In case some values are missed, the default ones will be taken. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em $\ast$$\ast$kwargs} & Dictionary of the parameters to pass \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a3a01d6ec61e2e9e95b6d2fd389c0d577}\label{classexospec_1_1_transit_model_1_1_transit_model_a3a01d6ec61e2e9e95b6d2fd389c0d577}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!sample\+\_\+conditional@{sample\+\_\+conditional}}
+\index{sample\+\_\+conditional@{sample\+\_\+conditional}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{sample\+\_\+conditional()}{sample\_conditional()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+sample\+\_\+conditional (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{p,  }\item[{}]{t,  }\item[{}]{y,  }\item[{}]{yerr }\end{DoxyParamCaption})}
+
+
+
+For a given set of parameters get predicted y values at t, and separate this into the transit signal component and the noise component. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em p} & Parameters of the transit \\
+\hline
+{\em t} & Time data \\
+\hline
+{\em y} & Observations data \\
+\hline
+{\em yerr} & Errors data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Predicted observations 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a1b5933b7cc1aebd32d34beb3df63859a}\label{classexospec_1_1_transit_model_1_1_transit_model_a1b5933b7cc1aebd32d34beb3df63859a}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!set\+\_\+values@{set\+\_\+values}}
+\index{set\+\_\+values@{set\+\_\+values}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{set\+\_\+values()}{set\_values()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+set\+\_\+values (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{dict\+\_\+of\+\_\+values,  }\item[{}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Set the parameters of the model based on the values provided. 
+
+In case some values are missed, the default ones will be taken. 
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em dict\+\_\+of\+\_\+values} & Dictionary of the parameters to pass \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a282c211d47894b6b9849fd4bd254b696}\label{classexospec_1_1_transit_model_1_1_transit_model_a282c211d47894b6b9849fd4bd254b696}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!update\+\_\+data@{update\+\_\+data}}
+\index{update\+\_\+data@{update\+\_\+data}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{update\+\_\+data()}{update\_data()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+update\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time = {\ttfamily None},  }\item[{}]{obs = {\ttfamily None},  }\item[{}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Updates the data for the given parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em time(=\+None)} & Time data \\
+\hline
+{\em obs(=\+None)} & Observations data \\
+\hline
+{\em $\ast$$\ast$kwargs} & Handles arbitrary number of the errors that was passed \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a13b851f80d01379553c454f576c79ae5}\label{classexospec_1_1_transit_model_1_1_transit_model_a13b851f80d01379553c454f576c79ae5}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!update\+\_\+kernel\+\_\+params@{update\+\_\+kernel\+\_\+params}}
+\index{update\+\_\+kernel\+\_\+params@{update\+\_\+kernel\+\_\+params}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{update\+\_\+kernel\+\_\+params()}{update\_kernel\_params()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+update\+\_\+kernel\+\_\+params (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{a\+\_\+new = {\ttfamily None},  }\item[{}]{gamma\+\_\+new = {\ttfamily None},  }\item[{}]{variance\+\_\+new = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Updates the hyperparameters of the kernel function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em a\+\_\+new} & New value of the kernel\+\_\+a \\
+\hline
+{\em gamma\+\_\+new} & New value of the kernel\+\_\+gamma \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_a52dd74eef56c0dbb71cb662f684b6182}\label{classexospec_1_1_transit_model_1_1_transit_model_a52dd74eef56c0dbb71cb662f684b6182}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!update\+\_\+transit\+\_\+params@{update\+\_\+transit\+\_\+params}}
+\index{update\+\_\+transit\+\_\+params@{update\+\_\+transit\+\_\+params}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{update\+\_\+transit\+\_\+params()}{update\_transit\_params()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+update\+\_\+transit\+\_\+params (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{rp\+\_\+new,  }\item[{}]{u\+\_\+new }\end{DoxyParamCaption})}
+
+
+
+Updates the parameters of the model. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+{\em rp\+\_\+new} & New value of the rp parameter \\
+\hline
+{\em u\+\_\+new} & New list of values for the limb darkening \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classexospec_1_1_transit_model_1_1_transit_model_abd4eed9477412e6eb684570c3372984b}\label{classexospec_1_1_transit_model_1_1_transit_model_abd4eed9477412e6eb684570c3372984b}} 
+\index{exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}!update\+Transit\+Mode@{update\+Transit\+Mode}}
+\index{update\+Transit\+Mode@{update\+Transit\+Mode}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
+\subsubsection{\texorpdfstring{update\+Transit\+Mode()}{updateTransitMode()}}
+{\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+update\+Transit\+Mode (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Updates the transit model parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & The object pointer \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/exospec/Transit\+Model.\+py\end{DoxyCompactItemize}
