@@ -22,6 +22,8 @@ class TestMCMC(unittest.TestCase):
         self.mcmc_hyper=mcmc.MCMC(x, y, yerr, mcmc_test_case.lnprob, ["m", "b"] , ["lnf"], self.nwalkers, 1)
         self.mcmc_nohyper=mcmc.MCMC(x, y, yerr, mcmc_test_case.lnprob, ["m", "b", "lnf"] , [], self.nwalkers, 1)
 
+        #create directory to test if plot is saved correctly
+
     def test_mcmc_basic_run(self):
         steps=500
         c1=self.mcmc_hyper.run(self.pos_init, 0, steps)
@@ -73,6 +75,10 @@ class TestMCMC(unittest.TestCase):
         pass
 
     def test_median_err(self):
+        pass
+
+    def tearDown(self):
+        #delete directory created in setup
         pass
 
 
