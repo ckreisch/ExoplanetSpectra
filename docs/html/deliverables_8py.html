@@ -94,9 +94,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a3ba725b694ba15346524e50adf3adc08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the post processing once all wavelength mcmc chains are finished This includes saving a simple table, latex table, and transmission spectrum.  <a href="deliverables_8py.html#a3ba725b694ba15346524e50adf3adc08">More...</a><br /></td></tr>
 <tr class="separator:a3ba725b694ba15346524e50adf3adc08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Deliverables module to parse MCMC data into latex code and plots. </p>
-</div><h2 class="groupheader">Function Documentation</h2>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="file_a919fcbbd20e85dc4ebd6bf958bf837c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#file_a919fcbbd20e85dc4ebd6bf958bf837c4">&#9670;&nbsp;</a></span>get_median_and_errors()</h2>
 
@@ -112,8 +110,6 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Obtains the median parameter values and 1 sigma errors from the MCMC flatchain. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">flatchain</td><td>A 2D numpy array with all the samples for each of the transit and hyper parameters </td></tr>
@@ -177,8 +173,6 @@ err_minus Array of lower error for each parameter </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Writes the best fit transit &amp; hyper parameters from the MCMC fit as a latex table. </p>
 <p>Rows correspond to the light curve with a specified wavelength, and each column corresponds to a given parameter. The use has an option of outputting a single table with transit and hyper parameters, or outputting two separate tables. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">LC_dic</td><td>A light curve dictionary with finished chains stored. </td></tr>
@@ -254,8 +248,6 @@ err_minus Array of lower error for each parameter </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Produces triangle, walker and lightcurve plots for the MCMC results for a single wavelength. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">wl_id</td><td>The wavelength being processed </td></tr>
@@ -297,8 +289,6 @@ err_minus Array of lower error for each parameter </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Produces a plot of the best-fit radius as a function of wavelengths. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">LC_dic</td><td>A lightcurve dictionary with a lightcurve object for each wavelengths </td></tr>
@@ -334,8 +324,6 @@ err_minus Array of lower error for each parameter </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Runs the post processing once all wavelength mcmc chains are finished This includes saving a simple table, latex table, and transmission spectrum. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input_param_dic</td><td></td></tr>
@@ -371,8 +359,6 @@ err_minus Array of lower error for each parameter </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Writes the best fit transit parameters from MCMC fit to an output file. </p>
 <p>Output file columns are: wavelength, radius of planet, first limb darkening parameter, second limb darkening parameter, followed by lower bound of corresponding confidence intervals then upper bound of corresponding confidence intervals. Note that this currently only works for the quadratic limb darkening model. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">LC_dic</td><td>A light curve dictionary with finished chains stored. </td></tr>

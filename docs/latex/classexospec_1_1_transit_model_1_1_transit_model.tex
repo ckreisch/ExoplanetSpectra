@@ -102,8 +102,6 @@ def \hyperlink{classexospec_1_1_transit_model_1_1_transit_model_a11a124a9e7257c0
 
 
 \subsection{Detailed Description}
-Class to estimate the Transit Model with the customized kernel. 
-
 More details. 
 
 \subsection{Constructor \& Destructor Documentation}
@@ -112,10 +110,6 @@ More details.
 \index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
 \subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{kwargs }\end{DoxyParamCaption})}
-
-
-
-The constructor. 
 
 Takes the disctionary of the parameters and data to customize the object. In case some values are missed, the default one are used. 
 \begin{DoxyParams}{Parameters}
@@ -132,10 +126,6 @@ Takes the disctionary of the parameters and data to customize the object. In cas
 \index{kernelfnc@{kernelfnc}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
 \subsubsection{\texorpdfstring{kernelfnc()}{kernelfnc()}}
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+kernelfnc (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{x1,  }\item[{}]{x2,  }\item[{}]{p = {\ttfamily None} }\end{DoxyParamCaption})}
-
-
-
-Computes the kernel function for the arbitrary sources of errors in the observations. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -158,10 +148,6 @@ Covariance between two points in time
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnlike\+\_\+gp (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
 
 
-
-Computes the log likelihood from gaussian process. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -174,10 +160,6 @@ Log likelihood of a set of observations under the Gaussian process model.
 \index{lnprior\+\_\+base@{lnprior\+\_\+base}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
 \subsubsection{\texorpdfstring{lnprior\+\_\+base()}{lnprior\_base()}}
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnprior\+\_\+base (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
-
-
-
-Checks if the batman parameters are within the predefined prior ranges. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -194,10 +176,6 @@ Returns 0 in case transit parameters whithin the prior range and -\/inf otherwis
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnprior\+\_\+gp (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
 
 
-
-Checks if the kernel parameters are within the predefined prior ranges. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -212,10 +190,6 @@ Returns -\/inf in case parameters out of the range and 0.\+0 if within the prior
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnprob\+\_\+gp (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
 
 
-
-Computes the log probability of the parameters for the given data. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -228,10 +202,6 @@ Log probability of the parameters
 \index{lnprob\+\_\+mcmc@{lnprob\+\_\+mcmc}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
 \subsubsection{\texorpdfstring{lnprob\+\_\+mcmc()}{lnprob\_mcmc()}}
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+lnprob\+\_\+mcmc (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{p,  }\item[{}]{t,  }\item[{}]{y,  }\item[{}]{yerr }\end{DoxyParamCaption})}
-
-
-
-M\+C\+MC A\+PI for the Transit Model object. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -256,10 +226,6 @@ Log probability of the chosen parameters
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+meanfnc (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{t }\end{DoxyParamCaption})}
 
 
-
-Mean function for the kernel meaan estimation. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -271,10 +237,6 @@ Mean function for the kernel meaan estimation.
 \index{model@{model}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
 \subsubsection{\texorpdfstring{model()}{model()}}
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+model (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
-
-
-
-Returns the flux values array. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -291,10 +253,6 @@ Model-\/generated observation for the given transit parameters
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+read\+\_\+errors\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{kwargs }\end{DoxyParamCaption})}
 
 
-
-Collects the data about errors that was passed In case some values are missed, the default ones will be taken. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -308,10 +266,6 @@ Collects the data about errors that was passed In case some values are missed, t
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+read\+\_\+limb\+\_\+dark\+\_\+params (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{kwargs }\end{DoxyParamCaption})}
 
 
-
-Forms a list of the limb darkening parameters from the user input In case some values are missed, the default ones will be taken. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -323,10 +277,6 @@ Forms a list of the limb darkening parameters from the user input In case some v
 \index{sample\+\_\+conditional@{sample\+\_\+conditional}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
 \subsubsection{\texorpdfstring{sample\+\_\+conditional()}{sample\_conditional()}}
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+sample\+\_\+conditional (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{p,  }\item[{}]{t,  }\item[{}]{y,  }\item[{}]{yerr }\end{DoxyParamCaption})}
-
-
-
-For a given set of parameters get predicted y values at t, and separate this into the transit signal component and the noise component. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -350,10 +300,6 @@ Predicted observations
 \subsubsection{\texorpdfstring{set\+\_\+values()}{set\_values()}}
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+set\+\_\+values (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{dict\+\_\+of\+\_\+values,  }\item[{}]{kwargs }\end{DoxyParamCaption})}
 
-
-
-Set the parameters of the model based on the values provided. 
-
 In case some values are missed, the default ones will be taken. 
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
@@ -366,10 +312,6 @@ In case some values are missed, the default ones will be taken.
 \index{update\+\_\+data@{update\+\_\+data}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
 \subsubsection{\texorpdfstring{update\+\_\+data()}{update\_data()}}
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+update\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time = {\ttfamily None},  }\item[{}]{obs = {\ttfamily None},  }\item[{}]{kwargs }\end{DoxyParamCaption})}
-
-
-
-Updates the data for the given parameters. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -389,10 +331,6 @@ Updates the data for the given parameters.
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+update\+\_\+kernel\+\_\+params (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{a\+\_\+new = {\ttfamily None},  }\item[{}]{gamma\+\_\+new = {\ttfamily None},  }\item[{}]{variance\+\_\+new = {\ttfamily None} }\end{DoxyParamCaption})}
 
 
-
-Updates the hyperparameters of the kernel function. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -408,10 +346,6 @@ Updates the hyperparameters of the kernel function.
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+update\+\_\+transit\+\_\+params (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{rp\+\_\+new,  }\item[{}]{u\+\_\+new }\end{DoxyParamCaption})}
 
 
-
-Updates the parameters of the model. 
-
-
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -425,10 +359,6 @@ Updates the parameters of the model.
 \index{update\+Transit\+Mode@{update\+Transit\+Mode}!exospec\+::\+Transit\+Model\+::\+Transit\+Model@{exospec\+::\+Transit\+Model\+::\+Transit\+Model}}
 \subsubsection{\texorpdfstring{update\+Transit\+Mode()}{updateTransitMode()}}
 {\footnotesize\ttfamily def exospec.\+Transit\+Model.\+Transit\+Model.\+update\+Transit\+Mode (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
-
-
-
-Updates the transit model parameters. 
 
 
 \begin{DoxyParams}{Parameters}

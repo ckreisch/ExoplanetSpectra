@@ -1,260 +1,253 @@
 \begin{theindex}
 
   \item {/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/bin/exospec\+\_\+main.\+py}, 
-		\hyperpage{35}
+		\hyperpage{31}
   \item {/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/exospec/deliverables.\+py}, 
-		\hyperpage{36}
+		\hyperpage{32}
   \item {/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/exospec/fitting\+\_\+single\+\_\+lc.\+py}, 
-		\hyperpage{39}
+		\hyperpage{34}
   \item {\+\_\+\+\_\+init\+\_\+\+\_\+}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{26}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{18}
+		\hyperpage{24}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{17}
 
   \indexspace
 
   \item {chain}
-    \subitem {exospec\+\_\+main.\+py}, \hyperpage{35}
+    \subitem {exospec\+\_\+main.\+py}, \hyperpage{31}
 
   \indexspace
 
   \item {deliverables.\+py}
-    \subitem {get\+\_\+median\+\_\+and\+\_\+errors}, \hyperpage{36}
-    \subitem {latex\+\_\+table}, \hyperpage{37}
-    \subitem {plot\+\_\+single\+\_\+wavelength}, \hyperpage{37}
-    \subitem {plot\+\_\+transmission\+\_\+spec}, \hyperpage{38}
-    \subitem {post\+\_\+processing\+\_\+all\+\_\+wl}, \hyperpage{38}
-    \subitem {simple\+\_\+table}, \hyperpage{38}
-  \item {Different\+File\+Size}, \hyperpage{9}
+    \subitem {get\+\_\+median\+\_\+and\+\_\+errors}, \hyperpage{32}
+    \subitem {latex\+\_\+table}, \hyperpage{32}
+    \subitem {plot\+\_\+single\+\_\+wavelength}, \hyperpage{33}
+    \subitem {plot\+\_\+transmission\+\_\+spec}, \hyperpage{33}
+    \subitem {post\+\_\+processing\+\_\+all\+\_\+wl}, \hyperpage{34}
+    \subitem {simple\+\_\+table}, \hyperpage{34}
 
   \indexspace
 
   \item {exospec.\+lc\+\_\+class.\+Different\+File\+Sizes}, 
 		\hyperpage{9}
   \item {exospec.\+lc\+\_\+class.\+Different\+Param\+Num}, 
-		\hyperpage{10}
-  \item {exospec.\+lc\+\_\+class.\+Empty\+File}, \hyperpage{11}
-  \item {exospec.\+lc\+\_\+class.\+Empty\+Folder}, \hyperpage{11}
+		\hyperpage{9}
+  \item {exospec.\+lc\+\_\+class.\+Empty\+File}, \hyperpage{10}
+  \item {exospec.\+lc\+\_\+class.\+Empty\+Folder}, \hyperpage{10}
   \item {exospec.\+lc\+\_\+class.\+Incorrect\+Name\+Format}, 
 		\hyperpage{11}
-  \item {exospec.\+lc\+\_\+class.\+Light\+Curve}, \hyperpage{12}
-  \item {exospec.\+lc\+\_\+class.\+Light\+Curve\+Data}, \hyperpage{14}
-  \item {exospec.\+mcmc.\+M\+C\+MC}, \hyperpage{17}
+  \item {exospec.\+lc\+\_\+class.\+Light\+Curve}, \hyperpage{11}
+  \item {exospec.\+lc\+\_\+class.\+Light\+Curve\+Data}, \hyperpage{13}
+  \item {exospec.\+mcmc.\+M\+C\+MC}, \hyperpage{16}
   \item {exospec.\+read\+\_\+input.\+Empty\+File}, \hyperpage{10}
-  \item {exospec.\+read\+\_\+input.\+No\+Input}, \hyperpage{24}
-  \item {exospec.\+read\+\_\+input.\+read\+\_\+input}, \hyperpage{24}
-  \item {exospec.\+Transit\+Model.\+Transit\+Model}, \hyperpage{25}
+  \item {exospec.\+read\+\_\+input.\+No\+Input}, \hyperpage{21}
+  \item {exospec.\+read\+\_\+input.\+read\+\_\+input}, \hyperpage{21}
+  \item {exospec.\+Transit\+Model.\+Transit\+Model}, \hyperpage{22}
   \item {exospec\+::\+Transit\+Model\+::\+Transit\+Model}
-    \subitem {\+\_\+\+\_\+init\+\_\+\+\_\+}, \hyperpage{26}
-    \subitem {kernelfnc}, \hyperpage{27}
-    \subitem {lnlike\+\_\+gp}, \hyperpage{27}
-    \subitem {lnprior\+\_\+base}, \hyperpage{28}
-    \subitem {lnprior\+\_\+gp}, \hyperpage{28}
-    \subitem {lnprob\+\_\+gp}, \hyperpage{28}
-    \subitem {lnprob\+\_\+mcmc}, \hyperpage{30}
-    \subitem {meanfnc}, \hyperpage{30}
-    \subitem {model}, \hyperpage{31}
-    \subitem {read\+\_\+errors\+\_\+data}, \hyperpage{31}
-    \subitem {read\+\_\+limb\+\_\+dark\+\_\+params}, \hyperpage{31}
-    \subitem {sample\+\_\+conditional}, \hyperpage{32}
-    \subitem {set\+\_\+values}, \hyperpage{32}
-    \subitem {update\+\_\+data}, \hyperpage{32}
-    \subitem {update\+\_\+kernel\+\_\+params}, \hyperpage{33}
-    \subitem {update\+\_\+transit\+\_\+params}, \hyperpage{33}
-    \subitem {update\+Transit\+Mode}, \hyperpage{33}
+    \subitem {\+\_\+\+\_\+init\+\_\+\+\_\+}, \hyperpage{24}
+    \subitem {kernelfnc}, \hyperpage{24}
+    \subitem {lnlike\+\_\+gp}, \hyperpage{25}
+    \subitem {lnprior\+\_\+base}, \hyperpage{25}
+    \subitem {lnprior\+\_\+gp}, \hyperpage{25}
+    \subitem {lnprob\+\_\+gp}, \hyperpage{26}
+    \subitem {lnprob\+\_\+mcmc}, \hyperpage{26}
+    \subitem {meanfnc}, \hyperpage{26}
+    \subitem {model}, \hyperpage{27}
+    \subitem {read\+\_\+errors\+\_\+data}, \hyperpage{27}
+    \subitem {read\+\_\+limb\+\_\+dark\+\_\+params}, \hyperpage{27}
+    \subitem {sample\+\_\+conditional}, \hyperpage{28}
+    \subitem {set\+\_\+values}, \hyperpage{28}
+    \subitem {update\+\_\+data}, \hyperpage{28}
+    \subitem {update\+\_\+kernel\+\_\+params}, \hyperpage{29}
+    \subitem {update\+\_\+transit\+\_\+params}, \hyperpage{29}
+    \subitem {update\+Transit\+Mode}, \hyperpage{29}
   \item {exospec\+::lc\+\_\+class\+::\+Light\+Curve}
-    \subitem {L\+C\+\_\+dic}, \hyperpage{13}
-    \subitem {new\+\_\+wave\+\_\+length}, \hyperpage{13}
-    \subitem {store\+\_\+transit\+\_\+model}, \hyperpage{13}
-    \subitem {wave\+\_\+length}, \hyperpage{13}
+    \subitem {L\+C\+\_\+dic}, \hyperpage{12}
+    \subitem {new\+\_\+wave\+\_\+length}, \hyperpage{12}
+    \subitem {store\+\_\+transit\+\_\+model}, \hyperpage{12}
+    \subitem {wave\+\_\+length}, \hyperpage{12}
   \item {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}
-    \subitem {ferr}, \hyperpage{15}
-    \subitem {flux}, \hyperpage{15}
-    \subitem {len\+\_\+file}, \hyperpage{15}
-    \subitem {new\+\_\+time\+\_\+bin}, \hyperpage{15}
-    \subitem {param\+\_\+list}, \hyperpage{16}
-    \subitem {param\+\_\+name}, \hyperpage{16}
-    \subitem {param\+\_\+num}, \hyperpage{16}
-    \subitem {plot\+\_\+flux\+\_\+param}, \hyperpage{16}
-    \subitem {plot\+\_\+flux\+\_\+time}, \hyperpage{17}
-    \subitem {time}, \hyperpage{17}
+    \subitem {ferr}, \hyperpage{14}
+    \subitem {flux}, \hyperpage{14}
+    \subitem {len\+\_\+file}, \hyperpage{14}
+    \subitem {new\+\_\+time\+\_\+bin}, \hyperpage{14}
+    \subitem {param\+\_\+list}, \hyperpage{15}
+    \subitem {param\+\_\+name}, \hyperpage{15}
+    \subitem {param\+\_\+num}, \hyperpage{15}
+    \subitem {plot\+\_\+flux\+\_\+param}, \hyperpage{15}
+    \subitem {plot\+\_\+flux\+\_\+time}, \hyperpage{16}
+    \subitem {time}, \hyperpage{16}
   \item {exospec\+::mcmc\+::\+M\+C\+MC}
-    \subitem {\+\_\+\+\_\+init\+\_\+\+\_\+}, \hyperpage{18}
+    \subitem {\+\_\+\+\_\+init\+\_\+\+\_\+}, \hyperpage{17}
     \subitem {get\+\_\+mean\+\_\+acceptance\+\_\+fraction}, 
-		\hyperpage{19}
-    \subitem {get\+\_\+median\+\_\+and\+\_\+errors}, \hyperpage{19}
-    \subitem {light\+\_\+curve\+\_\+plot}, \hyperpage{20}
-    \subitem {run}, \hyperpage{20}
-    \subitem {save\+\_\+chain}, \hyperpage{21}
-    \subitem {triangle\+\_\+plot}, \hyperpage{21}
-    \subitem {walker\+\_\+plot}, \hyperpage{23}
+		\hyperpage{18}
+    \subitem {get\+\_\+median\+\_\+and\+\_\+errors}, \hyperpage{18}
+    \subitem {light\+\_\+curve\+\_\+plot}, \hyperpage{18}
+    \subitem {run}, \hyperpage{19}
+    \subitem {save\+\_\+chain}, \hyperpage{19}
+    \subitem {triangle\+\_\+plot}, \hyperpage{20}
+    \subitem {walker\+\_\+plot}, \hyperpage{20}
   \item {exospec\+::read\+\_\+input\+::read\+\_\+input}
-    \subitem {param\+\_\+dic}, \hyperpage{25}
+    \subitem {param\+\_\+dic}, \hyperpage{22}
   \item {exospec\+\_\+main.\+py}
-    \subitem {chain}, \hyperpage{35}
-    \subitem {input\+\_\+file}, \hyperpage{36}
+    \subitem {chain}, \hyperpage{31}
 
   \indexspace
 
   \item {ferr}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{15}
+		\hyperpage{14}
   \item {fitting\+\_\+single\+\_\+lc.\+py}
-    \subitem {run\+\_\+mcmc\+\_\+single\+\_\+wl}, \hyperpage{39}
+    \subitem {run\+\_\+mcmc\+\_\+single\+\_\+wl}, \hyperpage{35}
   \item {flux}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{15}
+		\hyperpage{14}
 
   \indexspace
 
   \item {get\+\_\+mean\+\_\+acceptance\+\_\+fraction}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{19}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{18}
   \item {get\+\_\+median\+\_\+and\+\_\+errors}
-    \subitem {deliverables.\+py}, \hyperpage{36}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{19}
-
-  \indexspace
-
-  \item {input\+\_\+file}
-    \subitem {exospec\+\_\+main.\+py}, \hyperpage{36}
+    \subitem {deliverables.\+py}, \hyperpage{32}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{18}
 
   \indexspace
 
   \item {kernelfnc}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{27}
+		\hyperpage{24}
 
   \indexspace
 
   \item {L\+C\+\_\+dic}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve}, 
-		\hyperpage{13}
+		\hyperpage{12}
   \item {latex\+\_\+table}
-    \subitem {deliverables.\+py}, \hyperpage{37}
+    \subitem {deliverables.\+py}, \hyperpage{32}
   \item {len\+\_\+file}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{15}
+		\hyperpage{14}
   \item {light\+\_\+curve\+\_\+plot}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{20}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{18}
   \item {lnlike\+\_\+gp}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{27}
+		\hyperpage{25}
   \item {lnprior\+\_\+base}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{28}
+		\hyperpage{25}
   \item {lnprior\+\_\+gp}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{28}
+		\hyperpage{25}
   \item {lnprob\+\_\+gp}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{28}
+		\hyperpage{26}
   \item {lnprob\+\_\+mcmc}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{30}
+		\hyperpage{26}
 
   \indexspace
 
   \item {meanfnc}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{30}
+		\hyperpage{26}
   \item {model}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{31}
+		\hyperpage{27}
 
   \indexspace
 
   \item {new\+\_\+time\+\_\+bin}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{15}
+		\hyperpage{14}
   \item {new\+\_\+wave\+\_\+length}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve}, 
-		\hyperpage{13}
+		\hyperpage{12}
 
   \indexspace
 
   \item {param\+\_\+dic}
     \subitem {exospec\+::read\+\_\+input\+::read\+\_\+input}, 
-		\hyperpage{25}
+		\hyperpage{22}
   \item {param\+\_\+list}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{16}
+		\hyperpage{15}
   \item {param\+\_\+name}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{16}
+		\hyperpage{15}
   \item {param\+\_\+num}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{16}
+		\hyperpage{15}
   \item {plot\+\_\+flux\+\_\+param}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{16}
+		\hyperpage{15}
   \item {plot\+\_\+flux\+\_\+time}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{17}
+		\hyperpage{16}
   \item {plot\+\_\+single\+\_\+wavelength}
-    \subitem {deliverables.\+py}, \hyperpage{37}
+    \subitem {deliverables.\+py}, \hyperpage{33}
   \item {plot\+\_\+transmission\+\_\+spec}
-    \subitem {deliverables.\+py}, \hyperpage{38}
+    \subitem {deliverables.\+py}, \hyperpage{33}
   \item {post\+\_\+processing\+\_\+all\+\_\+wl}
-    \subitem {deliverables.\+py}, \hyperpage{38}
+    \subitem {deliverables.\+py}, \hyperpage{34}
 
   \indexspace
 
   \item {read\+\_\+errors\+\_\+data}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{31}
+		\hyperpage{27}
   \item {read\+\_\+limb\+\_\+dark\+\_\+params}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{31}
+		\hyperpage{27}
   \item {run}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{20}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{19}
   \item {run\+\_\+mcmc\+\_\+single\+\_\+wl}
-    \subitem {fitting\+\_\+single\+\_\+lc.\+py}, \hyperpage{39}
+    \subitem {fitting\+\_\+single\+\_\+lc.\+py}, \hyperpage{35}
 
   \indexspace
 
   \item {sample\+\_\+conditional}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{32}
+		\hyperpage{28}
   \item {save\+\_\+chain}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{21}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{19}
   \item {set\+\_\+values}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{32}
+		\hyperpage{28}
   \item {simple\+\_\+table}
-    \subitem {deliverables.\+py}, \hyperpage{38}
+    \subitem {deliverables.\+py}, \hyperpage{34}
   \item {store\+\_\+transit\+\_\+model}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve}, 
-		\hyperpage{13}
+		\hyperpage{12}
 
   \indexspace
 
   \item {time}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
-		\hyperpage{17}
+		\hyperpage{16}
   \item {triangle\+\_\+plot}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{21}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{20}
 
   \indexspace
 
   \item {update\+\_\+data}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{32}
+		\hyperpage{28}
   \item {update\+\_\+kernel\+\_\+params}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{33}
+		\hyperpage{29}
   \item {update\+\_\+transit\+\_\+params}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{33}
+		\hyperpage{29}
   \item {update\+Transit\+Mode}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{33}
+		\hyperpage{29}
 
   \indexspace
 
   \item {walker\+\_\+plot}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{23}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{20}
   \item {wave\+\_\+length}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve}, 
-		\hyperpage{13}
+		\hyperpage{12}
 
 \end{theindex}
