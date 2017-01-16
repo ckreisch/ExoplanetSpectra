@@ -132,3 +132,4 @@ python setup.py tests
 ``` 
  does not run the test suite. This needs to be further investigated.
 - Running tests.py with Jenkins on adroit throws an MPI error. We are currently working with David Luet to resolve this.
+- We need to add further tests to catch user input errors, such as typing nthreads = 4m instead of nthreads = 4. Currently we have the most basic tests set up.
