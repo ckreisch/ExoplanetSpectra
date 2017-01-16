@@ -4,7 +4,7 @@ import unittest
 
 # Find the different unit test scripts and run them
 
-from test_gen_syn_dat import TestSynthData
+#from test_gen_syn_dat import TestSynthData
 #from test_mcmc import TestMCMC
 #from testTransitModel import TestFunctions
 #from unittest_lc_class import test_lc_class
