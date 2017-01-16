@@ -1,11 +1,5 @@
 \begin{theindex}
 
-  \item {/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/bin/exospec\+\_\+main.\+py}, 
-		\hyperpage{31}
-  \item {/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/exospec/deliverables.\+py}, 
-		\hyperpage{32}
-  \item {/\+Users/heatherp/\+Documents/\+Courses/\+Computational/\+Project/\+Exoplanet\+Spectra/exospec/fitting\+\_\+single\+\_\+lc.\+py}, 
-		\hyperpage{34}
   \item {\+\_\+\+\_\+init\+\_\+\+\_\+}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
 		\hyperpage{24}
@@ -14,17 +8,17 @@
   \indexspace
 
   \item {chain}
-    \subitem {exospec\+\_\+main.\+py}, \hyperpage{31}
+    \subitem {exospec\+\_\+main.\+py}, \hyperpage{34}
 
   \indexspace
 
-  \item {deliverables.\+py}
-    \subitem {get\+\_\+median\+\_\+and\+\_\+errors}, \hyperpage{32}
+  \item {deliverables.\+py}, \hyperpage{31}
+    \subitem {get\+\_\+median\+\_\+and\+\_\+errors}, \hyperpage{31}
     \subitem {latex\+\_\+table}, \hyperpage{32}
-    \subitem {plot\+\_\+single\+\_\+wavelength}, \hyperpage{33}
+    \subitem {plot\+\_\+single\+\_\+wavelength}, \hyperpage{32}
     \subitem {plot\+\_\+transmission\+\_\+spec}, \hyperpage{33}
-    \subitem {post\+\_\+processing\+\_\+all\+\_\+wl}, \hyperpage{34}
-    \subitem {simple\+\_\+table}, \hyperpage{34}
+    \subitem {post\+\_\+processing\+\_\+all\+\_\+wl}, \hyperpage{33}
+    \subitem {simple\+\_\+table}, \hyperpage{33}
 
   \indexspace
 
@@ -89,15 +83,15 @@
     \subitem {walker\+\_\+plot}, \hyperpage{20}
   \item {exospec\+::read\+\_\+input\+::read\+\_\+input}
     \subitem {param\+\_\+dic}, \hyperpage{22}
-  \item {exospec\+\_\+main.\+py}
-    \subitem {chain}, \hyperpage{31}
+  \item {exospec\+\_\+main.\+py}, \hyperpage{34}
+    \subitem {chain}, \hyperpage{34}
 
   \indexspace
 
   \item {ferr}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
 		\hyperpage{14}
-  \item {fitting\+\_\+single\+\_\+lc.\+py}
+  \item {fitting\+\_\+single\+\_\+lc.\+py}, \hyperpage{34}
     \subitem {run\+\_\+mcmc\+\_\+single\+\_\+wl}, \hyperpage{35}
   \item {flux}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
@@ -108,7 +102,7 @@
   \item {get\+\_\+mean\+\_\+acceptance\+\_\+fraction}
     \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{18}
   \item {get\+\_\+median\+\_\+and\+\_\+errors}
-    \subitem {deliverables.\+py}, \hyperpage{32}
+    \subitem {deliverables.\+py}, \hyperpage{31}
     \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{18}
 
   \indexspace
@@ -184,11 +178,11 @@
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve\+Data}, 
 		\hyperpage{16}
   \item {plot\+\_\+single\+\_\+wavelength}
-    \subitem {deliverables.\+py}, \hyperpage{33}
+    \subitem {deliverables.\+py}, \hyperpage{32}
   \item {plot\+\_\+transmission\+\_\+spec}
     \subitem {deliverables.\+py}, \hyperpage{33}
   \item {post\+\_\+processing\+\_\+all\+\_\+wl}
-    \subitem {deliverables.\+py}, \hyperpage{34}
+    \subitem {deliverables.\+py}, \hyperpage{33}
 
   \indexspace
 
@@ -214,7 +208,7 @@
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
 		\hyperpage{28}
   \item {simple\+\_\+table}
-    \subitem {deliverables.\+py}, \hyperpage{34}
+    \subitem {deliverables.\+py}, \hyperpage{33}
   \item {store\+\_\+transit\+\_\+model}
     \subitem {exospec\+::lc\+\_\+class\+::\+Light\+Curve}, 
 		\hyperpage{12}
