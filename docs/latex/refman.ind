@@ -2,142 +2,142 @@
 
   \item {\+\_\+\+\_\+init\+\_\+\+\_\+}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{18}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{11}
+		\hyperpage{16}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{9}
 
   \indexspace
 
   \item {exospec.\+lc\+\_\+class.\+Different\+File\+Sizes}, 
-		\hyperpage{7}
+		\hyperpage{5}
   \item {exospec.\+lc\+\_\+class.\+Different\+Param\+Num}, 
-		\hyperpage{7}
-  \item {exospec.\+lc\+\_\+class.\+Empty\+File}, \hyperpage{8}
-  \item {exospec.\+lc\+\_\+class.\+Empty\+Folder}, \hyperpage{9}
+		\hyperpage{5}
+  \item {exospec.\+lc\+\_\+class.\+Empty\+File}, \hyperpage{6}
+  \item {exospec.\+lc\+\_\+class.\+Empty\+Folder}, \hyperpage{7}
   \item {exospec.\+lc\+\_\+class.\+Incorrect\+Name\+Format}, 
-		\hyperpage{9}
-  \item {exospec.\+lc\+\_\+class.\+Light\+Curve}, \hyperpage{9}
-  \item {exospec.\+lc\+\_\+class.\+Light\+Curve\+Data}, \hyperpage{10}
-  \item {exospec.\+mcmc.\+M\+C\+MC}, \hyperpage{11}
-  \item {exospec.\+read\+\_\+input.\+Empty\+File}, \hyperpage{8}
-  \item {exospec.\+read\+\_\+input.\+No\+Input}, \hyperpage{16}
-  \item {exospec.\+read\+\_\+input.\+read\+\_\+input}, \hyperpage{16}
-  \item {exospec.\+Transit\+Model.\+Transit\+Model}, \hyperpage{17}
+		\hyperpage{7}
+  \item {exospec.\+lc\+\_\+class.\+Light\+Curve}, \hyperpage{7}
+  \item {exospec.\+lc\+\_\+class.\+Light\+Curve\+Data}, \hyperpage{8}
+  \item {exospec.\+mcmc.\+M\+C\+MC}, \hyperpage{9}
+  \item {exospec.\+read\+\_\+input.\+Empty\+File}, \hyperpage{6}
+  \item {exospec.\+read\+\_\+input.\+No\+Input}, \hyperpage{14}
+  \item {exospec.\+read\+\_\+input.\+read\+\_\+input}, \hyperpage{14}
+  \item {exospec.\+Transit\+Model.\+Transit\+Model}, \hyperpage{15}
   \item {exospec\+::\+Transit\+Model\+::\+Transit\+Model}
-    \subitem {\+\_\+\+\_\+init\+\_\+\+\_\+}, \hyperpage{18}
-    \subitem {kernelfnc}, \hyperpage{18}
-    \subitem {lnlike\+\_\+gp}, \hyperpage{19}
-    \subitem {lnprior\+\_\+base}, \hyperpage{19}
-    \subitem {lnprior\+\_\+gp}, \hyperpage{20}
-    \subitem {lnprob\+\_\+gp}, \hyperpage{20}
-    \subitem {lnprob\+\_\+mcmc}, \hyperpage{20}
-    \subitem {meanfnc}, \hyperpage{21}
-    \subitem {model}, \hyperpage{21}
-    \subitem {read\+\_\+errors\+\_\+data}, \hyperpage{22}
-    \subitem {read\+\_\+limb\+\_\+dark\+\_\+params}, \hyperpage{22}
-    \subitem {sample\+\_\+conditional}, \hyperpage{22}
-    \subitem {set\+\_\+values}, \hyperpage{23}
-    \subitem {update\+\_\+data}, \hyperpage{23}
-    \subitem {update\+\_\+kernel\+\_\+params}, \hyperpage{24}
-    \subitem {update\+\_\+transit\+\_\+params}, \hyperpage{24}
-    \subitem {update\+Transit\+Mode}, \hyperpage{24}
+    \subitem {\+\_\+\+\_\+init\+\_\+\+\_\+}, \hyperpage{16}
+    \subitem {kernelfnc}, \hyperpage{17}
+    \subitem {lnlike\+\_\+gp}, \hyperpage{17}
+    \subitem {lnprior\+\_\+base}, \hyperpage{17}
+    \subitem {lnprior\+\_\+gp}, \hyperpage{18}
+    \subitem {lnprob\+\_\+gp}, \hyperpage{18}
+    \subitem {lnprob\+\_\+mcmc}, \hyperpage{19}
+    \subitem {meanfnc}, \hyperpage{19}
+    \subitem {model}, \hyperpage{19}
+    \subitem {read\+\_\+errors\+\_\+data}, \hyperpage{20}
+    \subitem {read\+\_\+limb\+\_\+dark\+\_\+params}, \hyperpage{20}
+    \subitem {sample\+\_\+conditional}, \hyperpage{20}
+    \subitem {set\+\_\+values}, \hyperpage{21}
+    \subitem {update\+\_\+data}, \hyperpage{21}
+    \subitem {update\+\_\+kernel\+\_\+params}, \hyperpage{22}
+    \subitem {update\+\_\+transit\+\_\+params}, \hyperpage{22}
+    \subitem {update\+Transit\+Mode}, \hyperpage{22}
   \item {exospec\+::mcmc\+::\+M\+C\+MC}
-    \subitem {\+\_\+\+\_\+init\+\_\+\+\_\+}, \hyperpage{11}
+    \subitem {\+\_\+\+\_\+init\+\_\+\+\_\+}, \hyperpage{9}
     \subitem {get\+\_\+mean\+\_\+acceptance\+\_\+fraction}, 
-		\hyperpage{12}
-    \subitem {get\+\_\+median\+\_\+and\+\_\+errors}, \hyperpage{12}
-    \subitem {light\+\_\+curve\+\_\+plot}, \hyperpage{13}
-    \subitem {run}, \hyperpage{13}
-    \subitem {save\+\_\+chain}, \hyperpage{14}
-    \subitem {triangle\+\_\+plot}, \hyperpage{14}
-    \subitem {walker\+\_\+plot}, \hyperpage{15}
+		\hyperpage{10}
+    \subitem {get\+\_\+median\+\_\+and\+\_\+errors}, \hyperpage{10}
+    \subitem {light\+\_\+curve\+\_\+plot}, \hyperpage{11}
+    \subitem {run}, \hyperpage{12}
+    \subitem {save\+\_\+chain}, \hyperpage{12}
+    \subitem {triangle\+\_\+plot}, \hyperpage{13}
+    \subitem {walker\+\_\+plot}, \hyperpage{13}
 
   \indexspace
 
   \item {get\+\_\+mean\+\_\+acceptance\+\_\+fraction}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{12}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{10}
   \item {get\+\_\+median\+\_\+and\+\_\+errors}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{12}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{10}
 
   \indexspace
 
   \item {kernelfnc}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{18}
+		\hyperpage{17}
 
   \indexspace
 
   \item {light\+\_\+curve\+\_\+plot}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{13}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{11}
   \item {lnlike\+\_\+gp}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{19}
+		\hyperpage{17}
   \item {lnprior\+\_\+base}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{19}
+		\hyperpage{17}
   \item {lnprior\+\_\+gp}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{20}
+		\hyperpage{18}
   \item {lnprob\+\_\+gp}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{20}
+		\hyperpage{18}
   \item {lnprob\+\_\+mcmc}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{20}
+		\hyperpage{19}
 
   \indexspace
 
   \item {meanfnc}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{21}
+		\hyperpage{19}
   \item {model}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{21}
+		\hyperpage{19}
 
   \indexspace
 
   \item {read\+\_\+errors\+\_\+data}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{22}
+		\hyperpage{20}
   \item {read\+\_\+limb\+\_\+dark\+\_\+params}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{22}
+		\hyperpage{20}
   \item {run}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{13}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{12}
 
   \indexspace
 
   \item {sample\+\_\+conditional}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{22}
+		\hyperpage{20}
   \item {save\+\_\+chain}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{14}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{12}
   \item {set\+\_\+values}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{23}
+		\hyperpage{21}
 
   \indexspace
 
   \item {triangle\+\_\+plot}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{14}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{13}
 
   \indexspace
 
   \item {update\+\_\+data}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{23}
+		\hyperpage{21}
   \item {update\+\_\+kernel\+\_\+params}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{24}
+		\hyperpage{22}
   \item {update\+\_\+transit\+\_\+params}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{24}
+		\hyperpage{22}
   \item {update\+Transit\+Mode}
     \subitem {exospec\+::\+Transit\+Model\+::\+Transit\+Model}, 
-		\hyperpage{24}
+		\hyperpage{22}
 
   \indexspace
 
   \item {walker\+\_\+plot}
-    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{15}
+    \subitem {exospec\+::mcmc\+::\+M\+C\+MC}, \hyperpage{13}
 
 \end{theindex}

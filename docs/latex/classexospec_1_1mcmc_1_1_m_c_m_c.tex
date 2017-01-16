@@ -2,7 +2,7 @@
 \label{classexospec_1_1mcmc_1_1_m_c_m_c}\index{exospec.\+mcmc.\+M\+C\+MC@{exospec.\+mcmc.\+M\+C\+MC}}
 
 
-Class to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} to fit curve and produce basic diagnostic plots and statistics.  
+Class to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC}) and corner (to produce triangle plots)  
 
 
 Inheritance diagram for exospec.\+mcmc.\+M\+C\+MC\+:\begin{figure}[H]
@@ -25,17 +25,15 @@ def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_afec10cdfb36657e6e1c013bbd563bd7
 def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_a7fe8d9326590fe7cc875fa5118eaa617}{get\+\_\+median\+\_\+and\+\_\+errors} (self)
 \begin{DoxyCompactList}\small\item\em Best fit parameters and 1 sigma errors. \end{DoxyCompactList}\item 
 def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_af240e8deac4470da704239926ea56822}{triangle\+\_\+plot} (self, extra\+\_\+burnin\+\_\+steps=0, theta\+\_\+true=None, plot\+\_\+transit\+\_\+params=True, plot\+\_\+hyper\+\_\+params=True, save\+\_\+as\+\_\+dir=\char`\"{}.\char`\"{}, save\+\_\+as\+\_\+name=\char`\"{}triangle.\+png\char`\"{})
-\begin{DoxyCompactList}\small\item\em Makes a triangle plot. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Makes a triangle plot If an error is encountered the function returns 1 but does not raise an exception. \end{DoxyCompactList}\item 
 def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_a741c2882baef53c1fa19b2c086ec8261}{walker\+\_\+plot} (self, extra\+\_\+burnin\+\_\+steps=0, theta\+\_\+true=None, plot\+\_\+transit\+\_\+params=True, plot\+\_\+hyper\+\_\+params=True, save\+\_\+as\+\_\+dir=\char`\"{}.\char`\"{}, save\+\_\+as\+\_\+name=\char`\"{}walkers.\+png\char`\"{})
-\begin{DoxyCompactList}\small\item\em Plots the chains of each walker and a histogram showing how each parameter was sampled. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception. \end{DoxyCompactList}\item 
 def \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c_ab2c5cc870e2b384534404f3bc667e039}{light\+\_\+curve\+\_\+plot} (self, model, extra\+\_\+burnin\+\_\+steps=0, theta\+\_\+true=None, plot\+\_\+transit\+\_\+params=True, plot\+\_\+hyper\+\_\+params=True, save\+\_\+as\+\_\+dir=\char`\"{}.\char`\"{}, save\+\_\+as\+\_\+name=\char`\"{}light\+\_\+curve\char`\"{})
-\begin{DoxyCompactList}\small\item\em Plots the chains of each walker and a histogram showing how each parameter was sampled. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Class to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} to fit curve and produce basic diagnostic plots and statistics. 
-
-More details. 
+Class to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} to fit curve and produce basic diagnostic plots and statistics Uses emcee (to run \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC}) and corner (to produce triangle plots) 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classexospec_1_1mcmc_1_1_m_c_m_c_aae17f42d9fa567e61df69f7c808aa931}\label{classexospec_1_1mcmc_1_1_m_c_m_c_aae17f42d9fa567e61df69f7c808aa931}} 
@@ -116,9 +114,9 @@ Three numpy arrays giving the median and one sigma errors for each parameter
 
 
 
-Plots the chains of each walker and a histogram showing how each parameter was sampled. 
+Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception. 
 
-
+These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains 
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -200,9 +198,9 @@ Saves the chain as a numpy array.
 
 
 
-Makes a triangle plot. 
+Makes a triangle plot If an error is encountered the function returns 1 but does not raise an exception. 
 
-
+These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains 
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline
@@ -234,9 +232,9 @@ Makes a triangle plot.
 
 
 
-Plots the chains of each walker and a histogram showing how each parameter was sampled. 
+Plots the chains of each walker and a histogram showing how each parameter was sampled If an error is encountered the function returns 1 but does not raise an exception. 
 
-
+These plots are useful for visualization but should not cause the code to crash, as the main purpose is to create and save the \hyperlink{classexospec_1_1mcmc_1_1_m_c_m_c}{M\+C\+MC} chains 
 \begin{DoxyParams}{Parameters}
 {\em self} & The object pointer \\
 \hline

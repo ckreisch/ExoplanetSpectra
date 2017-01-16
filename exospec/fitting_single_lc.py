@@ -1,3 +1,5 @@
+## @file
+#Fits a transit lightcurve for a single wavelength
 import numpy as np
 import os
 
@@ -10,7 +12,7 @@ import mcmc
 # This follows the steps of: initializing a TransitModel object with correct
 # data for that wavelength, initializing an mcmc object and running it,
 # saving the results of mcmc run, and making walker and triangle plots
-# for that mcmc run. 
+# for that mcmc run.
 # @params input_param_dic A dictionary of input parameter values
 # @params LC_dic A light curve dictionary containing the wavelength data
 # @params wl_id The key for the wavelength to be fit
@@ -69,10 +71,10 @@ def run_mcmc_single_wl(input_param_dic, LC_dic, wl_id):
     # if visualization is True save plots for this wavelength
     if input_param_dic['visualization']:
         output_dir = input_param_dic['output_dir']
-        deliverables.plot_single_wavelength(wl_id, LC_dic[wl_id].obj_mcmc, 
-                     LC_dic[wl_id].transit_model.sample_conditional, 
+        deliverables.plot_single_wavelength(wl_id, LC_dic[wl_id].obj_mcmc,
+                     LC_dic[wl_id].transit_model.sample_conditional,
                      extra_burnin_steps=0, theta_true=None,
-                     plot_transit_params=True, plot_hyper_params=True, 
+                     plot_transit_params=True, plot_hyper_params=True,
                      save_as_dir=output_dir)
 
 

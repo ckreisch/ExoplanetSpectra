@@ -1,23 +1,24 @@
 \hypertarget{classexospec_1_1lc__class_1_1_light_curve}{}\section{exospec.\+lc\+\_\+class.\+Light\+Curve Class Reference}
 \label{classexospec_1_1lc__class_1_1_light_curve}\index{exospec.\+lc\+\_\+class.\+Light\+Curve@{exospec.\+lc\+\_\+class.\+Light\+Curve}}
+
+
+List all the light curve files in the indicated folder if the user decided to use another wavelength resolution than the one provided with the files, the code compute the resulting number of new wavelength to be used loop over the light curve files to get their file names and original wavelengths if the user decided to use a new wavelength resolution, the code computes the new wavelength to be used instantiate the new lc objects (with new wave\+\_\+bin\+\_\+size) Warning\+: The code is not able yet to handle situation where files\+\_\+num is not proportional to wave\+\_\+bin\+\_\+size.  
+
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_a231f0966a5321231cc9017956d7e037c}\label{classexospec_1_1lc__class_1_1_light_curve_a231f0966a5321231cc9017956d7e037c}} 
 def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, Path\+To\+LC, wave\+\_\+bin\+\_\+size)
 \item 
-\mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_aa0feb2d525e844a5f010939b3a8e9ae9}\label{classexospec_1_1lc__class_1_1_light_curve_aa0feb2d525e844a5f010939b3a8e9ae9}} 
-def {\bfseries L\+C\+\_\+dic} (self)
-\item 
-\mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_a9da0e4bf8f9ea153afb534d63fb7d24a}\label{classexospec_1_1lc__class_1_1_light_curve_a9da0e4bf8f9ea153afb534d63fb7d24a}} 
-def {\bfseries wave\+\_\+length} (self)
-\item 
-\mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_a8af62f3180b7d965c9d02ad92b1f0089}\label{classexospec_1_1lc__class_1_1_light_curve_a8af62f3180b7d965c9d02ad92b1f0089}} 
-def {\bfseries new\+\_\+wave\+\_\+length} (self)
-\item 
-\mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_aa71fe5f0926727ae236782c414a08a4b}\label{classexospec_1_1lc__class_1_1_light_curve_aa71fe5f0926727ae236782c414a08a4b}} 
-def {\bfseries store\+\_\+transit\+\_\+model} (self, transit\+\_\+model)
-\end{DoxyCompactItemize}
+def \hyperlink{classexospec_1_1lc__class_1_1_light_curve_aa0feb2d525e844a5f010939b3a8e9ae9}{L\+C\+\_\+dic} (self)
+\begin{DoxyCompactList}\small\item\em Return L\+C\+\_\+dic. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1lc__class_1_1_light_curve_a9da0e4bf8f9ea153afb534d63fb7d24a}{wave\+\_\+length} (self)
+\begin{DoxyCompactList}\small\item\em Return wave\+\_\+length. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1lc__class_1_1_light_curve_a8af62f3180b7d965c9d02ad92b1f0089}{new\+\_\+wave\+\_\+length} (self)
+\begin{DoxyCompactList}\small\item\em Return new\+\_\+wave\+\_\+length. \end{DoxyCompactList}\item 
+def \hyperlink{classexospec_1_1lc__class_1_1_light_curve_aa71fe5f0926727ae236782c414a08a4b}{store\+\_\+transit\+\_\+model} (self, transit\+\_\+model)
+\begin{DoxyCompactList}\small\item\em Stores transit\+\_\+model. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -51,6 +52,66 @@ def {\bfseries store\+\_\+transit\+\_\+model} (self, transit\+\_\+model)
 \mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_a02b2f724874285b53d4e788cb9b4e05d}\label{classexospec_1_1lc__class_1_1_light_curve_a02b2f724874285b53d4e788cb9b4e05d}} 
 {\bfseries transit\+\_\+model}
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+List all the light curve files in the indicated folder if the user decided to use another wavelength resolution than the one provided with the files, the code compute the resulting number of new wavelength to be used loop over the light curve files to get their file names and original wavelengths if the user decided to use a new wavelength resolution, the code computes the new wavelength to be used instantiate the new lc objects (with new wave\+\_\+bin\+\_\+size) Warning\+: The code is not able yet to handle situation where files\+\_\+num is not proportional to wave\+\_\+bin\+\_\+size. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_aa0feb2d525e844a5f010939b3a8e9ae9}\label{classexospec_1_1lc__class_1_1_light_curve_aa0feb2d525e844a5f010939b3a8e9ae9}} 
+\index{exospec\+::lc\+\_\+class\+::\+Light\+Curve@{exospec\+::lc\+\_\+class\+::\+Light\+Curve}!L\+C\+\_\+dic@{L\+C\+\_\+dic}}
+\index{L\+C\+\_\+dic@{L\+C\+\_\+dic}!exospec\+::lc\+\_\+class\+::\+Light\+Curve@{exospec\+::lc\+\_\+class\+::\+Light\+Curve}}
+\subsubsection{\texorpdfstring{L\+C\+\_\+dic()}{LC\_dic()}}
+{\footnotesize\ttfamily def exospec.\+lc\+\_\+class.\+Light\+Curve.\+L\+C\+\_\+dic (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Return L\+C\+\_\+dic. 
+
+\begin{DoxyReturn}{Returns}
+L\+C\+\_\+dic the dictionary that contains the light curve objects and which are references by their wavelength as keys 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_a8af62f3180b7d965c9d02ad92b1f0089}\label{classexospec_1_1lc__class_1_1_light_curve_a8af62f3180b7d965c9d02ad92b1f0089}} 
+\index{exospec\+::lc\+\_\+class\+::\+Light\+Curve@{exospec\+::lc\+\_\+class\+::\+Light\+Curve}!new\+\_\+wave\+\_\+length@{new\+\_\+wave\+\_\+length}}
+\index{new\+\_\+wave\+\_\+length@{new\+\_\+wave\+\_\+length}!exospec\+::lc\+\_\+class\+::\+Light\+Curve@{exospec\+::lc\+\_\+class\+::\+Light\+Curve}}
+\subsubsection{\texorpdfstring{new\+\_\+wave\+\_\+length()}{new\_wave\_length()}}
+{\footnotesize\ttfamily def exospec.\+lc\+\_\+class.\+Light\+Curve.\+new\+\_\+wave\+\_\+length (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Return new\+\_\+wave\+\_\+length. 
+
+\begin{DoxyReturn}{Returns}
+new\+\_\+wave\+\_\+length a list containing the new user defined wavelength of the ligth curve objects 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_aa71fe5f0926727ae236782c414a08a4b}\label{classexospec_1_1lc__class_1_1_light_curve_aa71fe5f0926727ae236782c414a08a4b}} 
+\index{exospec\+::lc\+\_\+class\+::\+Light\+Curve@{exospec\+::lc\+\_\+class\+::\+Light\+Curve}!store\+\_\+transit\+\_\+model@{store\+\_\+transit\+\_\+model}}
+\index{store\+\_\+transit\+\_\+model@{store\+\_\+transit\+\_\+model}!exospec\+::lc\+\_\+class\+::\+Light\+Curve@{exospec\+::lc\+\_\+class\+::\+Light\+Curve}}
+\subsubsection{\texorpdfstring{store\+\_\+transit\+\_\+model()}{store\_transit\_model()}}
+{\footnotesize\ttfamily def exospec.\+lc\+\_\+class.\+Light\+Curve.\+store\+\_\+transit\+\_\+model (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{transit\+\_\+model }\end{DoxyParamCaption})}
+
+
+
+Stores transit\+\_\+model. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em transit\+\_\+model} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classexospec_1_1lc__class_1_1_light_curve_a9da0e4bf8f9ea153afb534d63fb7d24a}\label{classexospec_1_1lc__class_1_1_light_curve_a9da0e4bf8f9ea153afb534d63fb7d24a}} 
+\index{exospec\+::lc\+\_\+class\+::\+Light\+Curve@{exospec\+::lc\+\_\+class\+::\+Light\+Curve}!wave\+\_\+length@{wave\+\_\+length}}
+\index{wave\+\_\+length@{wave\+\_\+length}!exospec\+::lc\+\_\+class\+::\+Light\+Curve@{exospec\+::lc\+\_\+class\+::\+Light\+Curve}}
+\subsubsection{\texorpdfstring{wave\+\_\+length()}{wave\_length()}}
+{\footnotesize\ttfamily def exospec.\+lc\+\_\+class.\+Light\+Curve.\+wave\+\_\+length (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Return wave\+\_\+length. 
+
+\begin{DoxyReturn}{Returns}
+wave\+\_\+length a list containing the original wavelength of the ligth curve files 
+\end{DoxyReturn}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}

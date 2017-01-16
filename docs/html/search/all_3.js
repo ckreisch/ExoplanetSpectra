@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['get_5fmean_5facceptance_5ffraction',['get_mean_acceptance_fraction',['../classexospec_1_1mcmc_1_1_m_c_m_c.html#afec10cdfb36657e6e1c013bbd563bd71',1,'exospec::mcmc::MCMC']]],
-  ['get_5fmedian_5fand_5ferrors',['get_median_and_errors',['../classexospec_1_1mcmc_1_1_m_c_m_c.html#a7fe8d9326590fe7cc875fa5118eaa617',1,'exospec::mcmc::MCMC']]]
+  ['ferr',['ferr',['../classexospec_1_1lc__class_1_1_light_curve_data.html#a4d3d200dc5af76cdd33f610c12ebba83',1,'exospec::lc_class::LightCurveData']]],
+  ['fitting_5fsingle_5flc_2epy',['fitting_single_lc.py',['../fitting__single__lc_8py.html',1,'']]],
+  ['flux',['flux',['../classexospec_1_1lc__class_1_1_light_curve_data.html#a99a2aa168565aa5e6a0b2ec95aa92cff',1,'exospec::lc_class::LightCurveData']]]
 ];
