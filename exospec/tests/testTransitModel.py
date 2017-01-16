@@ -4,7 +4,14 @@ import unittest
 import numpy as np
 import george
 from george import kernels
-from TransitModel import TransitModel
+import os
+import sys
+import inspect
+dir_current = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+dir_up = os.path.dirname(dir_current)
+sys.path.append(dir_up)
+
+from exospec.TransitModel import TransitModel
 import time
 
 class TestFunctions(unittest.TestCase):

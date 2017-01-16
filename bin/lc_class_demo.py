@@ -1,4 +1,5 @@
-from lc_class import LightCurve
+from exospec.lc_class import LightCurve
+#from lc_class import LightCurve
 
 LC = LightCurve('lc_white_none_red_none', 1) # Instantiate the Light Curve class. This class will reads all the light curve files and create light curve objects for each of these files. The first argument is the folder containing the light curve files. The second argument is the wavelength bin size (2 means that the code lumps every two original wavelength together)
 

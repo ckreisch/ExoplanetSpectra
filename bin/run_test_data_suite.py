@@ -8,11 +8,12 @@ from george import kernels
 import batman
 import corner
 
-import mcmc
-import lc_class
-from read_input import read_input
-import TransitModel
-import deliverables
+import exospec
+#import mcmc
+#import lc_class
+#from read_input import read_input
+#import TransitModel
+#import deliverables
 
 # usage: python run_test_data_suite.py <list of test data input files> <list of output files> <file with table of expected values>
 
@@ -28,7 +29,7 @@ input_file_list = open(sys.argv[1]).readlines()
 # run main driver on them all
 for filename in input_file_list:
 	print "runnning main_driver_beta.py on :" + filename
-    os.system("python main_driver_beta.py " + filename) 
+    os.system("python main_driver_beta.py " + filename)
 
 output_file_list = open(sys.argv[2]).readlines()
 best_fits = []
@@ -50,13 +51,12 @@ for filename in output_file_list:
 	print "plotting residuals"
 	# residuals for rp u1 u2 as x y and color
 	np.sort
-	res_rp = 
+	res_rp =
     res_u1 =
     res_u2 =
     plt.
 
-    
+
 best_fits = np.array(best_fits)
 print "writing master table"
 # table of residuals for all
-

@@ -1,4 +1,12 @@
-import mcmc
+#import mcmc
+import os
+import sys
+import inspect
+dir_current = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+dir_up = os.path.dirname(dir_current)
+sys.path.append(dir_up)
+
+from exospec import mcmc
 import unittest
 import mcmc_test_case
 

@@ -16,7 +16,7 @@ import glob
 #
 # More details.
 class TestSynthData(unittest.TestCase):
-     
+
     ## Prepares to test by assigning the testing object necessary values
     def setUp(self):
         np.random.seed(1234)
@@ -24,17 +24,17 @@ class TestSynthData(unittest.TestCase):
         # see def init_model() for physical meanings
         self.params = [0.0, 1.0, 0.1, 15.0, 87.0, 0.0, 90.0, 0.5, 0.1]
         # central wavelengths in microns for each channel
-        self.wl = [500, 650, 800, 950, 1100]  
-        # fractional radius of planet       
-        self.radii = [0.05, 0.08, 0.1, 0.12, 0.15]   
+        self.wl = [500, 650, 800, 950, 1100]
+        # fractional radius of planet
+        self.radii = [0.05, 0.08, 0.1, 0.12, 0.15]
         # limb darkening coefficients for the star
-        self.ldark = [[0.45, 0.1],[0.55, 0.1],[0.45, 0.11],[0.35,0.16],[0.5,0.1]]    
+        self.ldark = [[0.45, 0.1],[0.55, 0.1],[0.45, 0.11],[0.35,0.16],[0.5,0.1]]
         # flux level coming from star normalized to channel with maximum flux (to scale white noise)
-        self.starspec = [1.0, 1.0, 1.0, 1.0, 1.0]  
+        self.starspec = [1.0, 1.0, 1.0, 1.0, 1.0]
         # fwhm of psf for that wavelength normalized to channel with maximum psf size (to scale red noise)
-        self.fwhm = [np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.)]      
+        self.fwhm = [np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.)]
         # sky flux level normalized to maximum sky flux level (to scale red noise)
-        self.skyspec = [np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.)]   
+        self.skyspec = [np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.), np.sqrt(2.)]
 
         # convert starspec, fwhm, skyspec  to w_scale, r_scale
         self.w_scale = [1./self.starspec[k] for k in range(len(self.starspec))] # brighter channels will have lower white noise levels
@@ -46,29 +46,29 @@ class TestSynthData(unittest.TestCase):
         self.N = 300
         self.phase_range = (-0.0025, 0.0025)
         self.exptime = (self.phase_range[1]-self.phase_range[0])/self.N
-        self.t = np.arange(self.t0 - self.exptime*self.N/2., self.t0 + self.exptime*self.N/2., self.exptime) 
+        self.t = np.arange(self.t0 - self.exptime*self.N/2., self.t0 + self.exptime*self.N/2., self.exptime)
 
     ## Tests the init_model function for correct parameter value assignments and range of fluxes
     def testInit_model(self):
         p, m, flux = gsd.init_model(self.params, self.t)
-        t0,per,rp,a,inc,ecc,w,u0,u1 = self.params 
-        self.assertTrue(p.t0 == t0)                   
-        self.assertTrue(p.per == per)                 
-        self.assertTrue(p.rp == rp)                   
-        self.assertTrue(p.a == a)                     
-        self.assertTrue(p.inc == inc)                 
-        self.assertTrue(p.ecc == ecc)             
-        self.assertTrue(p.w == w)            
-        self.assertTrue(p.limb_dark == "quadratic")   
+        t0,per,rp,a,inc,ecc,w,u0,u1 = self.params
+        self.assertTrue(p.t0 == t0)
+        self.assertTrue(p.per == per)
+        self.assertTrue(p.rp == rp)
+        self.assertTrue(p.a == a)
+        self.assertTrue(p.inc == inc)
+        self.assertTrue(p.ecc == ecc)
+        self.assertTrue(p.w == w)
+        self.assertTrue(p.limb_dark == "quadratic")
         self.assertTrue(p.u[0] == u0)
-        self.assertTrue(p.u[1] == u1)          
+        self.assertTrue(p.u[1] == u1)
         self.assertTrue(len(flux)==len(self.t))
         self.assertTrue(np.min(flux)>=0.0)
         self.assertTrue(np.max(flux)<=1.0)
 
         pass
 
-    ## Tests the wl_channel_flux function for correct parameter assignments and updating of flux     
+    ## Tests the wl_channel_flux function for correct parameter assignments and updating of flux
     def testWl_channel_flux(self):
         p, m, flux = gsd.init_model(self.params, self.t)
         wl_params = [0.99, 0.4, 0.4]
@@ -79,7 +79,7 @@ class TestSynthData(unittest.TestCase):
 
         pass
 
-    ## Tests the white_noise function for correct size and scaling behavior   
+    ## Tests the white_noise function for correct size and scaling behavior
     def testWhite_noise(self):
         level1 = 0.0
         level2 = 0.1
@@ -122,7 +122,7 @@ class TestSynthData(unittest.TestCase):
         self.assertTrue(len(noise)==self.N)
         self.assertTrue(np.mean(noise)==1.0)
 
-        slopes, a_params = gsd.generate_a_params(0.05, self.N)        
+        slopes, a_params = gsd.generate_a_params(0.05, self.N)
         noise = gsd.red_noise(a_params, slopes)
         self.assertTrue(len(noise)==self.N)
         self.assertTrue(np.mean(noise) != 1.0)
@@ -134,7 +134,7 @@ class TestSynthData(unittest.TestCase):
 
         fname = "testing_write_lc.txt"
         m = np.arange(4)
-        a_params = np.zeros((4,self.N)) 
+        a_params = np.zeros((4,self.N))
         a_params = (m*(a_params.T+1)).T
         wl_params = [0.15, 0.1, 0.1]
         ferr = np.zeros(self.N) + 0.001
@@ -175,8 +175,8 @@ class TestSynthData(unittest.TestCase):
 
         self.assertTrue(self.wl==[int(data[0][k]) for k in range(len(self.wl))])
         self.assertTrue(self.radii==data[1].tolist())
-        self.assertTrue(self.ldark[0][0]==data[2][0])  
-        self.assertTrue(self.ldark[0][1]==data[3][0])      
+        self.assertTrue(self.ldark[0][0]==data[2][0])
+        self.assertTrue(self.ldark[0][1]==data[3][0])
         self.assertTrue(self.w_scale==data[4].tolist())
         self.assertTrue(self.r_scale==data[5].tolist())
 
@@ -197,7 +197,7 @@ class TestSynthData(unittest.TestCase):
         expected_files = ["/synth_expected_values.txt",
                           "/visual.png",
                           "/light_curves/synth_lc_500.txt",
-                          "/light_curves/synth_lc_650.txt",                          
+                          "/light_curves/synth_lc_650.txt",
                           "/light_curves/synth_lc_800.txt",
                           "/light_curves/synth_lc_950.txt",
                           "/light_curves/synth_lc_1100.txt"]
@@ -213,7 +213,7 @@ class TestSynthData(unittest.TestCase):
         w_level = 0.001
         r_level = 0.5
         truth = self.truth
-        gsd.gen_obs_set(dname, truth, w_level, r_level, N=40, 
+        gsd.gen_obs_set(dname, truth, w_level, r_level, N=40,
                 phase_range=(-0.5,0.5), fileroot="synth")
 
         file_list = np.array([])      # get list of files
@@ -223,7 +223,7 @@ class TestSynthData(unittest.TestCase):
         expected_files = ["testing_gen_obs_set_io/synth_expected_values.txt",
                           "testing_gen_obs_set_io/visual.png",
                           "testing_gen_obs_set_io/light_curves/synth_lc_500.txt",
-                          "testing_gen_obs_set_io/light_curves/synth_lc_650.txt",                          
+                          "testing_gen_obs_set_io/light_curves/synth_lc_650.txt",
                           "testing_gen_obs_set_io/light_curves/synth_lc_800.txt",
                           "testing_gen_obs_set_io/light_curves/synth_lc_950.txt",
                           "testing_gen_obs_set_io/light_curves/synth_lc_1100.txt"]
@@ -246,15 +246,15 @@ class TestSynthData(unittest.TestCase):
 
             pass
 
-    
-    ## Tests the gen_obs_set function for white saling with w_level 
+
+    ## Tests the gen_obs_set function for white saling with w_level
     def testGen_obs_set_white_noise_scale(self):
         dnames = ["testing_whitenoise_1","testing_whitenoise_2"]
         w_levels = [0.0001,0.5]
         r_level= 0.0
         truth = self.truth
         for k in [0,1]:
-            gsd.gen_obs_set(dnames[k], truth, w_levels[k], r_level, N=40, 
+            gsd.gen_obs_set(dnames[k], truth, w_levels[k], r_level, N=40,
                     phase_range=(-0.5,0.5), fileroot="synth")
 
         data1 = np.loadtxt(dnames[0]+"/light_curves/synth_lc_500.txt",unpack=True)
@@ -270,14 +270,14 @@ class TestSynthData(unittest.TestCase):
             self.cleanGen_obs_set_output(name)
         pass
 
-    ## Tests the gen_obs_set function for white saling with w_level 
+    ## Tests the gen_obs_set function for white saling with w_level
     def testGen_obs_set_red_noise_scale(self):
         dnames = ["testing_rednoise_1","testing_rednoise_2"]
         w_level = 0.0
         r_levels= [0.001,0.1]
         truth = self.truth
         for k in [0,1]:
-            gsd.gen_obs_set(dnames[k], truth, w_level, r_levels[k], N=40, 
+            gsd.gen_obs_set(dnames[k], truth, w_level, r_levels[k], N=40,
                     phase_range=(-0.5,0.5), fileroot="synth")
 
         data1 = np.loadtxt(dnames[0]+"/light_curves/synth_lc_500.txt",unpack=True)
@@ -300,15 +300,15 @@ class TestSynthData(unittest.TestCase):
         w_level = 0.0
         r_level = 0.0
         truth = self.truth
-        gsd.gen_obs_set(dname, truth, w_level, r_level, N=40, 
+        gsd.gen_obs_set(dname, truth, w_level, r_level, N=40,
                 phase_range=(-0.5,0.5), fileroot="synth")
 
         data = np.loadtxt("testing_gen_obs_set_realistic_values/light_curves/synth_lc_500.txt",unpack=True)
         self.assertTrue(data[0][0]==-0.5)
         self.assertTrue(data[0][39]==0.475)
         self.assertTrue(np.min(data[1])>0)
-        self.assertTrue(np.max(data[1])==1.0)        
-        self.assertTrue(np.mean(data[2])==0.000001)  # this is hardcoded in minimum error if w level is 0 
+        self.assertTrue(np.max(data[1])==1.0)
+        self.assertTrue(np.mean(data[2])==0.000001)  # this is hardcoded in minimum error if w level is 0
         self.cleanGen_obs_set_output(dname)
 
         pass
