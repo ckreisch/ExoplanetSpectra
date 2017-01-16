@@ -36,13 +36,13 @@ import numpy as np
 
 class TestIntegration(unittest.TestCase):
     def setUp(self):
-        os.chdir("jenkins_test_out")
+        os.chdir("exospec/tests/jenkins_test_out")
         os.system("rm *.png")  # clean up any previous tests
         os.system("rm *.out")
         os.system("pwd")
-        os.chdir("../")
+        os.chdir("../../../bin")
         os.system("pwd")
-        os.system("python ../bin/exospec_main.py jenkins_test.ini") # run main_driver
+        os.system("python exospec_main.py jenkins_test.ini") # run main_driver
 
     def testOutput_names(self):
         """
