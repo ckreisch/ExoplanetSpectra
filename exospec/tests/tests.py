@@ -2,21 +2,28 @@
 # ! /usr/bin/env python
 import unittest
 import glob
+import fnmatch
 import os
 import pep8
 import numpy as np
 
+## @class TestStyle
+# Class to test that code conforms to pep8 style.
 # class TestStyle(unittest.TestCase):
+    ## Collects the pathnames of all .py files in the software
+    # @returns file_list List of all .py pathnames in the code.
 #     def fetch_pyfiles(self):
 #         """
 #         Fetch names of all python files in directory.
 #         """
 #         file_list = np.array([])
-#         for file in glob.glob("*.py"):
-#             file_list = np.append(file_list, file)
-#             # print file
+#         for root, dirnames, filenames in os.walk('.'):
+#             for filename in fnmatch.filter(filenames, '*.py'):
+#                 file_list = np.append(file_list, os.path.join(root, filename))
 #         return file_list
 
+    ## Tests that each python file in the software conforms to pep8 style.
+    # We force a success while still in development.
 #     def test_pep8(self):
 #         """
 #         Test for pep8 style in .py files.
@@ -30,8 +37,8 @@ import numpy as np
 class TestIntegration(unittest.TestCase):
     def setUp(self):
         os.chdir("jenkins_test_out")
-        os.system("rm *.png")  # clean up any previous tests 
-        os.system("rm *.out")       
+        os.system("rm *.png")  # clean up any previous tests
+        os.system("rm *.out")
         os.chdir("../")
         os.system("python exospec.py jenkins_test.ini") # run main_driver
 
@@ -40,9 +47,9 @@ class TestIntegration(unittest.TestCase):
         so long as jenkins_test.ini jenkins_test_out and jenkins_test_lc are kept
         as they are, this test will show that main_driver is producing the expected
         outputs. as main driver is editted to contain different visualization output, checks
-        can be added. 
+        can be added.
         """
-        os.chdir("jenkins_test_out") 
+        os.chdir("jenkins_test_out")
         file_list = np.array([])      # get list of output files
         for file in glob.glob("*"):
             file_list = np.append(file_list, file)
@@ -63,7 +70,7 @@ class TestIntegration(unittest.TestCase):
                 else:
                     flag = False
                 k = k+1
-    
+
         else: flag = False
 
         if flag:
@@ -71,7 +78,7 @@ class TestIntegration(unittest.TestCase):
 
     def check_chain_shapes(self):
         """
-        
+
         """
 
 if __name__ == '__main__':
