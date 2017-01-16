@@ -22,7 +22,7 @@
 #               - On linux: sudo apt-get install openmpi-bin openmpi-common openssh-client openssh-server libopenmpi1.3 libopenmpi-dbg libopenmpi-dev
 #               - On mac: brew install openmpi
 #       - Batman issues: If after moving to step 1 and running the setup.py file you receive an error from batman, you can install it from the source file instead
-#               - Download the stable release here, and then run sudo python setup.py install
+#               - Download the stable release (https://pypi.python.org/pypi/batman-package/), and then run sudo python setup.py install
 # - To install ExoSpec, download (https://github.com/ckreisch/ExoplanetSpectra/) and unpack the source file. Then run python setup.py install and all dependencies and packages will be built.
 # - A suite of tests are included in exospec/tests/
 
