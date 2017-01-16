@@ -116,10 +116,9 @@ def simple_table(LC_dic, filename):
 # @param plot_hyper_params Boolean value specifying whether or not to plot the hyper parameters
 # @param save_as_dir Directory where plot should be saved. Default is current working Directory
 def plot_single_wavelength(wl_id, mcmc_obj, model, extra_burnin_steps=0, theta_true=None, plot_transit_params=True, plot_hyper_params=True, save_as_dir=""):
-    print "producing plots for channel centered on: "+wl_id +" microns, acceptance fraction="+str(mcmc_obj.get_mean_acceptance_fraction())
     w=mcmc_obj.walker_plot(extra_burnin_steps, theta_true, plot_transit_params, plot_hyper_params, save_as_dir, "walkers_"+str(wl_id)+".png")
     t=mcmc_obj.triangle_plot(extra_burnin_steps, theta_true, plot_transit_params, plot_hyper_params, save_as_dir, "triangle_"+str(wl_id)+".png")
-    l=mcmc_obj.light_curve_plot(model, extra_burnin_steps, theta_true, plot_transit_params, plot_hyper_params, save_as_dir, "light_curve_"+str(wl_id)+".png")
+    l=mcmc_obj.light_curve_plot(model, extra_burnin_steps, theta_true, save_as_dir, "light_curve_"+str(wl_id)+".png")
 
 ## Produces a plot of the best-fit radius as a function of wavelengths
 # @param LC_dic A lightcurve dictionary with a lightcurve object for each wavelengths

@@ -102,6 +102,16 @@ class TestMCMC(unittest.TestCase):
         self.assertTrue(t6==0)
         self.assertTrue(os.path.isfile(self.saving_dir+"/t6.png"))
 
+        #test light_curve_plot with true values known
+        l1=self.mcmc_nohyper.light_curve_plot(mcmc_test_case.model_fn, 0, self.true_params, save_as_dir=self.saving_dir, save_as_name="l1.png")
+        self.assertTrue(l1==0)
+        self.assertTrue(os.path.isfile(self.saving_dir+"/l1.png"))
+
+        #test light_curve_plot without true values known
+        l2=self.mcmc_nohyper.light_curve_plot(mcmc_test_case.model_fn, save_as_dir=self.saving_dir, save_as_name="l2.png")
+        self.assertTrue(l1==0)
+        self.assertTrue(os.path.isfile(self.saving_dir+"/l1.png"))
+        l2=self.mcmc_nohyper.light_curve_plot(mcmc_test_case.model_fn, save_as_name="l2.png")
 
         #Calling the plot routines as below should be unsuccessful. wf=walker fail, tf=triangle fail
 
