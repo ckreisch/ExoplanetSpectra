@@ -107,13 +107,7 @@ if __name__ == "__main__":
                 rank)
             if input_param_dic['visualization']:
                 # proceed with post-processing inside this if statement
-                # TO-DO: debug deliverables.latex_table()
                 exospec.deliverables.post_processing_all_wl(input_param_dic, LC_dic)
-                exospec.deliverables.latex_table(LC_dic,input_param_dic[\
-                'transit_par_names'],input_param_dic['gp_hyper_par_names'],\
-                visualization,input_param_dic['separate_flag'],confidence,\
-                input_param_dic['output_dir'])
-
 
     else:
         print "no MPI. Will use single core to process all lightcurves."
@@ -123,12 +117,7 @@ if __name__ == "__main__":
 
         if input_param_dic['visualization']:
             # proceed with post-processing inside this if statement
-            # TO-DO: debug deliverables.latex_table()
             exospec.deliverables.post_processing_all_wl(input_param_dic, LC_dic)
-            exospec.deliverables.latex_table(LC_dic,input_param_dic[\
-            'transit_par_names'],input_param_dic['gp_hyper_par_names'],\
-            visualization,input_param_dic['separate_flag'],confidence,\
-            input_param_dic['output_dir'])
 
     # KY comment: it's good not to put code outside the above if-else
     # structure.
