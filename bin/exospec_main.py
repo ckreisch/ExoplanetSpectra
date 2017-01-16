@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     # Read from user input file -----------------------------------------------
     if len(sys.argv) != 2:
-        raise ValueError("Run as python main_driver_beta.py <input_filename>")
+        raise ValueError("Run as python exospec_main.py <input_filename>")
 
     try:
         input_file = read_input(sys.argv[1])
@@ -107,6 +107,10 @@ if __name__ == "__main__":
                 # proceed with post-processing inside this if statement
                 # TO-DO: debug deliverables.latex_table()
                 deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+                deliverables.latex_table(LC_dic,input_param_dic[\
+                'transit_par_names'],input_param_dic['gp_hyper_par_names'],\
+                visualization,input_param_dic['separate_flag'],confidence,\
+                input_param_dic['output_dir'])
 
 
     else:
@@ -119,6 +123,10 @@ if __name__ == "__main__":
             # proceed with post-processing inside this if statement
             # TO-DO: debug deliverables.latex_table()
             deliverables.post_processing_all_wl(input_param_dic, LC_dic)
+            deliverables.latex_table(LC_dic,input_param_dic[\
+            'transit_par_names'],input_param_dic['gp_hyper_par_names'],\
+            visualization,input_param_dic['separate_flag'],confidence,\
+            input_param_dic['output_dir'])
 
     # KY comment: it's good not to put code outside the above if-else
     # structure.
