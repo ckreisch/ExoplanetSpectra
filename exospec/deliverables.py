@@ -3,14 +3,23 @@ import numpy as np
 import mcmc
 import matplotlib.pyplot as plt
 
-#table of both trans and gp/noise params for now. Code visualization later.
-def latex_table(LC_dic,transit_params,hyper_params,visualization,separate_flag,confidence,out_dir):
-        if visualization:
-            print "Visualization of table has not been implemented yet. "\
-                    +"This will be available in a future release."
+## Writes the best fit transit & hyper parameters from the MCMC fit as a latex
+# table.
+# Rows correspond to the light curve with a specified wavelength, and each
+# column corresponds to a given parameter. The use has an option of outputting
+# a single table with transit and hyper parameters, or outputting two separate
+# tables.
+# @param LC_dic A light curve dictionary with finished chains stored.
+# @param transit_params List of transit parameter names.
+# @param hyper List of hyper parameter names.
+# @param separate_flag Flag to toggle if combine parameters in a single table
+# or separate them into two tables
+# @param confidence The confidence level desired for the parameter bounds.
+# @param filename The name of the file to write the table in.
+def latex_table(LC_dic,transit_params,hyper_params,separate_flag,confidence,filename):
         quantile = (100.-confidence)/2.
         try:
-            f = open(out_dir+"/latex_table.txt", "w")
+            f = open(filename, "w")
         except IOError:
             print "Cannot open file to write tables to."
             raise
@@ -38,18 +47,17 @@ def latex_table(LC_dic,transit_params,hyper_params,visualization,separate_flag,c
 
             for wavelength_id in LC_dic.keys():
                 # Compute the quantiles.
-                median_array = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]),
-                                 zip(*np.percentile(LC_dic[wavelength_id].obj_chain, [quantile, 50, 100.-quantile],
-                                                    axis=0)))
-                up_array = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]),
-                                 zip(*np.percentile(LC_dic[wavelength_id].obj_chain, [quantile, 50, 100.-quantile],
-                                                    axis=1)))
-                down_array = map(lambda v: (v[1], v[2]-v[1], v[1]-v[0]),
-                                 zip(*np.percentile(LC_dic[wavelength_id].obj_chain, [quantile, 50, 100.-quantile],
-                                                    axis=2)))
-                vals_string = str(LC_dic[wavelength_id].wave_length) + ""
-                for i in np.arange(len(par)):
-                    vals_string = vals_string + " & $"+str(median_array[i])+"^{+"+str(up_array[i])+"}_{-"+str(down_array[i])+"}$"
+                ps = np.percentile(LC_dic[wavelength_id].obj_chain, [quantile, 50, 100.-quantile], axis=0)
+                median_array = ps[1]
+                up_array = ps[2]-ps[1]
+                down_array = ps[1]-ps[0]
+                vals_string = str(wavelength_id) + ""
+                if t=="Hyper":
+                    for i in np.arange(len(transit_params),len(transit_params+hyper_params)):
+                        vals_string = vals_string + " & $"+str(median_array[i])+"^{+"+str(up_array[i])+"}_{-"+str(down_array[i])+"}$"
+                else:
+                    for i in np.arange(len(par)):
+                        vals_string = vals_string + " & $"+str(median_array[i])+"^{+"+str(up_array[i])+"}_{-"+str(down_array[i])+"}$"
                 if wavelength_id!=LC_dic.keys()[-1]:
                     vals_string = vals_string + r" \\"
                 f.write(vals_string+"\n")
@@ -79,7 +87,7 @@ def simple_table(LC_dic, filename):
     #     print "Cannot open file to write tables to."
     #     raise
     ofile = open(filename, "w")
-    # only trans params
+    # only transit params
     ofile.write("# wl rp u0 u1 rp_e1 u1_e1 u0_e1 rp_e2 u0_e2 u1_e2 \n")
     for wavelength_id in LC_dic.keys():
         ps=np.percentile(LC_dic[wavelength_id].obj_chain, [16, 50, 84], axis=0)
@@ -146,6 +154,9 @@ def plot_transmission_spec(LC_dic, save_as_dir=""):
 
 ## Obtains the median parameter values and 1 sigma errors from the MCMC flatchain
 # @param flatchain A 2D numpy array with all the samples for each of the transit and hyper parameters
+# @returns median Array of median value for each parameter
+# @returns err_plus Array of upper error for each parameter
+# @returns err_minus Array of lower error for each parameter
 def get_median_and_errors(flatchain):
     ps=np.percentile(flatchain, [16, 50, 84],axis=0)
     median=ps[1]
@@ -163,14 +174,17 @@ def post_processing_all_wl(input_param_dic, LC_dic):
     output_dir = input_param_dic['output_dir'] + "/"
     # size of confidence interval to be included in table
     confidence = input_param_dic['confidence']
+    latex_table(LC_dic,input_param_dic['transit_par_names'],\
+    input_param_dic['gp_hyper_par_names'],input_param_dic['separate_flag'],\
+    confidence,output_dir + "latex_table.txt")
     #latex_table(LC_dic, True, confidence, output_dir + "latex_table.out")
     simple_table(LC_dic, output_dir + "simple_table.out")
     plot_transmission_spec(LC_dic, output_dir)
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv)!=5:
+    if len(sys.argv)!=7:
         raise ValueError("Did not enter correct number of arguments to test"\
                         +" code. You entered "+str(len(sys.argv)-1)+".\n"\
-                        +"Run as python deliverables.py <LC dic> <vis> <conf> <name>")
-    latex_table(sys.argv[1],sys.argv[2],int(sys.argv[3]),sys.argv[4])
+                        +"Run as python deliverables.py <LC dic> <transit> <hyper> <separate> <conf> <name>")
+    latex_table(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],int(sys.argv[5]),sys.argv[6])
